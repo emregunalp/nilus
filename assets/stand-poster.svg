@@ -1,0 +1,164 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-314 -412 628 575" role="img" aria-label="Neon kongre standı çizimi">
+<defs>
+  <linearGradient id="band" x1="0" x2="1" y1="0" y2="0" gradientUnits="objectBoundingBox"><stop offset="0" stop-color="#FF2FB9"/><stop offset="1" stop-color="#38D6FF"/></linearGradient>
+  <linearGradient id="screen" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#38D6FF" stop-opacity=".35"/><stop offset="1" stop-color="#FF2FB9" stop-opacity=".25"/></linearGradient>
+  <filter id="glow" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="3.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  <style>
+    polygon, line, polyline { stroke-linejoin: round; stroke-linecap: round; }
+    .gl { stroke: #1B1916; stroke-opacity: .07; stroke-width: 1; }
+    .b, .plat, .lac, .oak, .glowbox, .chair { stroke: #1B1916; stroke-width: 1.1; }
+    .plat.ft { fill: #F7F4EE; } .plat.fx { fill: #DDD2BF; } .plat.fz { fill: #EAE1D2; }
+    .lac.ft, .lac.front { fill: #FBF9F4; } .lac.fx { fill: #E4DCCD; } .lac.fz, .lac.side { fill: #EFE8DC; }
+    .oak.ft { fill: #D9B98F; } .oak.fx { fill: #A97C52; } .oak.fz { fill: #C29466; }
+    .b.ft { fill: #FBF9F4; }
+    .chair { fill: #4A63B8; stroke: #1B1916; }
+    .glowbox { fill: #FFE9F7; }
+    .glowbox.ft { fill: #FFFFFF; }
+    .screen { fill: url(#screen); stroke: #1B1916; stroke-width: .8; }
+    .slat { stroke: #1B1916; stroke-opacity: .35; stroke-width: .7; }
+    .stem, .wire { stroke: #1B1916; stroke-width: 1; stroke-opacity: .7; }
+    .dim { stroke: #1B1916; stroke-opacity: .45; stroke-width: .8; }
+    .dimt { font: 500 12px ui-monospace, Menlo, monospace; fill: #5E574D; letter-spacing: .08em; }
+    .neon { fill: none; stroke-width: 3; }
+    .neon.pink { stroke: #FF2FB9; } .neon.cyan { stroke: #38D6FF; }
+    .neon.floor { stroke-width: 3.4; }
+    .neon.mark { stroke-width: 2.4; }
+    .neon.thin { stroke-width: 2; stroke-opacity: .8; }
+    .band { stroke: url(#band); stroke-width: 7; stroke-opacity: .95; }
+  </style>
+</defs>
+<g class="grid">
+<line class="gl" x1="-25.9" y1="-130" x2="-342.9" y2="22"/>
+<line class="gl" x1="-58.8" y1="-128.4" x2="346.9" y2="-9.7"/>
+<line class="gl" x1="20.2" y1="-116.5" x2="-296.8" y2="35.5"/>
+<line class="gl" x1="-94.8" y1="-111.2" x2="310.9" y2="7.6"/>
+<line class="gl" x1="66.3" y1="-103" x2="-250.7" y2="49"/>
+<line class="gl" x1="-130.8" y1="-93.9" x2="274.9" y2="24.8"/>
+<line class="gl" x1="112.4" y1="-89.5" x2="-204.6" y2="62.5"/>
+<line class="gl" x1="-166.8" y1="-76.6" x2="238.9" y2="42.1"/>
+<line class="gl" x1="158.5" y1="-76" x2="-158.5" y2="76"/>
+<line class="gl" x1="-202.8" y1="-59.4" x2="202.8" y2="59.4"/>
+<line class="gl" x1="204.6" y1="-62.5" x2="-112.4" y2="89.5"/>
+<line class="gl" x1="-238.9" y1="-42.1" x2="166.8" y2="76.6"/>
+<line class="gl" x1="250.7" y1="-49" x2="-66.3" y2="103"/>
+<line class="gl" x1="-274.9" y1="-24.8" x2="130.8" y2="93.9"/>
+<line class="gl" x1="296.8" y1="-35.5" x2="-20.2" y2="116.5"/>
+<line class="gl" x1="-310.9" y1="-7.6" x2="94.8" y2="111.2"/>
+<line class="gl" x1="342.9" y1="-22" x2="25.9" y2="130"/>
+<line class="gl" x1="-346.9" y1="9.7" x2="58.8" y2="128.4"/>
+</g>
+<polygon class="plat fx" points="273.7,-12.6 33.6,102.5 33.6,92.4 273.7,-22.7"/>
+<polygon class="plat fz" points="-273.7,12.6 33.6,102.5 33.6,92.4 -273.7,2.5"/>
+<polygon class="plat ft" points="-33.6,-112.7 273.7,-22.7 33.6,92.4 -273.7,2.5"/>
+<g filter="url(#glow)">
+<polyline class="neon pink floor" points="273.7,-17.7 33.6,97.5 -273.7,7.5"/>
+</g>
+<line class="dim" x1="-300.1" y1="25.3" x2="7.2" y2="115.2"/>
+<line class="dim" x1="-294.4" y1="22.5" x2="-305.9" y2="28"/>
+<line class="dim" x1="13" y1="112.4" x2="1.4" y2="118"/>
+<text class="dimt" x="-147.4" y="86.7" text-anchor="middle" transform="rotate(16.3 -147.4 86.7)">5.00 m</text>
+<polygon class="oak fx" points="-7.7,-101.4 -26.9,-92.2 -26.9,-306.2 -7.7,-315.4"/>
+<polygon class="oak fz" points="-51.5,-99.3 -26.9,-92.2 -26.9,-306.2 -51.5,-313.4"/>
+<polygon class="oak ft" points="-32.3,-322.6 -7.7,-315.4 -26.9,-306.2 -51.5,-313.4"/>
+<line class="slat" x1="-11.5" y1="-99.5" x2="-11.5" y2="-313.6"/>
+<line class="slat" x1="-46.6" y1="-97.9" x2="-46.6" y2="-312"/>
+<line class="slat" x1="-15.4" y1="-97.7" x2="-15.4" y2="-311.7"/>
+<line class="slat" x1="-41.6" y1="-96.5" x2="-41.6" y2="-310.5"/>
+<line class="slat" x1="-19.2" y1="-95.8" x2="-19.2" y2="-309.9"/>
+<line class="slat" x1="-36.7" y1="-95" x2="-36.7" y2="-309.1"/>
+<line class="slat" x1="-23" y1="-94" x2="-23" y2="-308.1"/>
+<line class="slat" x1="-31.8" y1="-93.6" x2="-31.8" y2="-307.7"/>
+<polygon class="lac fx" points="273.7,-236.8 255.5,-228 255.5,-272.9 273.7,-281.6"/>
+<polygon class="lac fz" points="-51.9,-318 255.5,-228 255.5,-272.9 -51.9,-362.8"/>
+<polygon class="lac ft" points="-33.6,-371.6 273.7,-281.6 255.5,-272.9 -51.9,-362.8"/>
+<polygon class="lac fx" points="-10.3,-319.9 -250.4,-204.8 -250.4,-249.6 -10.3,-364.7"/>
+<polygon class="lac fz" points="-273.7,-211.6 -250.4,-204.8 -250.4,-249.6 -273.7,-256.4"/>
+<polygon class="lac ft" points="-33.6,-371.6 -10.3,-364.7 -250.4,-249.6 -273.7,-256.4"/>
+<g filter="url(#glow)">
+<polyline class="neon cyan thin" points="-232.1,-217.1 -28.5,-314.8 232.1,-238.5"/>
+</g>
+<polygon class="lac fx" points="24.7,-70.4 13.2,-64.9 13.2,-224.7 24.7,-230.2"/>
+<polygon class="lac fz" points="-21.2,-74.9 13.2,-64.9 13.2,-224.7 -21.2,-234.8"/>
+<polygon class="lac ft" points="-9.7,-240.3 24.7,-230.2 13.2,-224.7 -21.2,-234.8"/>
+<polygon class="screen" points="-16.4,-117.6 8.2,-110.4 8.2,-208 -16.4,-215.2"/>
+<polygon class="glowbox fx" points="26.9,-230.3 13.4,-223.9 13.4,-241.9 26.9,-248.4"/>
+<polygon class="glowbox fz" points="-23.4,-234.7 13.4,-223.9 13.4,-241.9 -23.4,-252.7"/>
+<polygon class="glowbox ft" points="-10,-259.2 26.9,-248.4 13.4,-241.9 -23.4,-252.7"/>
+<polygon class="lac fx" points="175.7,-33.6 164.2,-28.1 164.2,-187.9 175.7,-193.4"/>
+<polygon class="lac fz" points="129.7,-38.2 164.2,-28.1 164.2,-187.9 129.7,-198"/>
+<polygon class="lac ft" points="141.3,-203.5 175.7,-193.4 164.2,-187.9 129.7,-198"/>
+<polygon class="screen" points="134.6,-80.8 159.2,-73.6 159.2,-171.2 134.6,-178.4"/>
+<polygon class="glowbox fx" points="177.9,-193.5 164.4,-187.1 164.4,-205.2 177.9,-211.6"/>
+<polygon class="glowbox fz" points="127.5,-197.9 164.4,-187.1 164.4,-205.2 127.5,-216"/>
+<polygon class="glowbox ft" points="141,-222.4 177.9,-211.6 164.4,-205.2 127.5,-216"/>
+<polygon class="oak fx" points="262.8,-22.2 243.6,-13 243.6,-227.1 262.8,-236.3"/>
+<polygon class="oak fz" points="219,-20.2 243.6,-13 243.6,-227.1 219,-234.3"/>
+<polygon class="oak ft" points="238.2,-243.5 262.8,-236.3 243.6,-227.1 219,-234.3"/>
+<line class="slat" x1="258.9" y1="-20.4" x2="258.9" y2="-234.4"/>
+<line class="slat" x1="223.9" y1="-18.8" x2="223.9" y2="-232.8"/>
+<line class="slat" x1="255.1" y1="-18.5" x2="255.1" y2="-232.6"/>
+<line class="slat" x1="228.8" y1="-17.3" x2="228.8" y2="-231.4"/>
+<line class="slat" x1="251.2" y1="-16.7" x2="251.2" y2="-230.8"/>
+<line class="slat" x1="233.7" y1="-15.9" x2="233.7" y2="-229.9"/>
+<line class="slat" x1="247.4" y1="-14.8" x2="247.4" y2="-228.9"/>
+<line class="slat" x1="238.6" y1="-14.4" x2="238.6" y2="-228.5"/>
+<polygon class="oak fx" points="-219,-0.1 -238.2,9.2 -238.2,-204.9 -219,-214.1"/>
+<polygon class="oak fz" points="-262.8,2 -238.2,9.2 -238.2,-204.9 -262.8,-212.1"/>
+<polygon class="oak ft" points="-243.6,-221.3 -219,-214.1 -238.2,-204.9 -262.8,-212.1"/>
+<line class="slat" x1="-222.8" y1="1.8" x2="-222.8" y2="-212.3"/>
+<line class="slat" x1="-257.9" y1="3.4" x2="-257.9" y2="-210.7"/>
+<line class="slat" x1="-226.7" y1="3.6" x2="-226.7" y2="-210.4"/>
+<line class="slat" x1="-252.9" y1="4.8" x2="-252.9" y2="-209.2"/>
+<line class="slat" x1="-230.5" y1="5.5" x2="-230.5" y2="-208.6"/>
+<line class="slat" x1="-248" y1="6.3" x2="-248" y2="-207.8"/>
+<line class="slat" x1="-234.3" y1="7.3" x2="-234.3" y2="-206.8"/>
+<line class="slat" x1="-243.1" y1="7.7" x2="-243.1" y2="-206.4"/>
+<line class="stem" x1="45.5" y1="-15.3" x2="45.5" y2="-57.3"/>
+<polygon class="b ft" points="65.2,-53 61.3,-51.5 56.6,-50.4 51.3,-49.6 45.8,-49.4 40.2,-49.6 34.9,-50.3 30.2,-51.4 26.2,-52.8 23.1,-54.6 21.2,-56.6 20.6,-58.6 21.1,-60.7 22.9,-62.7 25.9,-64.5 29.8,-66 34.5,-67.1 39.7,-67.8 45.3,-68.1 50.8,-67.9 56.1,-67.2 60.9,-66.1 64.9,-64.6 67.9,-62.9 69.8,-60.9 70.5,-58.8 69.9,-56.7 68.1,-54.8"/>
+<line class="stem" x1="23.7" y1="-31" x2="23.7" y2="-53.4"/>
+<polygon class="chair" points="35.4,-62.8 47.7,-48.3 52.2,-77.8 39.9,-92.2"/>
+<polygon class="chair" points="35.4,-62.8 47.7,-48.3 12,-44 -0.3,-58.5"/>
+<line class="stem" x1="72.1" y1="-2" x2="72.1" y2="-24.4"/>
+<polygon class="chair" points="54.8,-16.4 52.1,-31.5 47.4,-60.3 50.1,-45.2"/>
+<polygon class="chair" points="54.8,-16.4 52.1,-31.5 89.5,-32.5 92.1,-17.3"/>
+<line class="stem" x1="-111.8" y1="-20.6" x2="-111.8" y2="-62.5"/>
+<polygon class="b ft" points="-92.1,-58.2 -96,-56.7 -100.7,-55.6 -106,-54.9 -111.5,-54.6 -117.1,-54.9 -122.4,-55.5 -127.2,-56.6 -131.1,-58.1 -134.2,-59.8 -136.1,-61.8 -136.7,-63.9 -136.2,-66 -134.4,-68 -131.5,-69.7 -127.5,-71.2 -122.8,-72.4 -117.6,-73.1 -112,-73.3 -106.5,-73.1 -101.2,-72.5 -96.4,-71.4 -92.4,-69.9 -89.4,-68.1 -87.5,-66.2 -86.8,-64.1 -87.4,-62 -89.2,-60"/>
+<line class="stem" x1="-154.5" y1="-23.8" x2="-154.5" y2="-46.3"/>
+<polygon class="chair" points="-127.3,-44.5 -161.3,-36.2 -158.7,-63.7 -124.8,-72"/>
+<polygon class="chair" points="-127.3,-44.5 -161.3,-36.2 -181.7,-48 -147.8,-56.3"/>
+<polygon class="lac side" points="-148.9,1.9 -116.9,11.3 -143.3,23.9 -175.3,14.6"/>
+<polygon class="lac side" points="-148.9,-74 -148.9,1.9 -175.3,14.6 -175.3,-61.3"/>
+<polygon class="lac side" points="-116.9,-31.4 -27.2,37.5 -53.6,50.2 -143.3,-18.7"/>
+<polygon class="lac side" points="-27.2,37.5 4.8,46.9 -21.6,59.6 -53.6,50.2"/>
+<polygon class="lac side" points="-27.2,-38.4 -27.2,4.3 -53.6,16.9 -53.6,-25.7"/>
+<polygon class="lac front" points="-175.3,14.6 -143.3,23.9 -143.3,-18.7 -53.6,50.2 -21.6,59.6 -21.6,-16.4 -53.6,-25.7 -53.6,16.9 -143.3,-52 -175.3,-61.3"/>
+<clipPath id="nclip"><polygon points="-175.3,14.6 -143.3,23.9 -143.3,-18.7 -53.6,50.2 -21.6,59.6 -21.6,-16.4 -53.6,-25.7 -53.6,16.9 -143.3,-52 -175.3,-61.3"/></clipPath>
+<g clip-path="url(#nclip)" filter="url(#glow)">
+<line class="band" x1="-181.5" y1="-3.1" x2="-15.5" y2="45.5"/>
+<line class="band" x1="-181.5" y1="-17.6" x2="-15.5" y2="31"/>
+<line class="band" x1="-181.5" y1="-32" x2="-15.5" y2="16.5"/>
+<line class="band" x1="-181.5" y1="-46.5" x2="-15.5" y2="2.1"/>
+</g>
+<polygon class="oak fx" points="51.5,79.1 32.3,88.3 32.3,-125.8 51.5,-135"/>
+<polygon class="oak fz" points="7.7,81.1 32.3,88.3 32.3,-125.8 7.7,-133"/>
+<polygon class="oak ft" points="26.9,-142.2 51.5,-135 32.3,-125.8 7.7,-133"/>
+<line class="slat" x1="47.6" y1="80.9" x2="47.6" y2="-133.1"/>
+<line class="slat" x1="12.6" y1="82.6" x2="12.6" y2="-131.5"/>
+<line class="slat" x1="43.8" y1="82.8" x2="43.8" y2="-131.3"/>
+<line class="slat" x1="17.5" y1="84" x2="17.5" y2="-130.1"/>
+<line class="slat" x1="39.9" y1="84.6" x2="39.9" y2="-129.4"/>
+<line class="slat" x1="22.4" y1="85.4" x2="22.4" y2="-128.6"/>
+<line class="slat" x1="36.1" y1="86.5" x2="36.1" y2="-127.6"/>
+<line class="slat" x1="27.3" y1="86.9" x2="27.3" y2="-127.2"/>
+<polygon class="lac fx" points="273.7,-236.8 33.6,-121.7 33.6,-166.5 273.7,-281.6"/>
+<polygon class="lac fz" points="10.3,-128.5 33.6,-121.7 33.6,-166.5 10.3,-173.3"/>
+<polygon class="lac ft" points="250.4,-288.5 273.7,-281.6 33.6,-166.5 10.3,-173.3"/>
+<polygon class="lac fx" points="51.9,-130.4 33.6,-121.7 33.6,-166.5 51.9,-175.2"/>
+<polygon class="lac fz" points="-273.7,-211.6 33.6,-121.7 33.6,-166.5 -273.7,-256.4"/>
+<polygon class="lac ft" points="-255.5,-265.2 51.9,-175.2 33.6,-166.5 -273.7,-256.4"/>
+<g filter="url(#glow)">
+<polyline class="neon cyan" points="273.7,-241.1 33.6,-126 -273.7,-215.9"/>
+<polyline class="neon pink" points="273.7,-247.6 33.6,-132.5 -273.7,-222.5"/>
+<polyline class="neon pink mark" points="-132.4,-187.6 -132.4,-207.8 -107.8,-180.4 -107.8,-200.6"/>
+</g>
+</svg>

@@ -1,0 +1,30 @@
+# Builds en.html (English page) from index.html using the text pairs in i18n/en.json.
+# Edit index.html and i18n/en.json, then run this script again; never edit en.html by hand.
+# This file is ASCII on purpose: Windows PowerShell 5.1 misreads UTF-8 scripts without a BOM.
+$root = $PSScriptRoot
+$utf8 = New-Object System.Text.UTF8Encoding $false
+$html = [IO.File]::ReadAllText("$root\index.html", $utf8)
+$pairs = ConvertFrom-Json ([IO.File]::ReadAllText("$root\i18n\en.json", $utf8))
+
+# Longest first, so a whole sentence is translated before any word inside it can match on its own.
+$missing = @()
+foreach ($pair in ($pairs | Sort-Object { $_[0].Length } -Descending)) {
+  if ($html.IndexOf($pair[0], [StringComparison]::Ordinal) -lt 0) { $missing += $pair[0]; continue }
+  $html = $html.Replace($pair[0], $pair[1])
+}
+
+$note = "<!-- Generated from index.html by build-en.ps1. Edit index.html and i18n/en.json, then rebuild. -->"
+$html = $html -replace '(?i)^<!doctype html>', "<!doctype html>`r`n$note"
+[IO.File]::WriteAllText("$root\en.html", $html, $utf8)
+
+# Anything still carrying Turkish letters was not translated (the "Turkce" language link is expected).
+$turkish = '[çğıöşüÇĞİÖŞÜâ]'
+$left = @()
+$n = 0
+foreach ($line in ($html -split "`n")) {
+  $n++
+  if ($line -match $turkish -and $line -notmatch 'class="nav-lang"') { $left += ("{0}: {1}" -f $n, $line.Trim()) }
+}
+"en.html written ({0:N0} characters)" -f $html.Length
+"pairs not found in index.html: $($missing.Count)"; $missing | ForEach-Object { "  - $_" }
+"lines still in Turkish: $($left.Count)"; $left | ForEach-Object { "  $_" }
