@@ -92,7 +92,7 @@
 .principle:hover::before { width: 64%; }
 
 /* ---------- rental stands ---------- */
-/* Three ready-made layouts as cards (catalogue drawing + figures); the example photos below reuse .projects-grid. */
+/* Three ready-made layouts as cards (catalogue drawing + figures), then the same layouts shown printed. */
 .rental-head {
   display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 28px 48px;
   margin-bottom: clamp(32px, 5vh, 56px);
@@ -105,7 +105,13 @@
   box-shadow: 0 24px 60px -44px rgba(27, 25, 22, .5);
 }
 /* The catalogue drawing; js/rental puts a turnable 3D model over it (.is-3d) when WebGL is available. */
-.rental-view { position: relative; aspect-ratio: 16 / 9; overflow: hidden; background: #2B2926; } /* dark, like the catalogue drawings: a white stand needs it */
+/* The backdrop is the catalogue's own studio: grey wall, lighter floor with a pool of light under the stand. */
+.rental-view {
+  position: relative; aspect-ratio: 16 / 9; overflow: hidden;
+  background:
+    radial-gradient(70% 46% at 50% 100%, rgba(196, 198, 200, .85), rgba(196, 198, 200, 0) 72%),
+    linear-gradient(#4A4E54 0, #50545A 52%, #62666B 52%, #7F8286 100%);
+}
 .rental-view img { width: 100%; height: 100%; object-fit: cover; }
 .rental-view.is-3d img { visibility: hidden; }
 .rental-view canvas { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; cursor: grab; touch-action: pan-y; }
@@ -133,29 +139,27 @@
 .rental-step-num { font: 500 var(--fs-mono)/1 var(--font-mono); letter-spacing: .16em; color: var(--neon-pink); }
 .rental-steps h4 { margin-top: 14px; font: 400 clamp(1.25rem, 1.05rem + .6vw, 1.6rem)/1.15 var(--font-display); letter-spacing: -.015em; }
 .rental-steps p { margin-top: 10px; color: var(--ink-2); line-height: 1.6; text-wrap: pretty; }
-/* rental or custom: two cards with the same six rows */
-.compare { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(12px, 1.4vw, 20px); }
-.compare-card {
-  display: flex; flex-direction: column; align-items: flex-start;
-  padding: clamp(22px, 2.4vw, 36px);
+/* the printed examples: same cards, a line of text instead of the figures */
+.rental-note { max-width: 62ch; margin: -6px 0 24px; color: var(--ink-2); line-height: 1.6; text-wrap: pretty; }
+.rental-examples .rental-size { font-size: clamp(1.35rem, 1.1rem + .7vw, 1.75rem); }
+/* more than these three: other sizes and the stands in stock */
+.rental-more {
+  display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 24px clamp(32px, 6vw, 96px); align-items: start;
+  margin-top: clamp(44px, 7vh, 76px); padding: clamp(26px, 3.4vw, 52px);
   background: rgba(247, 244, 238, .7); border: 1px solid var(--line); border-radius: var(--radius);
   box-shadow: 0 24px 60px -44px rgba(27, 25, 22, .5);
 }
-.compare-title { font: 350 clamp(1.6rem, 1.25rem + 1.1vw, 2.2rem)/1.05 var(--font-display); letter-spacing: -.025em; }
-.compare-list { align-self: stretch; flex: 1; margin: 20px 0 24px; }
-.compare-list div { display: grid; grid-template-columns: minmax(110px, 9.5em) minmax(0, 1fr); gap: 4px 20px; padding: 12px 0; border-top: 1px solid var(--line); }
-.compare-list dt { padding-top: .22em; font: 500 .68rem/1.3 var(--font-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--ink-2); }
-.compare-list dd { margin: 0; line-height: 1.5; text-wrap: pretty; }
+.rental-more-title { max-width: 14ch; font-size: clamp(1.8rem, 1.3rem + 1.7vw, 2.9rem); line-height: 1.04; }
+.rental-more-body { display: grid; gap: 16px; justify-items: start; }
+.rental-more-body p { line-height: 1.65; text-wrap: pretty; }
+.rental-more-body .btn { margin-top: 10px; }
 @media (max-width: 1080px) {
   .rental-options { grid-template-columns: 1fr; max-width: 640px; }
+  .rental-more { grid-template-columns: 1fr; }
   .rental-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-}
-@media (max-width: 760px) {
-  .compare { grid-template-columns: 1fr; }
 }
 @media (max-width: 520px) {
   .rental-steps { grid-template-columns: 1fr; }
-  .compare-list div { grid-template-columns: 1fr; }
 }
 @media (max-width: 480px) {
   .rental-specs div { flex-direction: column; gap: 4px; }
@@ -230,11 +234,10 @@
   font-variation-settings: 'opsz' 144;
   text-wrap: balance;
 }
-.contact .section-lede { margin-top: 30px; }
 .contact-mail { margin-top: 40px; display: grid; gap: 12px; }
 .contact-mail-label { font: 500 var(--fs-mono)/1 var(--font-mono); letter-spacing: .16em; text-transform: uppercase; color: var(--ink-2); }
 .contact-mail a {
-  font: 350 clamp(1.5rem, 1.1rem + 1.4vw, 2.3rem)/1.1 var(--font-display); letter-spacing: -.02em;
+  font: 350 clamp(1.3rem, 1rem + 1vw, 1.85rem)/1.1 var(--font-display); letter-spacing: -.02em;
   text-decoration: none; background: var(--neon-grad) left bottom / 0 2px no-repeat;
   padding-bottom: 6px; transition: background-size .5s var(--ease);
 }

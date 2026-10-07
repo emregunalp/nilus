@@ -1,11 +1,12 @@
-// Turnable 3D views of the rental layouts. One WebGL renderer draws every stand and copies the picture onto each
-// card's own 2D canvas, so three cards cost one GL context. A view renders only when its angle changes: it turns
+// Turnable 3D views of the rental layouts (blank, and printed where the card names an artwork set). One WebGL
+// renderer draws every stand and copies the picture onto each card's own 2D canvas, so all cards cost one GL context. A view renders only when its angle changes: it turns
 // slowly by itself while on screen, and follows the visitor's horizontal drag (with a little inertia) once touched.
 
 import * as THREE from 'three';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import * as kit from '../projects/3d/kit.js';
 import { buildRentalStand } from './stands.js';
+import { artworkReady, rentalArtwork } from './artwork.js';
 import { t } from '../i18n.js';
 
 const FOV = 30;
@@ -24,29 +25,30 @@ function buildStudio(renderer) {
   const scene = new THREE.Scene();
   const pmrem = new THREE.PMREMGenerator(renderer);
   scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
-  scene.environmentIntensity = 0.6;
+  scene.environmentIntensity = 0.45;
   pmrem.dispose();
-  scene.add(new THREE.HemisphereLight(0xffffff, 0xd9cfbf, 0.7));
-  const key = new THREE.DirectionalLight(0xfff6ea, 1.8);
+  // Cool and restrained, like the catalogue's studio: a white stand keeps its shading instead of burning out.
+  scene.add(new THREE.HemisphereLight(0xf4f6f8, 0x8d9095, 0.55));
+  const key = new THREE.DirectionalLight(0xffffff, 1.35);
   key.position.set(5, 10, 8);
   key.castShadow = true;
   key.shadow.mapSize.set(1024, 1024);
   key.shadow.bias = -0.0004;
   key.shadow.normalBias = 0.03;
   Object.assign(key.shadow.camera, { left: -6, right: 6, top: 6, bottom: -6, near: 1, far: 30 });
-  const fill = new THREE.DirectionalLight(0xeaf1ff, 0.5);
+  const fill = new THREE.DirectionalLight(0xeaf1ff, 0.35);
   fill.position.set(-7, 5, -6);
-  // No floor plane: the card's dark backdrop shows through. A soft pool of light under the stand (the spill of its
-  // lightboxes) is what sets it on the ground.
+  // No floor plane: the card's studio backdrop shows through. A soft pool of light under the stand (the spill of
+  // its lightboxes) is what sets it on the ground.
   const pool = new THREE.Mesh(
     new THREE.CircleGeometry(7, 48).rotateX(-Math.PI / 2),
     new THREE.MeshBasicMaterial({
       transparent: true, depthWrite: false, toneMapped: false,
       map: kit.canvasTex(256, 256, (g) => {
         const light = g.createRadialGradient(128, 128, 8, 128, 128, 128);
-        light.addColorStop(0, 'rgba(255, 250, 240, .30)');
-        light.addColorStop(0.55, 'rgba(255, 250, 240, .09)');
-        light.addColorStop(1, 'rgba(255, 250, 240, 0)');
+        light.addColorStop(0, 'rgba(244, 246, 248, .34)');
+        light.addColorStop(0.55, 'rgba(244, 246, 248, .1)');
+        light.addColorStop(1, 'rgba(244, 246, 248, 0)');
         g.fillStyle = light;
         g.fillRect(0, 0, 256, 256);
       }),
@@ -58,11 +60,12 @@ function buildStudio(renderer) {
   return scene;
 }
 
-export function mountRentalViews(hosts, { reducedMotion = false } = {}) {
+export async function mountRentalViews(hosts, { reducedMotion = false } = {}) {
+  if (hosts.some((host) => host.dataset.art)) await artworkReady();
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.05;
+  renderer.toneMappingExposure = 0.95;
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   renderer.setClearColor(0x000000, 0);
@@ -73,7 +76,7 @@ export function mountRentalViews(hosts, { reducedMotion = false } = {}) {
   let last = 0;
 
   const views = hosts.map((host) => {
-    const model = buildRentalStand(kit, Number(host.dataset.layout));
+    const model = buildRentalStand(kit, Number(host.dataset.layout), rentalArtwork(kit, host.dataset.art));
     model.visible = false;
     scene.add(model);
     const box = new THREE.Box3().setFromObject(model);

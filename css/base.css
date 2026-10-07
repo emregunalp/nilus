@@ -147,24 +147,6 @@ html.no-webgl .stage-fallback { display: block; }
   background: radial-gradient(closest-side, rgba(255, 47, 185, .07), transparent);
 }
 
-/* Drag-to-rotate (js/orbit.js): the empty area around the text is the handle; the hint sits under the stand. */
-.stage-hint {
-  position: absolute; left: 64%; bottom: clamp(24px, 5vh, 48px);
-  display: inline-flex; align-items: center; gap: 10px;
-  transform: translateX(-50%);
-  font: 400 .7rem/1 var(--font-mono); letter-spacing: .14em; text-transform: uppercase; white-space: nowrap;
-  color: var(--ink-2);
-  opacity: 0; transition: opacity .6s var(--ease);
-}
-.stage-hint svg { flex: none; width: 22px; height: 12px; fill: none; stroke: currentColor; stroke-width: 1.2; stroke-linecap: round; stroke-linejoin: round; }
-html.scene-ready .stage-hint.is-on { opacity: 1; }
-:is(#hero, .step, .process-outro) { touch-action: pan-y pinch-zoom; }
-@media (hover: hover) {
-  html.scene-ready:not(.is-shot) :is(#hero, .step, .process-outro) { cursor: grab; }
-  html.scene-ready :is(.hero-copy, .step-card, .process-outro > *) { cursor: auto; }
-}
-html.is-orbiting, html.is-orbiting * { cursor: grabbing !important; -webkit-user-select: none; user-select: none; }
-
 .grain {
   position: fixed; inset: -50%; z-index: 60; pointer-events: none; opacity: .026;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
@@ -178,8 +160,6 @@ html.is-orbiting, html.is-orbiting * { cursor: grabbing !important; -webkit-user
   :root { --nav-h: 60px; }
   .stage-fallback img { left: 50%; top: 29%; width: min(92vw, 62vh); }
   .stage-fallback::after { left: 50%; top: 50%; width: 80vw; }
-  /* Above the stand: below it the hero text starts at once, and the process rail owns the strip under the nav. */
-  .stage-hint { display: flex; justify-content: center; left: 0; right: 0; bottom: auto; top: calc(var(--nav-h) + 42px); transform: none; font-size: .62rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {

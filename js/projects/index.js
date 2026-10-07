@@ -1,6 +1,5 @@
-// Photo cards (projects section and the rental-stand examples): clicking a photo opens it large in the viewer
-// dialog, where the arrows step through the photos shown in the same grid. In the projects section the sector
-// filter decides which stands are shown.
+// Photo cards of the projects section: clicking a photo opens it large in the viewer dialog, where the arrows step
+// through the photos shown in the same grid. The sector filter decides which stands are shown.
 // (The 360° model viewer built earlier is parked in ./3d/ and not loaded.)
 
 import { t } from '../i18n.js';
@@ -29,6 +28,9 @@ function initViewer() {
   const title = dialog.querySelector('#viewer-title');
   const count = dialog.querySelector('#viewer-count');
   let current = null;
+  const reveal = () => photo.classList.remove('is-loading');
+  photo.addEventListener('load', reveal);
+  photo.addEventListener('error', reveal);
 
   function show(card) {
     const list = shown(card);
@@ -37,7 +39,11 @@ function initViewer() {
     title.textContent = name;
     count.textContent = `${pad2(list.indexOf(card) + 1)} / ${pad2(list.length)}`;
     photo.alt = t(`${name} standı`, `${name} stand`);
-    photo.src = card.dataset.photo;
+    // An <img> keeps showing its previous picture until the new one has loaded, so it stays hidden until then.
+    if (photo.getAttribute('src') !== card.dataset.photo) {
+      photo.classList.add('is-loading');
+      photo.src = card.dataset.photo;
+    }
   }
 
   function step(by) {

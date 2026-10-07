@@ -2,7 +2,8 @@
 // posted as JSON to the form's data-endpoint; the inbox lives on mesajlar.html. If the endpoint is unreachable the
 // visitor is pointed to the e-mail address instead.
 // The contact form can also send a quote request (kind "brief": event, city, date, stand size); its radio switch
-// shows the parts of the form marked with the matching data-kind.
+// shows the parts of the form marked with the matching data-kind. It also asks for the company, which is required
+// there; the message box has no such field.
 
 import { t } from './i18n.js';
 
@@ -25,8 +26,9 @@ function initForm(form) {
   const picker = form.querySelector('input[type="file"]');
   const fileList = form.querySelector('.file-list');
   const isBrief = () => Boolean(kind) && kind.value === 'brief';
-  const required = () => (isBrief() ? [name, email, brief.event, brief.city, brief.date] : [name, email, message]);
-  const fields = [name, email, message, ...(brief ? [brief.event, brief.city, brief.date] : [])];
+  const who = company ? [name, company, email] : [name, email];
+  const required = () => (isBrief() ? [...who, brief.date] : [...who, message]);
+  const fields = [...who, message, ...(brief ? [brief.date] : [])];
   let files = [];
 
   const say = (text, kind = '') => {
@@ -97,9 +99,10 @@ function initForm(form) {
     const problems = required().filter(isInvalid);
     fields.forEach((field) => mark(field, problems.includes(field)));
     if (problems.length) {
-      say(asBrief
-        ? t('Lütfen adınızı, geçerli bir e-posta adresini ve etkinliğin adını, şehrini ve tarihini yazın.', 'Please enter your name, a valid e-mail address and the name, city and date of the event.')
-        : t('Lütfen adınızı, geçerli bir e-posta adresini ve mesajınızı yazın.', 'Please enter your name, a valid e-mail address and your message.'), 'error');
+      const last = asBrief ? t('etkinlik tarihini', 'the date of the event') : t('mesajınızı', 'your message');
+      say(company
+        ? t(`Lütfen adınızı, firmanızı, geçerli bir e-posta adresini ve ${last} yazın.`, `Please enter your name, your company, a valid e-mail address and ${last}.`)
+        : t(`Lütfen adınızı, geçerli bir e-posta adresini ve ${last} yazın.`, `Please enter your name, a valid e-mail address and ${last}.`), 'error');
       problems[0].focus();
       return;
     }
