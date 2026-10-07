@@ -111,7 +111,7 @@
 .rental-view canvas { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; cursor: grab; touch-action: pan-y; }
 .rental-view canvas.is-turning { cursor: grabbing; }
 .rental-hint {
-  position: absolute; left: 14px; bottom: 11px; pointer-events: none;
+  position: absolute; left: 14px; top: 13px; pointer-events: none;
   font: 400 .64rem/1 var(--font-mono); letter-spacing: .12em; text-transform: uppercase; color: rgba(243, 237, 227, .72);
 }
 .rental-body { padding: clamp(18px, 1.8vw, 26px) clamp(18px, 1.8vw, 26px) clamp(16px, 1.6vw, 22px); }
