@@ -138,7 +138,6 @@
   background: rgba(247, 244, 238, .8); border: 1px solid var(--line); border-radius: var(--radius);
 }
 .brands-grid img { width: max(calc(var(--w) / 200 * 100%), 36%); max-width: none; height: auto; }
-.brands-grid img.is-raster { mix-blend-mode: multiply; } /* photos of logos: lets a white background take the tile's colour */
 @media (max-width: 620px) {
   .brands-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
 }
