@@ -47,13 +47,15 @@ function canvasSize(canvas) {
   };
 }
 
-export async function mountScene({ canvas, getProgress, snap = false, quality = 'high', reducedMotion = false, isMobile = false }) {
+export async function mountScene({ canvas, getProgress, snap = false, quality = 'high', reducedMotion = false, isMobile = false, orbit = null }) {
   if (!canvas) throw new Error('mountScene: canvas missing');
   const params = new URLSearchParams(location.search);
   const debug = params.get('debug') === '1';
   // Verification hook: ?intro=<seconds> freezes the hero draw-in clock (deterministic snap screenshots of the
   // stroke-by-stroke drawing; headless virtual time cannot pace a live rAF clock).
   const introFreeze = params.has('intro') && Number.isFinite(Number(params.get('intro'))) ? Number(params.get('intro')) : null;
+  // Verification hook: ?turn=<degrees> views the stand as if the visitor had dragged it round (shot mode has no drag).
+  const turnFixed = Number.isFinite(Number(params.get('turn'))) ? Number(params.get('turn')) : 0;
   const t0 = performance.now();
   const mark = (label) => { if (debug) console.log(`[scene-b] ${label} +${Math.round(performance.now() - t0)}ms`); };
   const renderer = createRenderer(canvas, quality);
@@ -104,15 +106,17 @@ export async function mountScene({ canvas, getProgress, snap = false, quality = 
       Pd += (P - Pd) * (1 - Math.exp(-dt * DAMP_RATE));
       if (Math.abs(P - Pd) < SETTLE_EPS) Pd = P;
     }
-    // introClock drives the load-time draw-in of the hero drawing (time-based, never in snap mode).
-    world.update(Pd, { clock: t, introClock: introFreeze ?? (animate ? t : null), animate });
     const heroW = 1 - smooth(segment(Pd, -0.35, 0.05));
     pointer.x += (pointer.tx - pointer.x) * Math.min(1, dt * 3);
     pointer.y += (pointer.ty - pointer.y) * Math.min(1, dt * 3);
     const sway = animate
       ? { az: heroW * (IDLE_SWAY_DEG * Math.sin(t * IDLE_SWAY_SPEED) + PARALLAX_DEG * pointer.x), el: heroW * PARALLAX_DEG * 0.5 * pointer.y }
       : { az: 0, el: 0 };
-    const dist = rig.apply(cameraAt(Pd), view, sway, heroW);
+    sway.az += orbit ? orbit.step(dt) : turnFixed; // the visitor's drag-to-rotate (js/orbit.js)
+    const key = cameraAt(Pd);
+    // introClock drives the load-time draw-in of the hero drawing (time-based, never in snap mode).
+    world.update(Pd, { clock: t, introClock: introFreeze ?? (animate ? t : null), animate, viewAz: key.az + sway.az });
+    const dist = rig.apply(key, view, sway, heroW);
     world.setFogForDistance(dist);
     if (debug) renderer.info.reset();
     pipeline.render();
@@ -133,7 +137,7 @@ export async function mountScene({ canvas, getProgress, snap = false, quality = 
     // (e.g. the desktop app's browser pane) report hidden=true yet keep firing rAF — gating froze the stand.
     const P = clampP(getProgress());
     const settled = Math.abs(P - Pd) < SETTLE_EPS;
-    const idle = settled && !dirty && (snap || Pd >= P_MAX);
+    const idle = settled && !dirty && !orbit?.busy && (snap || Pd >= P_MAX);
     if (idle) { last = now; return; }
     renderFrame(now);
     dirty = false;

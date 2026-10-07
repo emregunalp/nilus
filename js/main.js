@@ -3,6 +3,7 @@
 
 import { createProgress } from './scroll.js';
 import { initUI } from './ui.js';
+import { createOrbit } from './orbit.js';
 
 const SCENES = { a: './scene-a/index.js', b: './scene-b/index.js' };
 const DEFAULT_SCENE = 'b';
@@ -42,12 +43,12 @@ async function waitForFonts() {
   }
 }
 
-async function mountStage(progress) {
+async function mountStage(progress, orbit) {
   const canvas = document.getElementById('stage-canvas');
   if (!canvas) throw new Error('#stage-canvas missing (CONTRACT: DOM)');
   if (sceneDisabled) throw new Error('?scene=none → poster forced');
   const { mountScene } = await import(SCENES[variant]);
-  return mountScene({ canvas, getProgress: progress.get, snap: isShot, quality, reducedMotion, isMobile });
+  return mountScene({ canvas, getProgress: progress.get, snap: isShot, quality, reducedMotion, isMobile, orbit });
 }
 
 async function boot() {
@@ -66,7 +67,9 @@ async function boot() {
   window.__nilus = { progress, variant, quality, isShot };
 
   try {
-    window.__nilus.scene = await mountStage(progress);
+    // Screenshots must stay deterministic, so shot mode has no drag-to-rotate.
+    const orbit = isShot ? null : createOrbit({ progress, reducedMotion });
+    window.__nilus.scene = await mountStage(progress, orbit);
     root.classList.add('scene-ready');
   } catch (err) {
     console.warn('[nilus] 3D sahne açılamadı → statik poster', err?.message || err);

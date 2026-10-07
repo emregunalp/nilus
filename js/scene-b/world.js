@@ -71,6 +71,14 @@ export function buildWorld({ renderer, quality, compact = false }) {
   const fx = buildFx({ quality, compact, partCount: PARTS.length, shadowCount: PARTS.length + CRATE_COUNT + 1 });
   scene.add(stand.group, blueprint.group, logistics.group, fx.group);
   const platform = stand.parts.find((p) => p.spec.kind === 'platform');
+  const logoIndex = stand.parts.findIndex((p) => p.spec.kind === 'logo');
+
+  // The hanging wordmark is a two-sided sign: when the visitor turns the stand (js/orbit.js) and looks at it from
+  // behind, it is turned round so the name never reads mirrored. The film's own camera always stays in front.
+  function faceLogo(pose, viewAz) {
+    if (!pose || !pose.visible || Math.abs(pose.rot[0]) > 0.01 || Math.abs(pose.rot[2]) > 0.01) return;
+    if (Math.cos(THREE.MathUtils.degToRad(viewAz) - pose.rot[1]) < 0) stand.parts[logoIndex].root.rotation.y += Math.PI;
+  }
 
   /** Neon is purely f(P): dark through the drawing and every stage until the Kurulum climax. */
   function updateNeon(P) {
@@ -112,10 +120,11 @@ export function buildWorld({ renderer, quality, compact = false }) {
    * Map progress (+ ambient clock) onto the whole scene. `introClock` = seconds since mount while the hero
    * drawing plots itself in (null in snap mode / reduced motion → the drawing is complete).
    */
-  function update(P, { clock = 0, introClock = null, animate = true } = {}) {
+  function update(P, { clock = 0, introClock = null, animate = true, viewAz = 0 } = {}) {
     const poses = PARTS.map((spec) => partPose(spec, P));
     const looks = PARTS.map((spec) => partLook(spec, P, introDraw(spec, introClock)));
     stand.parts.forEach((p, i) => applyPart(p, poses[i], looks[i]));
+    faceLogo(poses[logoIndex], viewAz);
     stand.group.updateMatrixWorld(true);
     updateNeon(P);
 
