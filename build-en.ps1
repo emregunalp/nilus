@@ -23,7 +23,9 @@ $left = @()
 $n = 0
 foreach ($line in ($html -split "`n")) {
   $n++
-  if ($line -match $turkish -and $line -notmatch 'class="nav-lang"') { $left += ("{0}: {1}" -f $n, $line.Trim()) }
+  # Brand names keep their own spelling (matched loosely here so this file stays ASCII).
+  $probe = $line -replace 'Pa.abah.e', ''
+  if ($probe -match $turkish -and $line -notmatch 'class="nav-lang"') { $left += ("{0}: {1}" -f $n, $line.Trim()) }
 }
 "en.html written ({0:N0} characters)" -f $html.Length
 "pairs not found in index.html: $($missing.Count)"; $missing | ForEach-Object { "  - $_" }
