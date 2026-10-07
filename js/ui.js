@@ -1,4 +1,4 @@
-// Page UI: nav state, mobile menu, reveal-on-scroll, process rail, in-page links, lifecycle ring.
+// Page UI: nav state, mobile menu, reveal-on-scroll, process rail, in-page links, lifecycle ring, client logo strip.
 // Every piece tolerates missing DOM — a lost element must never take the page down.
 
 import { cardFadeOpacity } from './scroll.js';
@@ -180,6 +180,22 @@ function initLifecycle() {
   items.forEach(bind);
 }
 
+/* ---------- client logos: two rows become a slow, endless strip ---------- */
+function initBrands({ isShot, reducedMotion }) {
+  const rows = $$('.brands-row');
+  if (!rows.length || isShot || reducedMotion) return; // the CSS default (a centred grid) stays
+  for (const row of rows) {
+    // The keyframe moves the row by half its width, so a second, hidden copy makes the loop seamless.
+    for (const item of [...row.children]) {
+      const copy = item.cloneNode(true);
+      copy.setAttribute('aria-hidden', 'true');
+      copy.querySelectorAll('img').forEach((img) => { img.alt = ''; });
+      row.append(copy);
+    }
+  }
+  $('.brands-rows')?.classList.add('is-marquee');
+}
+
 export function initUI({ progress, isShot = false, reducedMotion = false } = {}) {
   root.classList.add('js-ui');
   if (!progress || typeof progress.get !== 'function') {
@@ -194,6 +210,7 @@ export function initUI({ progress, isShot = false, reducedMotion = false } = {})
   safely('card-fade', () => initMobileCardFade({ progress }));
   safely('anchors', () => initAnchors({ progress, reducedMotion }));
   safely('lifecycle', initLifecycle);
+  safely('brands', () => initBrands({ isShot, reducedMotion }));
 }
 
 export const _internals = { railState, STAGE_NAMES };
