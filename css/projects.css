@@ -1,35 +1,39 @@
-/* Projects: stand photos in groups of four — one at each corner of the screen, the heading between the first
-   group. Further photos continue below in the same format, so adding a card in the HTML is all it takes. */
+/* Projects: stand photos in one even grid, heading and a sector filter above it. Adding a stand = adding one
+   .project button in the HTML (with its data-sector); the numbering and the layout follow by themselves. */
 
 /* ---------- section ---------- */
-.projects-grid {
-  --group-gap: clamp(56px, 12vh, 132px);
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(230px, .72fr) minmax(0, 1fr);
-  gap: clamp(20px, 2.6vw, 40px);
-  align-items: center;
-}
 .projects-head {
-  grid-column: 2; grid-row: 1 / span 2;
-  display: grid; justify-items: center; text-align: center;
-  padding: 0 4px;
+  display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 28px 48px;
+  margin-bottom: clamp(32px, 5vh, 56px);
 }
-.projects-head .section-title { font-size: clamp(1.9rem, 1.1rem + 2.1vw, 3.3rem); max-width: 10ch; }
-.projects-head .section-lede { font-size: var(--fs-body); max-width: 26ch; }
+.projects-head .section-title { max-width: 20ch; }
+.projects-head .section-lede { max-width: 44ch; }
+.projects-filter {
+  display: inline-flex; gap: 4px; padding: 4px;
+  border: 1px solid rgba(27, 25, 22, .16); border-radius: 999px; background: rgba(247, 244, 238, .6);
+}
+.projects-filter button {
+  padding: 10px 16px 9px; border: 0; border-radius: 999px; background: none; cursor: pointer;
+  font: 500 .86rem/1 var(--font-body); color: var(--ink-2); white-space: nowrap;
+  transition: background-color .3s var(--ease), color .3s var(--ease);
+}
+.projects-filter button:hover { color: var(--ink); }
+.projects-filter button[aria-pressed='true'] { background: var(--ink); color: var(--cream); }
 
+.projects-grid {
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(12px, 1.4vw, 20px);
+  counter-reset: project;
+}
 .project {
-  /* Small enough that a group of four fits one screen: capped in width and by the viewport height. */
-  position: relative; display: block; width: 100%; max-width: min(380px, (100vh - 190px) * 2 / 3); padding: 0;
+  position: relative; display: block; width: 100%; padding: 0;
   aspect-ratio: 4 / 3; overflow: hidden;
   background: var(--cream-2); color: var(--ink);
   border: 1px solid var(--line); border-radius: var(--radius);
-  box-shadow: 0 30px 80px -50px rgba(27, 25, 22, .5);
+  box-shadow: 0 24px 60px -44px rgba(27, 25, 22, .5);
   text-align: left; cursor: pointer;
+  counter-increment: project;
 }
-.project:nth-of-type(odd) { grid-column: 1; justify-self: start; }
-.project:nth-of-type(even) { grid-column: 3; justify-self: end; }
-/* every four photos start a new "screen" */
-.project:nth-of-type(4n + 5), .project:nth-of-type(4n + 6) { margin-top: var(--group-gap); }
+.project[hidden] { display: none; }
 .project::before { /* neon hairline accent, as on the step cards */
   content: ''; position: absolute; z-index: 2; left: -1px; top: -1px; height: 2px; width: 38%;
   background: var(--neon-grad); box-shadow: 0 0 12px rgba(255, 47, 185, .55);
@@ -43,37 +47,38 @@
 .project:hover img, .project:focus-visible img { transform: scale(1.045); }
 .project-meta {
   position: absolute; left: 0; right: 0; bottom: 0;
-  display: flex; align-items: baseline; gap: 12px;
-  padding: 12px 16px 11px;
+  display: flex; align-items: baseline; gap: 10px;
+  padding: 10px 14px 9px;
   background: rgba(243, 237, 227, .92);
   -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
   border-top: 1px solid var(--line);
 }
-.project-index { font: 500 .68rem/1 var(--font-mono); letter-spacing: .12em; color: var(--ink-2); }
-.project-name { font: 400 clamp(1.05rem, .9rem + .5vw, 1.35rem)/1.1 var(--font-display); letter-spacing: -.015em; }.project-cta {
-  position: absolute; top: 12px; right: 12px;
-  padding: 9px 13px 8px; border-radius: 999px;
+/* Numbered by CSS so the count stays right when the filter hides cards. */
+.project-index { font: 500 .66rem/1 var(--font-mono); letter-spacing: .12em; color: var(--ink-2); }
+.project-index::before { content: counter(project, decimal-leading-zero); }
+.project-name {
+  min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  font: 400 clamp(.98rem, .88rem + .32vw, 1.2rem)/1.15 var(--font-display); letter-spacing: -.015em;
+}
+.project-cta {
+  position: absolute; top: 10px; right: 10px;
+  padding: 8px 12px 7px; border-radius: 999px;
   background: var(--ink); color: var(--cream);
-  font: 500 .66rem/1 var(--font-mono); letter-spacing: .1em; text-transform: uppercase;
+  font: 500 .64rem/1 var(--font-mono); letter-spacing: .1em; text-transform: uppercase;
   opacity: 0; transform: translateY(-4px);
   transition: opacity .35s var(--ease), transform .35s var(--ease);
 }
 .project:hover .project-cta, .project:focus-visible .project-cta { opacity: 1; transform: none; }
 
-@media (max-width: 1080px) {
-  .projects-grid { --group-gap: 0px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .projects-head { grid-column: 1 / -1; grid-row: auto; justify-items: start; text-align: left; padding: 0 0 12px; }
-  .projects-head .section-title { max-width: 16ch; }
-  .projects-head .section-lede { max-width: 46ch; }
-  .project { max-width: none; }
-  .project:nth-of-type(odd) { grid-column: 1; }
-  .project:nth-of-type(even) { grid-column: 2; }
+@media (max-width: 1180px) {
+  .projects-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
-@media (max-width: 620px) {
-  .projects-grid { grid-template-columns: 1fr; }
-  .project:nth-of-type(odd), .project:nth-of-type(even) { grid-column: 1; }
+@media (max-width: 760px) {
+  .projects-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .project-meta { padding: 8px 10px 7px; gap: 7px; }
+  .project-name { font-size: .92rem; }
+  .project-cta { display: none; }
 }
-
 /* ---------- photo viewer ---------- */
 .viewer {
   position: fixed; inset: 0; margin: 0; padding: 0;

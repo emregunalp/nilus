@@ -98,6 +98,10 @@
 
   ["Kurduğumuz <em>standlardan</em> seçmeler.", "A selection <em>of the stands</em> we have built."],
   ["Kongre, fuar ve festival alanlarında kurduğumuz standlardan bazıları. Büyütmek için fotoğrafa tıklayın.", "Some of the stands we have installed at congresses, exhibitions and festivals. Click a photo to enlarge it."],
+  ["Sektöre göre süzün", "Filter by sector"],
+  [">Tümü<", ">All<"],
+  [">İlaç ve sağlık<", ">Pharma and health<"],
+  [">Kahve<", ">Coffee<"],
   [" kahve standı\"", " coffee stand\""],
   [" kahve servis arabası\"", " coffee service trolley\""],
   [" festival standı\"", " festival stand\""],
