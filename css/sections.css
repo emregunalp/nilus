@@ -104,7 +104,7 @@
   background: rgba(247, 244, 238, .7); border: 1px solid var(--line); border-radius: var(--radius);
   box-shadow: 0 24px 60px -44px rgba(27, 25, 22, .5);
 }
-/* The catalogue drawing; js/rental puts a turnable 3D model over it (.is-3d) when WebGL is available. */
+/* The catalogue picture, or a printed example: js/rental puts a turnable 3D model over those (.is-3d) when WebGL is available. */
 /* The backdrop is the catalogue's own studio: grey wall, lighter floor with a pool of light under the stand. */
 .rental-view {
   position: relative; aspect-ratio: 16 / 9; overflow: hidden;
