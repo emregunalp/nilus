@@ -160,6 +160,11 @@ html.no-webgl .stage-fallback { display: block; }
   :root { --nav-h: 60px; }
   .stage-fallback img { left: 50%; top: 29%; width: min(92vw, 62vh); }
   .stage-fallback::after { left: 50%; top: 50%; width: 80vw; }
+  /* Phones: the address bar slides away while scrolling, which would resize a full-viewport layer on every swipe
+     (the 3D canvas reallocates and the stand jumps). The stage keeps the tallest viewport's height instead. */
+  .stage { bottom: auto; height: 100vh; height: 100lvh; }
+  /* A blended layer over the whole page makes the phone composite every frame twice; the grain is too fine to see here. */
+  .grain { display: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {

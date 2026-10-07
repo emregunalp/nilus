@@ -22,24 +22,42 @@
   <link rel="icon" href="assets/favicon.svg?v=2" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&family=Inter+Tight:wght@400..600&family=JetBrains+Mono:wght@400;500&display=swap">
-  <link rel="stylesheet" href="css/base.css?v=13">
-  <link rel="stylesheet" href="css/chrome.css?v=13">
-  <link rel="stylesheet" href="css/hero-process.css?v=13">
-  <link rel="stylesheet" href="css/sections.css?v=13">
-  <link rel="stylesheet" href="css/projects.css?v=13">
+  <link rel="stylesheet" href="css/base.css?v=14">
+  <link rel="stylesheet" href="css/chrome.css?v=14">
+  <link rel="stylesheet" href="css/hero-process.css?v=14">
+  <link rel="stylesheet" href="css/sections.css?v=14">
+  <link rel="stylesheet" href="css/projects.css?v=14">
   <script>
     // Reveal-on-scroll hides [data-reveal] only when JS runs; if ui.js never boots, show everything.
     document.documentElement.classList.add('js');
     setTimeout(function () { if (!document.documentElement.classList.contains('js-ui')) document.documentElement.classList.remove('js'); }, 4500);
   </script>
   <script type="importmap">{ "imports": {
-    "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+    "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.min.js",
     "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/" } }</script>
-  <script type="module" src="js/main.js?v=13"></script>
-  <script type="module" src="js/projects/index.js?v=13"></script>
-  <script type="module" src="js/rental/index.js?v=13"></script>
-  <script type="module" src="js/contact.js?v=13"></script>
+  <!-- The 3D scene is a chain of modules that would otherwise be discovered one level at a time; fetch them together. -->
+  <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.min.js">
+  <link rel="modulepreload" href="js/scene-b/index.js">
+  <link rel="modulepreload" href="js/scene-b/world.js">
+  <link rel="modulepreload" href="js/scene-b/stand.js">
+  <link rel="modulepreload" href="js/scene-b/geo.js">
+  <link rel="modulepreload" href="js/scene-b/logo.js">
+  <link rel="modulepreload" href="js/scene-b/materials.js">
+  <link rel="modulepreload" href="js/scene-b/textures.js">
+  <link rel="modulepreload" href="js/scene-b/choreo.js">
+  <link rel="modulepreload" href="js/scene-b/layout.js">
+  <link rel="modulepreload" href="js/scene-b/route.js">
+  <link rel="modulepreload" href="js/scene-b/camera.js">
+  <link rel="modulepreload" href="js/scene-b/post.js">
+  <link rel="modulepreload" href="js/scene-b/fx.js">
+  <link rel="modulepreload" href="js/scene-b/props-blueprint.js">
+  <link rel="modulepreload" href="js/scene-b/props-logistics.js">
+  <script type="module" src="js/main.js?v=14"></script>
+  <script type="module" src="js/projects/index.js?v=14"></script>
+  <script type="module" src="js/rental/index.js?v=14"></script>
+  <script type="module" src="js/contact.js?v=14"></script>
 </head>
 <body>
   <a class="skip-link" href="#content">Skip to content</a>
@@ -283,121 +301,121 @@
 
         <div class="projects-grid">
           <button class="project" type="button" data-sector="pharma" data-photo="assets/projects/photos/wegovy.jpg" data-name="Wegovy" data-reveal>
-            <img src="assets/projects/photos/wegovy-s.jpg" alt="Wegovy congress stand" width="900" height="675" loading="lazy" decoding="async">
+            <img src="assets/projects/photos/wegovy-s.jpg" srcset="assets/projects/photos/wegovy-xs.jpg 600w, assets/projects/photos/wegovy-s.jpg 900w" sizes="(max-width: 760px) 46vw, (max-width: 1180px) 31vw, 23vw" alt="Wegovy congress stand" width="900" height="675" loading="lazy" decoding="async">
             <span class="project-meta"><span class="project-index" aria-hidden="true"></span><span class="project-name">Wegovy</span></span>
             <span class="project-cta" aria-hidden="true">Enlarge</span>
           </button>
 
           <button class="project" type="button" data-sector="pharma" data-photo="assets/projects/photos/sensodyne.jpg" data-name="Sensodyne" data-reveal>
-            <img src="assets/projects/photos/sensodyne-s.jpg" alt="Sensodyne congress stand" width="900" height="675" loading="lazy" decoding="async">
+            <img src="assets/projects/photos/sensodyne-s.jpg" srcset="assets/projects/photos/sensodyne-xs.jpg 600w, assets/projects/photos/sensodyne-s.jpg 900w" sizes="(max-width: 760px) 46vw, (max-width: 1180px) 31vw, 23vw" alt="Sensodyne congress stand" width="900" height="675" loading="lazy" decoding="async">
             <span class="project-meta"><span class="project-index" aria-hidden="true"></span><span class="project-name">Sensodyne</span></span>
             <span class="project-cta" aria-hidden="true">Enlarge</span>
           </button>
 
           <button class="project" type="button" data-sector="pharma" data-photo="assets/projects/photos/haleon.jpg" data-name="Haleon" data-reveal>
-            <img src="assets/projects/photos/haleon-s.jpg" alt="Haleon congress stand" width="900" height="675" loading="lazy" decoding="async">
+            <img src="assets/projects/photos/haleon-s.jpg" srcset="assets/projects/photos/haleon-xs.jpg 600w, assets/projects/photos/haleon-s.jpg 900w" sizes="(max-width: 760px) 46vw, (max-width: 1180px) 31vw, 23vw" alt="Haleon congress stand" width="900" height="675" loading="lazy" decoding="async">
             <span class="project-meta"><span class="project-index" aria-hidden="true"></span><span class="project-name">Haleon</span></span>
             <span class="project-cta" aria-hidden="true">Enlarge</span>
           </button>
 
           <button class="project" type="button" data-sector="pharma" data-photo="assets/projects/photos/gsk.jpg" data-name="GSK" data-reveal>
-            <img src="assets/projects/photos/gsk-s.jpg" alt="GSK congress stand" width="900" height="675" loading="lazy" decoding="async">
+            <img src="assets/projects/photos/gsk-s.jpg" srcset="assets/projects/photos/gsk-xs.jpg 600w, assets/projects/photos/gsk-s.jpg 900w" sizes="(max-width: 760px) 46vw, (max-width: 1180px) 31vw, 23vw" alt="GSK congress stand" width="900" height="675" loading="lazy" decoding="async">
             <span class="project-meta"><span class="project-index" aria-hidden="true"></span><span class="project-name">GSK</span></span>
             <span class="project-cta" aria-hidden="true">Enlarge</span>
           </button>
 
           <button class="project" type="button" data-sector="pharma" data-photo="assets/projects/photos/takeda.jpg" data-name="Takeda" data-reveal>
-            <img src="assets/projects/photos/takeda-s.jpg" alt="Takeda congress stand" width="900" height="675" loading="lazy" decoding="async">
+            <img src="assets/projects/photos/takeda-s.jpg" srcset="assets/projects/photos/takeda-xs.jpg 600w, assets/projects/photos/takeda-s.jpg 900w" sizes="(max-width: 760px) 46vw, (max-width: 1180px) 31vw, 23vw" alt="Takeda congress stand" width="900" height="675" loading="lazy" decoding="async">
             <span class="project-meta"><span class="project-index" aria-hidden="true"></span><span class="project-name">Takeda</span></span>
             <span class="project-cta" aria-hidden="true">Enlarge</span>
           </button>
 
           <button class="project" type="button" data-sector="coffee" data-photo="assets/projects/photos/tchibo.jpg" data-name="Tchibo" data-reveal>
-            <img src="assets/projects/photos/tchibo-s.jpg" alt="Tchibo coffee stand" width="900" height="675" loading="lazy" decoding="async">
+            <img src="assets/projects/photos/tchibo-s.jpg" srcset="assets/projects/photos/tchibo-xs.jpg 600w, assets/projects/photos/tchibo-s.jpg 900w" sizes="(max-width: 760px) 46vw, (max-width: 1180px) 31vw, 23vw" alt="Tchibo coffee stand" width="900" height="675" loading="lazy" decoding="async">
             <span class="project-meta"><span class="project-index" aria-hidden="true"></span><span class="project-name">Tchibo</span></span>
             <span class="project-cta" aria-hidden="true">Enlarge</span>
           </button>
 
           <button class="project" type="button" data-sector="coffee" data-photo="assets/projects/photos/gloria-jeans.jpg" data-name="Gloria Jean's" data-reveal>
-            <img src="assets/projects/photos/gloria-jeans-s.jpg" alt="Gloria Jean's coffee stand" width="900" height="675" loading="lazy" decoding="async">
+            <img src="assets/projects/photos/gloria-jeans-s.jpg" srcset="assets/projects/photos/gloria-jeans-xs.jpg 600w, assets/projects/photos/gloria-jeans-s.jpg 900w" sizes="(max-width: 760px) 46vw, (max-width: 1180px) 31vw, 23vw" alt="Gloria Jean's coffee stand" width="900" height="675" loading="lazy" decoding="async">
             <span class="project-meta"><span class="project-index" aria-hidden="true"></span><span class="project-name">Gloria Jean's</span></span>
             <span class="project-cta" aria-hidden="true">Enlarge</span>
           </button>
 
           <button class="project" type="button" data-sector="coffee" data-photo="assets/projects/photos/vergnano.jpg" data-name="Caffè Vergnano" data-reveal>
-            <img src="assets/projects/photos/vergnano-s.jpg" alt="Caffè Vergnano coffee stand" width="900" height="675" loading="lazy" decoding="async">
+            <img src="assets/projects/photos/vergnano-s.jpg" srcset="assets/projects/photos/vergnano-xs.jpg 600w, assets/projects/photos/vergnano-s.jpg 900w" sizes="(max-width: 760px) 46vw, (max-width: 1180px) 31vw, 23vw" alt="Caffè Vergnano coffee stand" width="900" height="675" loading="lazy" decoding="async">
             <span class="project-meta"><span class="project-index" aria-hidden="true"></span><span class="project-name">Caffè Vergnano</span></span>
             <span class="project-cta" aria-hidden="true">Enlarge</span>
           </button>
 
           <button class="project" type="button" data-sector="pharma" data-photo="assets/projects/photos/fujifilm.jpg" data-name="Fujifilm" data-reveal>
-            <img src="assets/projects/photos/fujifilm-s.jpg" alt="Fujifilm congress stand" width="900" height="675" loading="lazy" decoding="async">
+            <img src="assets/projects/photos/fujifilm-s.jpg" srcset="assets/projects/photos/fujifilm-xs.jpg 600w, assets/projects/photos/fujifilm-s.jpg 900w" sizes="(max-width: 760px) 46vw, (max-width: 1180px) 31vw, 23vw" alt="Fujifilm congress stand" width="900" height="675" loading="lazy" decoding="async">
             <span class="project-meta"><span class="project-index" aria-hidden="true"></span><span class="project-name">Fujifilm</span></span>
             <span class="project-cta" aria-hidden="true">Enlarge</span>
           </button>
 
           <button class="project" type="button" data-sector="pharma" data-photo="assets/projects/photos/sanofi.jpg" data-name="Sanofi" data-reveal>
-            <img src="assets/projects/photos/sanofi-s.jpg" alt="Sanofi congress stand" width="900" height="675" loading="lazy" decoding="async">
+            <img src="assets/projects/photos/sanofi-s.jpg" srcset="assets/projects/photos/sanofi-xs.jpg 600w, assets/projects/photos/sanofi-s.jpg 900w" sizes="(max-width: 760px) 46vw, (max-width: 1180px) 31vw, 23vw" alt="Sanofi congress stand" width="900" height="675" loading="lazy" decoding="async">
             <span class="project-meta"><span class="project-index" aria-hidden="true"></span><span class="project-name">Sanofi</span></span>
             <span class="project-cta" aria-hidden="true">Enlarge</span>
           </button>
 
           <button class="project" type="button" data-sector="pharma" data-photo="assets/projects/photos/grifols.jpg" data-name="Grifols" data-reveal>
-            <img src="assets/projects/photos/grifols-s.jpg" alt="Grifols congress stand" width="900" height="675" loading="lazy" decoding="async">
+            <img src="assets/projects/photos/grifols-s.jpg" srcset="assets/projects/photos/grifols-xs.jpg 600w, assets/projects/photos/grifols-s.jpg 900w" sizes="(max-width: 760px) 46vw, (max-width: 1180px) 31vw, 23vw" alt="Grifols congress stand" width="900" height="675" loading="lazy" decoding="async">
             <span class="project-meta"><span class="project-index" aria-hidden="true"></span><span class="project-name">Grifols</span></span>
             <span class="project-cta" aria-hidden="true">Enlarge</span>
           </button>
 
           <button class="project" type="button" data-sector="pharma" data-photo="assets/projects/photos/sakura.jpg" data-name="Takeda · Haemophilia" data-reveal>
-            <img src="assets/projects/photos/sakura-s.jpg" alt="Takeda haemophilia congress stand" width="900" height="675" loading="lazy" decoding="async">
+            <img src="assets/projects/photos/sakura-s.jpg" srcset="assets/projects/photos/sakura-xs.jpg 600w, assets/projects/photos/sakura-s.jpg 900w" sizes="(max-width: 760px) 46vw, (max-width: 1180px) 31vw, 23vw" alt="Takeda haemophilia congress stand" width="900" height="675" loading="lazy" decoding="async">
             <span class="project-meta"><span class="project-index" aria-hidden="true"></span><span class="project-name">Takeda · Haemophilia</span></span>
             <span class="project-cta" aria-hidden="true">Enlarge</span>
           </button>
 
           <button class="project" type="button" data-sector="coffee" data-photo="assets/projects/photos/walters.jpg" data-name="Walter's Coffee" data-reveal>
-            <img src="assets/projects/photos/walters-s.jpg" alt="Walter's Coffee coffee stand" width="900" height="675" loading="lazy" decoding="async">
+            <img src="assets/projects/photos/walters-s.jpg" srcset="assets/projects/photos/walters-xs.jpg 600w, assets/projects/photos/walters-s.jpg 900w" sizes="(max-width: 760px) 46vw, (max-width: 1180px) 31vw, 23vw" alt="Walter's Coffee coffee stand" width="900" height="675" loading="lazy" decoding="async">
             <span class="project-meta"><span class="project-index" aria-hidden="true"></span><span class="project-name">Walter's Coffee</span></span>
             <span class="project-cta" aria-hidden="true">Enlarge</span>
           </button>
 
           <button class="project" type="button" data-sector="coffee" data-photo="assets/projects/photos/julius-meinl.jpg" data-name="Julius Meinl" data-reveal>
-            <img src="assets/projects/photos/julius-meinl-s.jpg" alt="Julius Meinl coffee service trolley" width="900" height="675" loading="lazy" decoding="async">
+            <img src="assets/projects/photos/julius-meinl-s.jpg" srcset="assets/projects/photos/julius-meinl-xs.jpg 600w, assets/projects/photos/julius-meinl-s.jpg 900w" sizes="(max-width: 760px) 46vw, (max-width: 1180px) 31vw, 23vw" alt="Julius Meinl coffee service trolley" width="900" height="675" loading="lazy" decoding="async">
             <span class="project-meta"><span class="project-index" aria-hidden="true"></span><span class="project-name">Julius Meinl</span></span>
             <span class="project-cta" aria-hidden="true">Enlarge</span>
           </button>
 
           <button class="project" type="button" data-sector="coffee" data-photo="assets/projects/photos/pasabahce.jpg" data-name="Paşabahçe" data-reveal>
-            <img src="assets/projects/photos/pasabahce-s.jpg" alt="Paşabahçe festival stand" width="900" height="675" loading="lazy" decoding="async">
+            <img src="assets/projects/photos/pasabahce-s.jpg" srcset="assets/projects/photos/pasabahce-xs.jpg 600w, assets/projects/photos/pasabahce-s.jpg 900w" sizes="(max-width: 760px) 46vw, (max-width: 1180px) 31vw, 23vw" alt="Paşabahçe festival stand" width="900" height="675" loading="lazy" decoding="async">
             <span class="project-meta"><span class="project-index" aria-hidden="true"></span><span class="project-name">Paşabahçe</span></span>
             <span class="project-cta" aria-hidden="true">Enlarge</span>
           </button>
 
           <button class="project" type="button" data-sector="pharma" data-photo="assets/projects/photos/novo-nordisk.jpg" data-name="Novo Nordisk" data-reveal>
-            <img src="assets/projects/photos/novo-nordisk-s.jpg" alt="Novo Nordisk congress stand" width="900" height="675" loading="lazy" decoding="async">
+            <img src="assets/projects/photos/novo-nordisk-s.jpg" srcset="assets/projects/photos/novo-nordisk-xs.jpg 600w, assets/projects/photos/novo-nordisk-s.jpg 900w" sizes="(max-width: 760px) 46vw, (max-width: 1180px) 31vw, 23vw" alt="Novo Nordisk congress stand" width="900" height="675" loading="lazy" decoding="async">
             <span class="project-meta"><span class="project-index" aria-hidden="true"></span><span class="project-name">Novo Nordisk</span></span>
             <span class="project-cta" aria-hidden="true">Enlarge</span>
           </button>
 
           <button class="project" type="button" data-sector="pharma" data-photo="assets/projects/photos/merck.jpg" data-name="Merck" data-reveal>
-            <img src="assets/projects/photos/merck-s.jpg" alt="Merck congress stand" width="900" height="675" loading="lazy" decoding="async">
+            <img src="assets/projects/photos/merck-s.jpg" srcset="assets/projects/photos/merck-xs.jpg 600w, assets/projects/photos/merck-s.jpg 900w" sizes="(max-width: 760px) 46vw, (max-width: 1180px) 31vw, 23vw" alt="Merck congress stand" width="900" height="675" loading="lazy" decoding="async">
             <span class="project-meta"><span class="project-index" aria-hidden="true"></span><span class="project-name">Merck</span></span>
             <span class="project-cta" aria-hidden="true">Enlarge</span>
           </button>
 
           <button class="project" type="button" data-sector="pharma" data-photo="assets/projects/photos/roche.jpg" data-name="Roche" data-reveal>
-            <img src="assets/projects/photos/roche-s.jpg" alt="Roche congress stand" width="900" height="675" loading="lazy" decoding="async">
+            <img src="assets/projects/photos/roche-s.jpg" srcset="assets/projects/photos/roche-xs.jpg 600w, assets/projects/photos/roche-s.jpg 900w" sizes="(max-width: 760px) 46vw, (max-width: 1180px) 31vw, 23vw" alt="Roche congress stand" width="900" height="675" loading="lazy" decoding="async">
             <span class="project-meta"><span class="project-index" aria-hidden="true"></span><span class="project-name">Roche</span></span>
             <span class="project-cta" aria-hidden="true">Enlarge</span>
           </button>
 
           <button class="project" type="button" data-sector="pharma" data-photo="assets/projects/photos/parodontax.jpg" data-name="Parodontax" data-reveal>
-            <img src="assets/projects/photos/parodontax-s.jpg" alt="Parodontax congress stand" width="900" height="675" loading="lazy" decoding="async">
+            <img src="assets/projects/photos/parodontax-s.jpg" srcset="assets/projects/photos/parodontax-xs.jpg 600w, assets/projects/photos/parodontax-s.jpg 900w" sizes="(max-width: 760px) 46vw, (max-width: 1180px) 31vw, 23vw" alt="Parodontax congress stand" width="900" height="675" loading="lazy" decoding="async">
             <span class="project-meta"><span class="project-index" aria-hidden="true"></span><span class="project-name">Parodontax</span></span>
             <span class="project-cta" aria-hidden="true">Enlarge</span>
           </button>
 
           <button class="project" type="button" data-sector="pharma" data-photo="assets/projects/photos/otrivine.jpg" data-name="Otrivine" data-reveal>
-            <img src="assets/projects/photos/otrivine-s.jpg" alt="Otrivine congress stand" width="900" height="675" loading="lazy" decoding="async">
+            <img src="assets/projects/photos/otrivine-s.jpg" srcset="assets/projects/photos/otrivine-xs.jpg 600w, assets/projects/photos/otrivine-s.jpg 900w" sizes="(max-width: 760px) 46vw, (max-width: 1180px) 31vw, 23vw" alt="Otrivine congress stand" width="900" height="675" loading="lazy" decoding="async">
             <span class="project-meta"><span class="project-index" aria-hidden="true"></span><span class="project-name">Otrivine</span></span>
             <span class="project-cta" aria-hidden="true">Enlarge</span>
           </button>

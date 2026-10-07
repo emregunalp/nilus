@@ -175,7 +175,8 @@ html.rail-on .rail { opacity: 1; visibility: visible; transition-delay: 0s; }
     background: linear-gradient(180deg, rgba(243, 237, 227, .7), rgba(243, 237, 227, 0));
   }
   .rail-list { display: none; }
-  .rail-skip { position: static; margin-left: auto; padding: 6px 10px 5px; font-size: .6rem; background: rgba(243, 237, 227, .92); }
+  .rail-skip { position: static; margin-left: auto; padding: 6px 10px 5px; font-size: .6rem; background: rgba(243, 237, 227, .95); -webkit-backdrop-filter: none; backdrop-filter: none; }
+  html.nav-scrolled .nav { background: rgba(243, 237, 227, .97); -webkit-backdrop-filter: none; backdrop-filter: none; }
   .rail-current {
     display: flex; gap: 10px; align-items: baseline;
     font: 500 .66rem/1 var(--font-mono); letter-spacing: .14em; text-transform: uppercase; color: var(--ink);

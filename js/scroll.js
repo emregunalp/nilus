@@ -111,6 +111,9 @@ function measureAnchors({ hero, steps, process }) {
 }
 
 const viewportHeight = () => window.innerHeight || document.documentElement.clientHeight || 0;
+// Phones: the address bar sliding in and out changes the window height by this much at most.
+const ADDRESS_BAR_MAX = 140;
+const isTouch = () => { try { return matchMedia('(pointer: coarse)').matches; } catch { return false; } };
 const prefersReducedMotion = () => {
   try { return matchMedia('(prefers-reduced-motion: reduce)').matches; } catch { return false; }
 };
@@ -122,6 +125,8 @@ export function createProgress({ content, hero, steps = [], process, forced = nu
   const listeners = new Set();
   let anchors = measureAnchors(els);
   let vh = viewportHeight();
+  let vw = window.innerWidth;
+  const touch = isTouch();
   let lastEmitted = NaN;
   let frame = 0;
 
@@ -176,7 +181,11 @@ export function createProgress({ content, hero, steps = [], process, forced = nu
 
   function refresh() {
     anchors = measureAnchors(els);
-    vh = viewportHeight();
+    // On a phone the height keeps changing while the visitor scrolls (address bar); following it would nudge the
+    // progress, and with it the stand, in the middle of a swipe. A new width (rotation) is a real resize.
+    const h = viewportHeight();
+    if (!touch || window.innerWidth !== vw || Math.abs(h - vh) > ADDRESS_BAR_MAX) vh = h;
+    vw = window.innerWidth;
     applyShotTransform();
     if (!isForced) schedule();
   }

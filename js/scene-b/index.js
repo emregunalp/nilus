@@ -18,6 +18,13 @@ const MAX_DPR_HIGH = 1.75;
 // Low quality (phones, ≤4-core machines) drops bloom, not sharpness: at 1× the hero line drawing looked soft on
 // 2–3× phone screens (measured 2026-09-26, 375×812 @2x). 1.5× keeps lines crisp at ~2.25× the 1× fill cost.
 const MAX_DPR_LOW = 1.5;
+// Low quality, page not being scrolled: only the slow ambient motion is left, so every other frame is enough.
+const AMBIENT_FRAME_MS = 30;
+// If the device cannot keep up while the visitor scrolls, the canvas resolution steps down (never below 1×).
+const SLOW_FRAME_MS = 27;
+const SLOW_SAMPLES = 40;
+const DPR_STEP = 0.25;
+const WARM_UP_TIMEOUT_MS = 8000;
 const SETTLE_EPS = 1e-4;
 
 const clampP = (p) => Math.min(P_MAX, Math.max(P_MIN, Number.isFinite(p) ? p : P_MIN));
@@ -40,6 +47,23 @@ function createRenderer(canvas, quality) {
   return renderer;
 }
 
+/**
+ * Compiles the shaders of everything in the scene before the first frame, including the props that only appear in
+ * later stages. Without it each of them stalls the page the first time it is shown (a visible hitch mid-scroll on a
+ * phone). Where the browser can compile in the background the page stays responsive meanwhile.
+ */
+async function warmUp(renderer, scene, camera) {
+  const hidden = [];
+  scene.traverse((o) => { if (!o.visible) { hidden.push(o); o.visible = true; } });
+  let compiled;
+  try {
+    compiled = renderer.compileAsync(scene, camera); // collects the visible objects before it first yields
+  } finally {
+    for (const o of hidden) o.visible = false;
+  }
+  await withTimeout(compiled.catch(() => null), WARM_UP_TIMEOUT_MS);
+}
+
 function canvasSize(canvas) {
   return {
     w: Math.max(1, Math.round(canvas.clientWidth || window.innerWidth)),
@@ -57,7 +81,7 @@ export async function mountScene({ canvas, getProgress, snap = false, quality = 
   const t0 = performance.now();
   const mark = (label) => { if (debug) console.log(`[scene-b] ${label} +${Math.round(performance.now() - t0)}ms`); };
   const renderer = createRenderer(canvas, quality);
-  const dpr = Math.min(window.devicePixelRatio || 1, quality === 'low' ? MAX_DPR_LOW : MAX_DPR_HIGH);
+  let dpr = Math.min(window.devicePixelRatio || 1, quality === 'low' ? MAX_DPR_LOW : MAX_DPR_HIGH);
   renderer.setPixelRatio(dpr);
   let view = canvasSize(canvas);
   renderer.setSize(view.w, view.h, false);
@@ -78,7 +102,7 @@ export async function mountScene({ canvas, getProgress, snap = false, quality = 
 
   if (debug) renderer.info.autoReset = false;
   const animate = !snap && !reducedMotion;
-  const start = performance.now();
+  let start = performance.now();
   const pointer = { x: 0, y: 0, tx: 0, ty: 0 };
   let Pd = clampP(getProgress());
   let last = start;
@@ -86,6 +110,8 @@ export async function mountScene({ canvas, getProgress, snap = false, quality = 
   let disposed = false;
   let raf = 0;
   let lastLog = 0;
+  let frameMs = 0; // running average of the frame interval while the stand is following the scroll
+  let samples = 0;
 
   function resize() {
     view = canvasSize(canvas);
@@ -136,8 +162,20 @@ export async function mountScene({ canvas, getProgress, snap = false, quality = 
     const settled = Math.abs(P - Pd) < SETTLE_EPS;
     const idle = settled && !dirty && (snap || Pd >= P_MAX);
     if (idle) { last = now; return; }
+    if (quality === 'low' && settled && !dirty && now - last < AMBIENT_FRAME_MS) return;
+    const interval = now - last;
     renderFrame(now);
     dirty = false;
+    if (!settled && !snap && interval < 120) {
+      frameMs += (interval - frameMs) / Math.min(++samples, 20);
+      if (samples >= SLOW_SAMPLES && frameMs > SLOW_FRAME_MS && dpr > 1) {
+        dpr = Math.max(1, dpr - DPR_STEP);
+        renderer.setPixelRatio(dpr);
+        resize();
+        samples = 0;
+        mark(`slow frames (${frameMs.toFixed(1)} ms) → canvas at ${dpr}×`);
+      }
+    } else if (settled) samples = 0;
   }
 
   const onPointer = (e) => {
@@ -155,6 +193,14 @@ export async function mountScene({ canvas, getProgress, snap = false, quality = 
   if (ro) ro.observe(canvas); else window.addEventListener('resize', onResize);
 
   resize();
+  // Low quality draws straight to the canvas, so the programs compiled here are the ones the frames use. (High
+  // quality renders into a float target, which needs differently keyed programs; desktops do not need the help.)
+  if (quality === 'low' && !snap) {
+    world.update(Pd, { clock: 0, introClock: introFreeze ?? (animate ? 0 : null), animate });
+    await warmUp(renderer, world.scene, rig.camera);
+    mark('shaders ready');
+    start = last = performance.now(); // the hero's draw-in starts now, not while the shaders were compiling
+  }
   renderFrame(performance.now());
   mark('first frame');
   dirty = false;
