@@ -22,11 +22,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&family=Inter+Tight:wght@400..600&family=JetBrains+Mono:wght@400;500&display=swap">
-  <link rel="stylesheet" href="css/base.css?v=7">
-  <link rel="stylesheet" href="css/chrome.css?v=7">
-  <link rel="stylesheet" href="css/hero-process.css?v=7">
-  <link rel="stylesheet" href="css/sections.css?v=7">
-  <link rel="stylesheet" href="css/projects.css?v=7">
+  <link rel="stylesheet" href="css/base.css?v=8">
+  <link rel="stylesheet" href="css/chrome.css?v=8">
+  <link rel="stylesheet" href="css/hero-process.css?v=8">
+  <link rel="stylesheet" href="css/sections.css?v=8">
+  <link rel="stylesheet" href="css/projects.css?v=8">
   <script>
     // Reveal-on-scroll hides [data-reveal] only when JS runs; if ui.js never boots, show everything.
     document.documentElement.classList.add('js');
@@ -35,9 +35,9 @@
   <script type="importmap">{ "imports": {
     "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
     "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/" } }</script>
-  <script type="module" src="js/main.js?v=7"></script>
-  <script type="module" src="js/projects/index.js?v=7"></script>
-  <script type="module" src="js/contact.js?v=7"></script>
+  <script type="module" src="js/main.js?v=8"></script>
+  <script type="module" src="js/projects/index.js?v=8"></script>
+  <script type="module" src="js/contact.js?v=8"></script>
 </head>
 <body>
   <a class="skip-link" href="#content">İçeriğe geç</a>
@@ -76,6 +76,7 @@
         <ul class="nav-links">
           <li><a href="#process">Süreç</a></li>
           <li><a href="#projeler">Projeler</a></li>
+          <li><a href="#kiralik">Kiralık stand</a></li>
           <li><a href="#yaklasim">Yaklaşım</a></li>
           <li><a href="#hakkimizda">Hakkımızda</a></li>
           <li><a href="#iletisim">İletişim</a></li>
@@ -397,6 +398,114 @@
           <button class="project" type="button" data-sector="pharma" data-photo="assets/projects/photos/otrivine.jpg" data-name="Otrivine" data-reveal>
             <img src="assets/projects/photos/otrivine-s.jpg" alt="Otrivine kongre standı" width="900" height="675" loading="lazy" decoding="async">
             <span class="project-meta"><span class="project-index" aria-hidden="true"></span><span class="project-name">Otrivine</span></span>
+            <span class="project-cta" aria-hidden="true">Büyütün</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Rental stands: the three ready-made layouts (drawings and figures from the rental catalogue) and photos of
+         installed examples. The photos reuse the project cards and the viewer (js/projects/index.js). -->
+    <section id="kiralik" class="section rental" aria-labelledby="rental-title">
+      <div class="wrap">
+        <div class="rental-head">
+          <div>
+            <p class="eyebrow" data-reveal><span class="neon-dot" aria-hidden="true"></span>Kiralık stand</p>
+            <h2 id="rental-title" class="section-title" data-reveal>Hazır sistem, <em>markanıza özel</em> baskı.</h2>
+            <p class="section-lede" data-reveal>Hazır stand sistemimizi etkinliğinize göre kiralayabilirsiniz. Işıklı tekstil baskılar markanızın görselleriyle hazırlanır. Üç yerleşim seçeneği var.</p>
+          </div>
+          <a class="btn" href="#iletisim" data-reveal>Kiralık stand için teklif isteyin<span class="btn-arrow btn-arrow-side" aria-hidden="true">→</span></a>
+        </div>
+
+        <ol class="rental-options">
+          <li class="rental-option" data-reveal>
+            <img src="assets/rental/option-1.jpg" alt="3 × 2 metrelik kiralık stand çizimi: bir ışıklı poster, bir desk, bir masa" width="1280" height="720" loading="lazy" decoding="async">
+            <div class="rental-body">
+              <p class="rental-unit">1 birim</p>
+              <h3 class="rental-size">3 × 2 m</h3>
+              <dl class="rental-specs">
+                <div><dt>Alan</dt><dd>6 m²</dd></div>
+                <div><dt>Yükseklik</dt><dd>2,85 m</dd></div>
+                <div><dt>Işıklı tekstil baskı poster</dt><dd>1 adet · 300 × 280 cm</dd></div>
+                <div><dt>Işıklı tekstil baskı desk önü</dt><dd>1 adet · 80 × 70 cm</dd></div>
+              </dl>
+            </div>
+          </li>
+          <li class="rental-option" data-reveal>
+            <img src="assets/rental/option-2.jpg" alt="6 × 2 metrelik kiralık stand çizimi: tek parça ışıklı poster, bir desk, iki masa" width="1280" height="720" loading="lazy" decoding="async">
+            <div class="rental-body">
+              <p class="rental-unit">2 birim · tek poster</p>
+              <h3 class="rental-size">6 × 2 m</h3>
+              <dl class="rental-specs">
+                <div><dt>Alan</dt><dd>12 m²</dd></div>
+                <div><dt>Yükseklik</dt><dd>2,85 m</dd></div>
+                <div><dt>Işıklı tekstil baskı poster</dt><dd>1 adet · 600 × 280 cm</dd></div>
+                <div><dt>Işıklı tekstil baskı desk önü</dt><dd>1 adet · 80 × 70 cm</dd></div>
+              </dl>
+            </div>
+          </li>
+          <li class="rental-option" data-reveal>
+            <img src="assets/rental/option-3.jpg" alt="6 × 2 metrelik kiralık stand çizimi: iki ışıklı poster, iki desk, bir masa" width="1280" height="720" loading="lazy" decoding="async">
+            <div class="rental-body">
+              <p class="rental-unit">2 birim · iki poster</p>
+              <h3 class="rental-size">6 × 2 m</h3>
+              <dl class="rental-specs">
+                <div><dt>Alan</dt><dd>12 m²</dd></div>
+                <div><dt>Yükseklik</dt><dd>2,85 m</dd></div>
+                <div><dt>Işıklı tekstil baskı poster</dt><dd>2 adet · 300 × 280 cm</dd></div>
+                <div><dt>Işıklı tekstil baskı desk önü</dt><dd>2 adet · 80 × 70 cm</dd></div>
+              </dl>
+            </div>
+          </li>
+        </ol>
+
+        <h3 class="rental-examples-title" data-reveal>Kurulmuş örnekler</h3>
+        <div class="projects-grid">
+          <button class="project" type="button" data-photo="assets/rental/loreal.jpg" data-name="L'Oréal" data-reveal>
+            <img src="assets/rental/loreal-s.jpg" alt="L'Oréal kiralık standı" width="900" height="675" loading="lazy" decoding="async">
+            <span class="project-meta"><span class="project-index" aria-hidden="true"></span><span class="project-name">L'Oréal</span></span>
+            <span class="project-cta" aria-hidden="true">Büyütün</span>
+          </button>
+
+          <button class="project" type="button" data-photo="assets/rental/tdc.jpg" data-name="Türk Diyabet Cemiyeti" data-reveal>
+            <img src="assets/rental/tdc-s.jpg" alt="Türk Diyabet Cemiyeti kiralık standı" width="900" height="675" loading="lazy" decoding="async">
+            <span class="project-meta"><span class="project-index" aria-hidden="true"></span><span class="project-name">Türk Diyabet Cemiyeti</span></span>
+            <span class="project-cta" aria-hidden="true">Büyütün</span>
+          </button>
+
+          <button class="project" type="button" data-photo="assets/rental/haver.jpg" data-name="Haver" data-reveal>
+            <img src="assets/rental/haver-s.jpg" alt="Haver kiralık standı" width="900" height="675" loading="lazy" decoding="async">
+            <span class="project-meta"><span class="project-index" aria-hidden="true"></span><span class="project-name">Haver</span></span>
+            <span class="project-cta" aria-hidden="true">Büyütün</span>
+          </button>
+
+          <button class="project" type="button" data-photo="assets/rental/medtrum.jpg" data-name="Medtrum" data-reveal>
+            <img src="assets/rental/medtrum-s.jpg" alt="Medtrum kiralık standı" width="900" height="675" loading="lazy" decoding="async">
+            <span class="project-meta"><span class="project-index" aria-hidden="true"></span><span class="project-name">Medtrum</span></span>
+            <span class="project-cta" aria-hidden="true">Büyütün</span>
+          </button>
+
+          <button class="project" type="button" data-photo="assets/rental/merz.jpg" data-name="Merz Aesthetics" data-reveal>
+            <img src="assets/rental/merz-s.jpg" alt="Merz Aesthetics kiralık standı" width="900" height="675" loading="lazy" decoding="async">
+            <span class="project-meta"><span class="project-index" aria-hidden="true"></span><span class="project-name">Merz Aesthetics</span></span>
+            <span class="project-cta" aria-hidden="true">Büyütün</span>
+          </button>
+
+          <button class="project" type="button" data-photo="assets/rental/haleon.jpg" data-name="Haleon · Corega" data-reveal>
+            <img src="assets/rental/haleon-s.jpg" alt="Haleon · Corega kiralık standı" width="900" height="675" loading="lazy" decoding="async">
+            <span class="project-meta"><span class="project-index" aria-hidden="true"></span><span class="project-name">Haleon · Corega</span></span>
+            <span class="project-cta" aria-hidden="true">Büyütün</span>
+          </button>
+
+          <button class="project" type="button" data-photo="assets/rental/medblue.jpg" data-name="MedBlue" data-reveal>
+            <img src="assets/rental/medblue-s.jpg" alt="MedBlue kiralık standı" width="900" height="675" loading="lazy" decoding="async">
+            <span class="project-meta"><span class="project-index" aria-hidden="true"></span><span class="project-name">MedBlue</span></span>
+            <span class="project-cta" aria-hidden="true">Büyütün</span>
+          </button>
+
+          <button class="project" type="button" data-photo="assets/rental/msd.jpg" data-name="MSD" data-reveal>
+            <img src="assets/rental/msd-s.jpg" alt="MSD kiralık standı" width="900" height="675" loading="lazy" decoding="async">
+            <span class="project-meta"><span class="project-index" aria-hidden="true"></span><span class="project-name">MSD</span></span>
             <span class="project-cta" aria-hidden="true">Büyütün</span>
           </button>
         </div>

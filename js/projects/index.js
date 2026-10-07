@@ -1,5 +1,6 @@
-// Projects section: the sector filter shows the matching stand photos; clicking a photo opens it large in the
-// viewer dialog, where the arrows step through the stands currently shown.
+// Photo cards (projects section and the rental-stand examples): clicking a photo opens it large in the viewer
+// dialog, where the arrows step through the photos shown in the same grid. In the projects section the sector
+// filter decides which stands are shown.
 // (The 360° model viewer built earlier is parked in ./3d/ and not loaded.)
 
 import { t } from '../i18n.js';
@@ -8,14 +9,16 @@ const dialog = document.getElementById('viewer');
 const cards = [...document.querySelectorAll('.project[data-photo]')];
 const filters = [...document.querySelectorAll('.projects-filter button[data-filter]')];
 const pad2 = (n) => String(n).padStart(2, '0');
-const shown = () => cards.filter((card) => !card.hidden);
+/** The cards currently shown in the same grid as `card`. */
+const shown = (card) => cards.filter((other) => other.parentElement === card.parentElement && !other.hidden);
 
 function initFilter() {
+  const sectorCards = cards.filter((card) => card.dataset.sector);
   for (const button of filters) {
     button.addEventListener('click', () => {
       const sector = button.dataset.filter;
       filters.forEach((b) => b.setAttribute('aria-pressed', String(b === button)));
-      cards.forEach((card) => { card.hidden = sector !== 'all' && card.dataset.sector !== sector; });
+      sectorCards.forEach((card) => { card.hidden = sector !== 'all' && card.dataset.sector !== sector; });
     });
   }
 }
@@ -28,7 +31,7 @@ function initViewer() {
   let current = null;
 
   function show(card) {
-    const list = shown();
+    const list = shown(card);
     current = card;
     const name = card.dataset.name || '';
     title.textContent = name;
@@ -38,7 +41,7 @@ function initViewer() {
   }
 
   function step(by) {
-    const list = shown();
+    const list = shown(current);
     show(list[(list.indexOf(current) + by + list.length) % list.length]);
   }
 
