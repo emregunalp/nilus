@@ -47,6 +47,10 @@ export function stagger(P, a, b, i, n, span = 0.35) {
 }
 
 // ── timeline (single source of truth for every window) ───────────────────────────────────
+// A stage's text card is fully on screen for roughly P ∈ [i + 0.28, i + 0.73] (desktop; a little earlier on phones)
+// and has left by i + 1. What a stage is about must be on screen inside that window: Kurulum's finished, lit stand
+// used to arrive only as its card was leaving (client, 2026-10-08), so the truck now arrives earlier, the stand is
+// complete as the card settles and the neon comes on in front of the reader, then holds until Söküm.
 export const T = Object.freeze({
   drawScroll: [-0.95, -0.3], // scrolling finishes the load-time draw-in if it is still running
   axes: [-0.6, 0.4], // cyan construction lines grow through the stand
@@ -60,13 +64,13 @@ export const T = Object.freeze({
   toRack: [2.5, 2.84],
   truckIn: [2.76, 2.97],
   load: [2.97, 3.2],
-  drive: [3.22, 3.88],
-  unload: [3.88, 4.14],
-  lidOpen1: [4.07, 4.15],
-  truckOut: [4.14, 4.32],
-  install: [4.12, 4.68],
-  crateOut1: [4.6, 4.72],
-  ignite: [4.72, 4.97], // first time the neon is ever lit (Kurulum climax)
+  drive: [3.22, 3.72],
+  unload: [3.72, 3.94],
+  lidOpen1: [3.9, 3.98],
+  truckOut: [3.96, 4.12],
+  install: [3.96, 4.28],
+  crateOut1: [4.25, 4.34],
+  ignite: [4.3, 4.5], // first time the neon is ever lit (Kurulum climax)
   douse: [5.02, 5.26],
   crateIn2: [5.06, 5.16],
   dismantle: [5.12, 5.8],
@@ -75,8 +79,8 @@ export const T = Object.freeze({
   unpack: [6.04, 6.4],
   crateOut2: [6.36, 6.48],
   scan: [6.34, 6.86],
-  reuse: [7.0, 7.44],
-  reignite: [7.44, 7.74],
+  reuse: [7.0, 7.36],
+  reignite: [7.34, 7.6],
   ring: [7.4, 8.0],
   ringClose: [8.0, 8.7],
 });
@@ -321,7 +325,7 @@ export function neonBalance(P) {
 // ── props & atmosphere ────────────────────────────────────────────────────────────────────
 // City markers appear only while the truck is not parked on them (İstanbul once it has pulled away,
 // Antalya until it pulls in) — otherwise the labels would print through the truck. [in0, in1, out0, out1]
-const CITY_SHOW = Object.freeze([[3.34, 3.44, 4.02, 4.25], [3.08, 3.2, 4.02, 4.25], [3.08, 3.2, 3.76, 3.86]]);
+const CITY_SHOW = Object.freeze([[3.34, 3.44, 3.86, 4.08], [3.08, 3.2, 3.86, 4.08], [3.08, 3.2, 3.6, 3.7]]);
 /** Props at P; `intro` = introLevel(clock) (1 in snap mode). */
 export function propsState(P, intro = 1) {
   const fadeInOut = (a0, a1, b0, b1) => smooth(segment(P, a0, a1)) * (1 - smooth(segment(P, b0, b1)));
@@ -334,11 +338,11 @@ export function propsState(P, intro = 1) {
     dims: easeInOut(segment(P, ...T.dims)),
     dimsAlpha: bpOut,
     labels: smooth(segment(P, ...T.labels)) * bpOut,
-    rack: fadeInOut(2.42, 2.6, 3.95, 4.15),
-    map: fadeInOut(2.98, 3.14, 4.02, 4.25),
+    rack: fadeInOut(2.42, 2.6, 3.78, 3.98),
+    map: fadeInOut(2.98, 3.14, 3.86, 4.08),
     cities: CITY_SHOW.map(([a0, a1, b0, b1]) => fadeInOut(a0, a1, b0, b1)),
     trail: routeProgress(P),
-    hall: fadeInOut(3.88, 4.14, 6.95, 7.25),
+    hall: fadeInOut(3.72, 3.96, 6.95, 7.25),
     ring: 0.74 * easeInOut(segment(P, ...T.ring)) + 0.26 * easeInOut(segment(P, ...T.ringClose)),
     ringAlpha: smooth(segment(P, T.ring[0] - 0.05, T.ring[0] + 0.05)),
   };
@@ -358,11 +362,12 @@ export const CAMERA_KEYS = Object.freeze([
   [2.62, -5.5, 1.2, -2.3, -14, 14, 4.5, 30],
   [2.88, -6.3, 1.0, -2.3, -6, 27, 5.9, 30],
   [3.15, -4.2, 0.8, -1.6, 4, 38, 6.4, 30],
-  [3.5, 1.6, 0.2, 0.3, 20, 58, 10.5, 30],
-  [3.85, 6.6, 0.5, 2.4, 28, 44, 8.2, 30],
-  [4.05, 5.0, 0.8, 1.6, 34, 32, 6.6, 30],
-  [4.35, 1.9, 1.4, 0.4, 40, 22, 6.4, 30],
-  [4.97, 0.0, 1.85, 0.0, 33, 10, 4.4, 30],
+  [3.46, 1.6, 0.2, 0.3, 20, 58, 10.5, 30],
+  [3.72, 6.6, 0.5, 2.4, 28, 44, 8.2, 30],
+  [3.9, 5.0, 0.8, 1.6, 34, 32, 6.6, 30],
+  [4.12, 1.9, 1.4, 0.4, 40, 22, 6.4, 30],
+  [4.42, 0.0, 1.85, 0.0, 35, 10, 4.4, 30],
+  [4.97, 0.0, 1.85, 0.0, 28, 11, 4.5, 30], // the finished stand holds, turning slowly, while the card is read
   [5.45, 1.5, 1.6, 0.0, 52, 20, 5.4, 30],
   [6.05, 1.2, 0.7, 0.0, 26, 44, 6.4, 28],
   [6.55, 0.8, 0.0, 0.1, 6, 62, 8.3, 28],
