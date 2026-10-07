@@ -164,7 +164,23 @@
   content: ''; position: absolute; left: -1px; top: -1px; height: 2px; width: 38%;
   background: var(--neon-grad); box-shadow: 0 0 12px rgba(255, 47, 185, .55); border-radius: 2px;
 }
-.field-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+/* quote request / message switch: the parts of the form carrying the other data-kind are hidden (js/contact.js) */
+.form-kind {
+  display: inline-flex; justify-self: start; gap: 4px; min-width: 0; margin: 0; padding: 4px;
+  border: 1px solid rgba(27, 25, 22, .16); border-radius: 999px; background: rgba(247, 244, 238, .6);
+}
+.form-kind label { position: relative; }
+.form-kind input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
+.form-kind span {
+  display: block; padding: 10px 16px 9px; border-radius: 999px;
+  font: 500 .86rem/1 var(--font-body); color: var(--ink-2);
+  transition: background-color .3s var(--ease), color .3s var(--ease);
+}
+.form-kind input:checked + span { background: var(--ink); color: var(--cream); }
+.form-kind input:focus-visible + span { outline: 2px solid var(--ink); outline-offset: 2px; }
+.brief-fields { display: grid; gap: 24px; }
+[data-kind][hidden] { display: none; }
+.field-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; align-items: end; }
 .field { display: grid; gap: 6px; }
 .field label, .field-label { font: 500 .68rem/1.2 var(--font-mono); letter-spacing: .14em; text-transform: uppercase; color: var(--ink-2); }
 /* attachments */
@@ -199,6 +215,8 @@
   background: transparent; border: 0; border-bottom: 1px solid rgba(27, 25, 22, .3); border-radius: 0;
   transition: border-color .3s var(--ease), box-shadow .3s var(--ease);
 }
+.field input::placeholder { color: var(--ink-2); opacity: .55; }
+.field input[type='date'] { min-height: calc(1.5em + 19px); color-scheme: light; }
 .field textarea { resize: vertical; min-height: 120px; }
 .field input:focus, .field textarea:focus { outline: none; border-color: var(--ink); box-shadow: 0 1px 0 var(--ink); }
 .field input[aria-invalid='true'], .field textarea[aria-invalid='true'] { border-color: #B0247F; box-shadow: 0 1px 0 #B0247F; }

@@ -27,6 +27,11 @@
     .msg-name { font: 400 1.45rem/1.15 var(--font-display); letter-spacing: -.015em; }
     .msg-date { font: 400 .72rem/1.4 var(--font-mono); letter-spacing: .06em; color: var(--ink-2); }
     .msg-from { display: flex; flex-wrap: wrap; gap: 4px 18px; font: 400 .8rem/1.5 var(--font-mono); letter-spacing: .02em; color: var(--ink-2); }
+    .msg-who { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 14px; }
+    .msg-tag { padding: 5px 9px 4px; border: 1px solid var(--ink); border-radius: 999px; font: 500 .62rem/1 var(--font-mono); letter-spacing: .12em; text-transform: uppercase; }
+    .msg-brief { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 14px 24px; margin: 0; padding: 16px 18px; border: 1px solid var(--line); border-radius: var(--radius); background: rgba(247, 244, 238, .7); }
+    .msg-brief dt { font: 500 .62rem/1.2 var(--font-mono); letter-spacing: .14em; text-transform: uppercase; color: var(--ink-2); }
+    .msg-brief dd { margin: 6px 0 0; font: 500 1rem/1.35 var(--font-body); overflow-wrap: anywhere; }
     .msg-text { max-width: 68ch; white-space: pre-wrap; overflow-wrap: anywhere; line-height: 1.65; }
     .msg-files { display: flex; flex-wrap: wrap; align-items: stretch; gap: 10px; margin: 0; padding: 0; list-style: none; }
     .msg-files a { display: block; height: 100%; text-decoration: none; border: 1px solid rgba(27, 25, 22, .16); border-radius: var(--radius); overflow: hidden; background: var(--lacquer); transition: border-color .3s var(--ease); }
@@ -61,6 +66,7 @@
     const list = document.getElementById('list');
     const count = document.querySelector('.inbox-count');
     const dateFormat = new Intl.DateTimeFormat('tr-TR', { dateStyle: 'long', timeStyle: 'short' });
+    const dayFormat = new Intl.DateTimeFormat('tr-TR', { dateStyle: 'long' });
 
     const el = (tag, className, text) => {
       const node = document.createElement(tag);
@@ -98,6 +104,24 @@
       return ul;
     }
 
+    // A quote request (kind "brief") carries the event details from the contact form.
+    function briefBlock(brief) {
+      const dl = el('dl', 'msg-brief');
+      const day = new Date(`${brief.date}T00:00`);
+      const rows = [
+        ['Etkinlik', brief.event],
+        ['Şehir', brief.city],
+        ['Tarih', Number.isNaN(day.getTime()) ? brief.date : dayFormat.format(day)],
+        ['Stand ölçüsü', brief.size || '—'],
+      ];
+      for (const [label, value] of rows) {
+        const row = el('div');
+        row.append(el('dt', '', label), el('dd', '', value));
+        dl.append(row);
+      }
+      return dl;
+    }
+
     function render(messages) {
       const unread = messages.filter((m) => !m.read).length;
       count.textContent = messages.length ? `${messages.length} mesaj · ${unread} yeni` : 'Mesaj yok';
@@ -109,7 +133,11 @@
       for (const m of messages) {
         const item = el('article', m.read ? 'msg' : 'msg is-new');
         const top = el('div', 'msg-top');
-        top.append(el('h2', 'msg-name', m.name), el('time', 'msg-date', dateFormat.format(new Date(m.date))));
+        const isBrief = m.kind === 'brief' && m.brief;
+        const who = el('div', 'msg-who');
+        who.append(el('h2', 'msg-name', m.name));
+        if (isBrief) who.append(el('span', 'msg-tag', 'Teklif talebi'));
+        top.append(who, el('time', 'msg-date', dateFormat.format(new Date(m.date))));
         const from = el('p', 'msg-from');
         from.append(el('span', '', m.email));
         if (m.company) from.append(el('span', '', m.company));
@@ -123,7 +151,9 @@
           if (response.ok) load();
         });
         actions.append(reply, read);
-        item.append(top, from, el('p', 'msg-text', m.message));
+        item.append(top, from);
+        if (isBrief) item.append(briefBlock(m.brief));
+        if (m.message) item.append(el('p', 'msg-text', m.message));
         if (m.files?.length) item.append(attachments(m.files));
         item.append(actions);
         list.append(item);

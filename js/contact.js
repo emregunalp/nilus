@@ -1,6 +1,8 @@
 // Message forms (contact section + bottom-right message box): attachments are uploaded first, then the message is
 // posted as JSON to the form's data-endpoint; the inbox lives on mesajlar.html. If the endpoint is unreachable the
 // visitor is pointed to the e-mail address instead.
+// The contact form can also send a quote request (kind "brief": event, city, date, stand size); its radio switch
+// shows the parts of the form marked with the matching data-kind.
 
 import { t } from './i18n.js';
 
@@ -18,10 +20,13 @@ const formatSize = (bytes) => (bytes < 1024 * 1024 ? `${Math.max(1, Math.round(b
 function initForm(form) {
   const status = form.querySelector('.form-status');
   const submit = form.querySelector('button[type="submit"]');
-  const { name, email, message, company, website } = form.elements;
+  const { name, email, message, company, website, kind } = form.elements;
+  const brief = kind ? { event: form.elements.event, city: form.elements.city, date: form.elements.date, size: form.elements.size } : null;
   const picker = form.querySelector('input[type="file"]');
   const fileList = form.querySelector('.file-list');
-  const required = [name, email, message];
+  const isBrief = () => Boolean(kind) && kind.value === 'brief';
+  const required = () => (isBrief() ? [name, email, brief.event, brief.city, brief.date] : [name, email, message]);
+  const fields = [name, email, message, ...(brief ? [brief.event, brief.city, brief.date] : [])];
   let files = [];
 
   const say = (text, kind = '') => {
@@ -65,7 +70,16 @@ function initForm(form) {
     say(rejected.join(' · '), rejected.length ? 'error' : '');
   });
 
-  required.forEach((field) => field.addEventListener('input', () => mark(field, false)));
+  fields.forEach((field) => field.addEventListener('input', () => mark(field, false)));
+
+  function syncKind() {
+    form.querySelectorAll('[data-kind]').forEach((el) => { el.hidden = el.dataset.kind !== kind.value; });
+    fields.forEach((field) => mark(field, false));
+  }
+  if (kind) {
+    form.addEventListener('change', (e) => { if (e.target.name === 'kind') { syncKind(); say(''); } });
+    syncKind();
+  }
 
   async function upload(file) {
     const response = await fetch(UPLOAD_ENDPOINT, {
@@ -79,10 +93,13 @@ function initForm(form) {
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const problems = required.filter(isInvalid);
-    required.forEach((field) => mark(field, problems.includes(field)));
+    const asBrief = isBrief();
+    const problems = required().filter(isInvalid);
+    fields.forEach((field) => mark(field, problems.includes(field)));
     if (problems.length) {
-      say(t('Lütfen adınızı, geçerli bir e-posta adresini ve mesajınızı yazın.', 'Please enter your name, a valid e-mail address and your message.'), 'error');
+      say(asBrief
+        ? t('Lütfen adınızı, geçerli bir e-posta adresini ve etkinliğin adını, şehrini ve tarihini yazın.', 'Please enter your name, a valid e-mail address and the name, city and date of the event.')
+        : t('Lütfen adınızı, geçerli bir e-posta adresini ve mesajınızı yazın.', 'Please enter your name, a valid e-mail address and your message.'), 'error');
       problems[0].focus();
       return;
     }
@@ -104,13 +121,23 @@ function initForm(form) {
           message: message.value.trim(),
           files: ids,
           website: website ? website.value : '',
+          ...(asBrief && {
+            kind: 'brief',
+            event: brief.event.value.trim(),
+            city: brief.city.value.trim(),
+            date: brief.date.value,
+            size: brief.size.value.trim(),
+          }),
         }),
       });
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
       form.reset();
+      if (kind) syncKind();
       files = [];
       renderFiles();
-      say(t('Mesajınız bize ulaştı. En kısa sürede dönüş yapacağız.', 'We have received your message and will get back to you shortly.'), 'ok');
+      say(asBrief
+        ? t('Talebiniz bize ulaştı. En kısa sürede dönüş yapacağız.', 'We have received your request and will get back to you shortly.')
+        : t('Mesajınız bize ulaştı. En kısa sürede dönüş yapacağız.', 'We have received your message and will get back to you shortly.'), 'ok');
     } catch (err) {
       console.error('[nilus] mesaj gönderilemedi', err);
       say(t(`Mesaj gönderilemedi. Lütfen ${FALLBACK_EMAIL} adresine yazın.`, `The message could not be sent. Please write to ${FALLBACK_EMAIL}.`), 'error');

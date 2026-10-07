@@ -376,15 +376,21 @@
         <div class="contact-copy">
           <p class="eyebrow" data-reveal><span class="neon-dot" aria-hidden="true"></span>İletişim</p>
           <h2 id="contact-title" class="contact-title" data-reveal>Bir sonraki etkinliğinizi <em>birlikte planlayalım.</em></h2>
-          <p class="section-lede" data-reveal>Projenizi, sorunuzu ya da fikrinizi yazın; size dönüş yapalım.</p>
+          <p class="section-lede" data-reveal>Etkinliğinizin bilgilerini paylaşın, size teklifle dönelim. Yalnızca bir sorunuz varsa mesaj da yazabilirsiniz.</p>
           <p class="contact-mail" data-reveal>
             <span class="contact-mail-label">E-posta</span>
             <a href="mailto:info@nilus.com.tr">info@nilus.com.tr</a>
           </p>
         </div>
 
-        <!-- Messages are posted to data-endpoint and listed on mesajlar.html. -->
+        <!-- Quote requests and messages are posted to data-endpoint and listed on mesajlar.html. -->
+        <!-- The choice at the top shows the parts marked with the matching data-kind (js/contact.js). -->
         <form id="contact-form" class="contact-form" data-endpoint="api/mesajlar" novalidate data-reveal>
+          <fieldset class="form-kind">
+            <legend class="visually-hidden">Ne göndermek istiyorsunuz?</legend>
+            <label><input type="radio" name="kind" value="brief" checked><span>Teklif isteyin</span></label>
+            <label><input type="radio" name="kind" value="message"><span>Mesaj yazın</span></label>
+          </fieldset>
           <div class="field-row">
             <p class="field">
               <label for="cf-name">Ad Soyad</label>
@@ -399,9 +405,31 @@
             <label for="cf-email">E-posta</label>
             <input id="cf-email" name="email" type="email" autocomplete="email" maxlength="200" required>
           </p>
+          <div class="brief-fields" data-kind="brief">
+            <div class="field-row">
+              <p class="field">
+                <label for="cf-event">Etkinlik adı</label>
+                <input id="cf-event" name="event" type="text" maxlength="160" required>
+              </p>
+              <p class="field">
+                <label for="cf-city">Şehir</label>
+                <input id="cf-city" name="city" type="text" maxlength="80" required>
+              </p>
+            </div>
+            <div class="field-row">
+              <p class="field">
+                <label for="cf-date">Etkinlik tarihi</label>
+                <input id="cf-date" name="date" type="date" required>
+              </p>
+              <p class="field">
+                <label for="cf-size">Stand ölçüsü <span class="field-optional">(isteğe bağlı)</span></label>
+                <input id="cf-size" name="size" type="text" maxlength="80" placeholder="örn. 6 × 4 m">
+              </p>
+            </div>
+          </div>
           <p class="field">
-            <label for="cf-message">Mesajınız</label>
-            <textarea id="cf-message" name="message" rows="5" maxlength="4000" required></textarea>
+            <label for="cf-message"><span data-kind="brief">Notlarınız <span class="field-optional">(isteğe bağlı)</span></span><span data-kind="message" hidden>Mesajınız</span></label>
+            <textarea id="cf-message" name="message" rows="5" maxlength="4000"></textarea>
           </p>
           <div class="field field-files">
             <span class="field-label">Fotoğraf veya dosya <span class="field-optional">(isteğe bağlı)</span></span>
@@ -413,7 +441,7 @@
             <input id="cf-website" name="website" type="text" tabindex="-1" autocomplete="off">
           </p>
           <div class="form-actions">
-            <button class="btn" type="submit">Mesajı gönderin<span class="btn-arrow" aria-hidden="true">→</span></button>
+            <button class="btn" type="submit"><span data-kind="brief">Teklif isteyin</span><span data-kind="message" hidden>Mesajı gönderin</span><span class="btn-arrow" aria-hidden="true">→</span></button>
             <p class="form-status" role="status" aria-live="polite"></p>
           </div>
         </form>

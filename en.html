@@ -377,15 +377,21 @@
         <div class="contact-copy">
           <p class="eyebrow" data-reveal><span class="neon-dot" aria-hidden="true"></span>Contact</p>
           <h2 id="contact-title" class="contact-title" data-reveal>Let's plan your next event <em>together.</em></h2>
-          <p class="section-lede" data-reveal>Tell us about your project, question or idea and we will get back to you.</p>
+          <p class="section-lede" data-reveal>Share the details of your event and we will come back with a quote. If you only have a question, you can write a message instead.</p>
           <p class="contact-mail" data-reveal>
             <span class="contact-mail-label">E-mail</span>
             <a href="mailto:info@nilus.com.tr">info@nilus.com.tr</a>
           </p>
         </div>
 
-        <!-- Messages are posted to data-endpoint and listed on mesajlar.html. -->
+        <!-- Quote requests and messages are posted to data-endpoint and listed on mesajlar.html. -->
+        <!-- The choice at the top shows the parts marked with the matching data-kind (js/contact.js). -->
         <form id="contact-form" class="contact-form" data-endpoint="api/mesajlar" novalidate data-reveal>
+          <fieldset class="form-kind">
+            <legend class="visually-hidden">What would you like to send?</legend>
+            <label><input type="radio" name="kind" value="brief" checked><span>Request a quote</span></label>
+            <label><input type="radio" name="kind" value="message"><span>Write a message</span></label>
+          </fieldset>
           <div class="field-row">
             <p class="field">
               <label for="cf-name">Full name</label>
@@ -400,9 +406,31 @@
             <label for="cf-email">E-mail</label>
             <input id="cf-email" name="email" type="email" autocomplete="email" maxlength="200" required>
           </p>
+          <div class="brief-fields" data-kind="brief">
+            <div class="field-row">
+              <p class="field">
+                <label for="cf-event">Event name</label>
+                <input id="cf-event" name="event" type="text" maxlength="160" required>
+              </p>
+              <p class="field">
+                <label for="cf-city">City</label>
+                <input id="cf-city" name="city" type="text" maxlength="80" required>
+              </p>
+            </div>
+            <div class="field-row">
+              <p class="field">
+                <label for="cf-date">Event date</label>
+                <input id="cf-date" name="date" type="date" required>
+              </p>
+              <p class="field">
+                <label for="cf-size">Stand size <span class="field-optional">(optional)</span></label>
+                <input id="cf-size" name="size" type="text" maxlength="80" placeholder="e.g. 6 × 4 m">
+              </p>
+            </div>
+          </div>
           <p class="field">
-            <label for="cf-message">Your message</label>
-            <textarea id="cf-message" name="message" rows="5" maxlength="4000" required></textarea>
+            <label for="cf-message"><span data-kind="brief">Your notes <span class="field-optional">(optional)</span></span><span data-kind="message" hidden>Your message</span></label>
+            <textarea id="cf-message" name="message" rows="5" maxlength="4000"></textarea>
           </p>
           <div class="field field-files">
             <span class="field-label">Photo or file <span class="field-optional">(optional)</span></span>
@@ -414,7 +442,7 @@
             <input id="cf-website" name="website" type="text" tabindex="-1" autocomplete="off">
           </p>
           <div class="form-actions">
-            <button class="btn" type="submit">Send message<span class="btn-arrow" aria-hidden="true">→</span></button>
+            <button class="btn" type="submit"><span data-kind="brief">Request a quote</span><span data-kind="message" hidden>Send message</span><span class="btn-arrow" aria-hidden="true">→</span></button>
             <p class="form-status" role="status" aria-live="polite"></p>
           </div>
         </form>

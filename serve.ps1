@@ -3,7 +3,8 @@ param([int]$Port = 5173)
 # Local server for the Nilus site: static files plus the contact-form inbox.
 #   POST api/dosyalar               → store one attachment (raw body, X-File-Name header) and return its id
 #   GET  api/dosyalar/<id>          → read an attachment back (used by mesajlar.html)
-#   POST api/mesajlar               → store a message (JSON: name, email, company, message, files: [ids])
+#   POST api/mesajlar               → store a message (JSON: name, email, company, message, files: [ids]);
+#                                     kind "brief" is a quote request and adds event, city, date, size
 #   GET  api/mesajlar               → list messages, newest first (read by mesajlar.html)
 #   POST api/mesajlar/<id>/okundu   → mark a message as read
 # Everything lives under data/, which is never served as a static file.
@@ -111,7 +112,21 @@ function Add-Message($ctx) {
   $company = ([string]$in.company).Trim()
   $message = ([string]$in.message).Trim()
   $valid = $name -and $name.Length -le 120 -and $email.Length -le 200 -and $email -match $emailPattern -and
-    $company.Length -le 160 -and $message -and $message.Length -le 4000
+    $company.Length -le 160 -and $message.Length -le 4000
+  # A quote request carries the event details and may come without a note; a plain message needs its text.
+  $kind = 'message'
+  $brief = $null
+  if ([string]$in.kind -eq 'brief') {
+    $kind = 'brief'
+    $brief = [pscustomobject]@{
+      event = ([string]$in.event).Trim(); city = ([string]$in.city).Trim()
+      date = ([string]$in.date).Trim(); size = ([string]$in.size).Trim()
+    }
+    $valid = $valid -and $brief.event -and $brief.event.Length -le 160 -and $brief.city -and $brief.city.Length -le 80 -and
+      $brief.date -match '^\d{4}-\d{2}-\d{2}$' -and $brief.size.Length -le 80
+  } else {
+    $valid = $valid -and $message
+  }
   $files = @()
   foreach ($fileId in $in.files) {
     $meta = Read-UploadMeta ([string]$fileId)
@@ -122,6 +137,7 @@ function Add-Message($ctx) {
   $list += [pscustomobject]@{
     id = [guid]::NewGuid().ToString('N'); date = (Get-Date).ToString('o')
     name = $name; email = $email; company = $company; message = $message; files = @($files); read = $false
+    kind = $kind; brief = $brief
   }
   Write-Messages $list
   Send-Json $ctx 201 @{ ok = $true }
