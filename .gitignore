@@ -13,8 +13,10 @@ yayin/
 /*.txt
 /nilus logo/
 
-# Parked 360° viewer and the design renders it used (not loaded by the site)
-js/projects/3d/
+# Parked 360° project viewer and the design renders it used (not loaded by the site).
+# kit.js in the same folder is tracked: the rental stand models (js/rental) are built with it.
+js/projects/3d/viewer.js
+js/projects/3d/stand-*.js
 assets/projects/bausch/
 assets/projects/alsanza/
 assets/projects/cordamed/

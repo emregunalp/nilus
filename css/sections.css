@@ -104,7 +104,16 @@
   background: rgba(247, 244, 238, .7); border: 1px solid var(--line); border-radius: var(--radius);
   box-shadow: 0 24px 60px -44px rgba(27, 25, 22, .5);
 }
-.rental-option img { width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; }
+/* The catalogue drawing; js/rental puts a turnable 3D model over it (.is-3d) when WebGL is available. */
+.rental-view { position: relative; aspect-ratio: 16 / 9; overflow: hidden; background: #2B2926; } /* dark, like the catalogue drawings: a white stand needs it */
+.rental-view img { width: 100%; height: 100%; object-fit: cover; }
+.rental-view.is-3d img { visibility: hidden; }
+.rental-view canvas { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; cursor: grab; touch-action: pan-y; }
+.rental-view canvas.is-turning { cursor: grabbing; }
+.rental-hint {
+  position: absolute; left: 14px; bottom: 11px; pointer-events: none;
+  font: 400 .64rem/1 var(--font-mono); letter-spacing: .12em; text-transform: uppercase; color: rgba(243, 237, 227, .72);
+}
 .rental-body { padding: clamp(18px, 1.8vw, 26px) clamp(18px, 1.8vw, 26px) clamp(16px, 1.6vw, 22px); }
 .rental-unit { font: 500 var(--fs-mono)/1.3 var(--font-mono); letter-spacing: .16em; text-transform: uppercase; color: var(--ink-2); }
 .rental-size {

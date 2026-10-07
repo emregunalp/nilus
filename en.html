@@ -23,11 +23,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&family=Inter+Tight:wght@400..600&family=JetBrains+Mono:wght@400;500&display=swap">
-  <link rel="stylesheet" href="css/base.css?v=9">
-  <link rel="stylesheet" href="css/chrome.css?v=9">
-  <link rel="stylesheet" href="css/hero-process.css?v=9">
-  <link rel="stylesheet" href="css/sections.css?v=9">
-  <link rel="stylesheet" href="css/projects.css?v=9">
+  <link rel="stylesheet" href="css/base.css?v=10">
+  <link rel="stylesheet" href="css/chrome.css?v=10">
+  <link rel="stylesheet" href="css/hero-process.css?v=10">
+  <link rel="stylesheet" href="css/sections.css?v=10">
+  <link rel="stylesheet" href="css/projects.css?v=10">
   <script>
     // Reveal-on-scroll hides [data-reveal] only when JS runs; if ui.js never boots, show everything.
     document.documentElement.classList.add('js');
@@ -36,9 +36,10 @@
   <script type="importmap">{ "imports": {
     "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
     "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/" } }</script>
-  <script type="module" src="js/main.js?v=9"></script>
-  <script type="module" src="js/projects/index.js?v=9"></script>
-  <script type="module" src="js/contact.js?v=9"></script>
+  <script type="module" src="js/main.js?v=10"></script>
+  <script type="module" src="js/projects/index.js?v=10"></script>
+  <script type="module" src="js/rental/index.js?v=10"></script>
+  <script type="module" src="js/contact.js?v=10"></script>
 </head>
 <body>
   <a class="skip-link" href="#content">Skip to content</a>
@@ -420,7 +421,7 @@
 
         <ol class="rental-options">
           <li class="rental-option" data-reveal>
-            <img src="assets/rental/option-1.jpg" alt="Drawing of the 3 × 2 metre rental stand: one illuminated poster, one desk, one table" width="1280" height="720" loading="lazy" decoding="async">
+            <div class="rental-view" data-layout="1"><img src="assets/rental/option-1.jpg" alt="Drawing of the 3 × 2 metre rental stand: one illuminated poster, one desk, one table" width="1280" height="720" loading="lazy" decoding="async"></div>
             <div class="rental-body">
               <p class="rental-unit">1 unit</p>
               <h3 class="rental-size">3 × 2 m</h3>
@@ -433,7 +434,7 @@
             </div>
           </li>
           <li class="rental-option" data-reveal>
-            <img src="assets/rental/option-2.jpg" alt="Drawing of the 6 × 2 metre rental stand: one full-width illuminated poster, one desk, two tables" width="1280" height="720" loading="lazy" decoding="async">
+            <div class="rental-view" data-layout="2"><img src="assets/rental/option-2.jpg" alt="Drawing of the 6 × 2 metre rental stand: one full-width illuminated poster, one desk, two tables" width="1280" height="720" loading="lazy" decoding="async"></div>
             <div class="rental-body">
               <p class="rental-unit">2 units · one poster</p>
               <h3 class="rental-size">6 × 2 m</h3>
@@ -446,7 +447,7 @@
             </div>
           </li>
           <li class="rental-option" data-reveal>
-            <img src="assets/rental/option-3.jpg" alt="Drawing of the 6 × 2 metre rental stand: two illuminated posters, two desks, one table" width="1280" height="720" loading="lazy" decoding="async">
+            <div class="rental-view" data-layout="3"><img src="assets/rental/option-3.jpg" alt="Drawing of the 6 × 2 metre rental stand: two illuminated posters, two desks, one table" width="1280" height="720" loading="lazy" decoding="async"></div>
             <div class="rental-body">
               <p class="rental-unit">2 units · two posters</p>
               <h3 class="rental-size">6 × 2 m</h3>
