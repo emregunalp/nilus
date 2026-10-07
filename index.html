@@ -22,11 +22,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&family=Inter+Tight:wght@400..600&family=JetBrains+Mono:wght@400;500&display=swap">
-  <link rel="stylesheet" href="css/base.css?v=8">
-  <link rel="stylesheet" href="css/chrome.css?v=8">
-  <link rel="stylesheet" href="css/hero-process.css?v=8">
-  <link rel="stylesheet" href="css/sections.css?v=8">
-  <link rel="stylesheet" href="css/projects.css?v=8">
+  <link rel="stylesheet" href="css/base.css?v=9">
+  <link rel="stylesheet" href="css/chrome.css?v=9">
+  <link rel="stylesheet" href="css/hero-process.css?v=9">
+  <link rel="stylesheet" href="css/sections.css?v=9">
+  <link rel="stylesheet" href="css/projects.css?v=9">
   <script>
     // Reveal-on-scroll hides [data-reveal] only when JS runs; if ui.js never boots, show everything.
     document.documentElement.classList.add('js');
@@ -35,9 +35,9 @@
   <script type="importmap">{ "imports": {
     "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
     "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/" } }</script>
-  <script type="module" src="js/main.js?v=8"></script>
-  <script type="module" src="js/projects/index.js?v=8"></script>
-  <script type="module" src="js/contact.js?v=8"></script>
+  <script type="module" src="js/main.js?v=9"></script>
+  <script type="module" src="js/projects/index.js?v=9"></script>
+  <script type="module" src="js/contact.js?v=9"></script>
 </head>
 <body>
   <a class="skip-link" href="#content">İçeriğe geç</a>
@@ -459,7 +459,31 @@
           </li>
         </ol>
 
-        <h3 class="rental-examples-title" data-reveal>Kurulmuş örnekler</h3>
+        <h3 class="rental-subtitle" data-reveal>Nasıl çalışır</h3>
+        <ol class="rental-steps">
+          <li data-reveal>
+            <span class="rental-step-num" aria-hidden="true">01</span>
+            <h4>Yerleşimi seçin</h4>
+            <p>Alanınıza göre 3 × 2 m ya da 6 × 2 m yerleşimlerden birini seçersiniz.</p>
+          </li>
+          <li data-reveal>
+            <span class="rental-step-num" aria-hidden="true">02</span>
+            <h4>Görsellerinizi gönderin</h4>
+            <p>Poster ve desk önü için görsellerinizi baskı ölçülerine göre iletirsiniz.</p>
+          </li>
+          <li data-reveal>
+            <span class="rental-step-num" aria-hidden="true">03</span>
+            <h4>Baskı ve kurulum</h4>
+            <p>Işıklı tekstil baskıları hazırlar, standı etkinlik alanında kurarız.</p>
+          </li>
+          <li data-reveal>
+            <span class="rental-step-num" aria-hidden="true">04</span>
+            <h4>Söküm</h4>
+            <p>Etkinlik bitince standı söker ve geri alırız.</p>
+          </li>
+        </ol>
+
+        <h3 class="rental-subtitle" data-reveal>Kurulmuş örnekler</h3>
         <div class="projects-grid">
           <button class="project" type="button" data-photo="assets/rental/loreal.jpg" data-name="L'Oréal" data-reveal>
             <img src="assets/rental/loreal-s.jpg" alt="L'Oréal kiralık standı" width="900" height="675" loading="lazy" decoding="async">
@@ -508,6 +532,34 @@
             <span class="project-meta"><span class="project-index" aria-hidden="true"></span><span class="project-name">MSD</span></span>
             <span class="project-cta" aria-hidden="true">Büyütün</span>
           </button>
+        </div>
+
+        <h3 class="rental-subtitle" data-reveal>Kiralık mı, özel tasarım mı?</h3>
+        <div class="compare">
+          <article class="compare-card" data-reveal>
+            <h4 class="compare-title">Kiralık stand</h4>
+            <dl class="compare-list">
+              <div><dt>Tasarım</dt><dd>Hazır sistem, üç yerleşim seçeneği.</dd></div>
+              <div><dt>Ölçü</dt><dd>3 × 2 m ve 6 × 2 m.</dd></div>
+              <div><dt>Marka görünümü</dt><dd>Işıklı tekstil baskılar markanızın görselleriyle hazırlanır.</dd></div>
+              <div><dt>Hazırlık</dt><dd>Yalnızca baskılar hazırlanır; stand sistemi hazırdır.</dd></div>
+              <div><dt>Etkinlik sonrası</dt><dd>Stand sökülür ve bize döner.</dd></div>
+              <div><dt>Kimler için</dt><dd>Küçük alanlar ve tek seferlik ya da kısa süreli katılımlar.</dd></div>
+            </dl>
+            <a class="btn btn-small" href="#iletisim">Kiralık stand için teklif isteyin<span class="btn-arrow btn-arrow-side" aria-hidden="true">→</span></a>
+          </article>
+          <article class="compare-card" data-reveal>
+            <h4 class="compare-title">Özel tasarım stand</h4>
+            <dl class="compare-list">
+              <div><dt>Tasarım</dt><dd>Markanıza özel 3D tasarım.</dd></div>
+              <div><dt>Ölçü</dt><dd>Alanınıza göre her ölçüde.</dd></div>
+              <div><dt>Marka görünümü</dt><dd>Biçim, malzeme ve aydınlatma markanıza göre tasarlanır.</dd></div>
+              <div><dt>Hazırlık</dt><dd>Tasarım, atölye üretimi ve ön montaj.</dd></div>
+              <div><dt>Etkinlik sonrası</dt><dd>Standınız depomuzda saklanır, bakımı yapılır ve yeniden kurulur.</dd></div>
+              <div><dt>Kimler için</dt><dd>Yıl boyunca birden çok etkinliğe katılan markalar.</dd></div>
+            </dl>
+            <a class="btn btn-ghost btn-small" href="#projeler">Projelere gidin<span class="btn-arrow btn-arrow-side" aria-hidden="true">→</span></a>
+          </article>
         </div>
       </div>
     </section>
