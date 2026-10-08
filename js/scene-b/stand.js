@@ -326,9 +326,20 @@ function buildPart(ctx, spec) {
   };
 }
 
-/** Build all parts. */
-export function buildStand({ neon, quality }) {
+/**
+ * Build all parts. Building is the heaviest step of the page's start (the extruded wordmark alone takes a fifth of
+ * a second on a desktop, several times that on a phone), so it gives the browser a turn whenever a slice has run for
+ * a frame or two: the page keeps responding while the stand is prepared.
+ */
+export async function buildStand({ neon, quality }) {
+  let slice = performance.now();
+  const breathe = async () => {
+    if (performance.now() - slice < BUILD_SLICE_MS) return;
+    await new Promise((resolve) => setTimeout(resolve));
+    slice = performance.now();
+  };
   const geo = sharedGeometry();
+  await breathe();
   const ctx = {
     neon, geo, assets: makeAssets(),
     haloSize: quality === 'low' ? 0.55 : 0.42,
@@ -336,14 +347,17 @@ export function buildStand({ neon, quality }) {
   };
   const group = new THREE.Group();
   group.name = 'stand';
-  const parts = PARTS.map((spec) => {
+  const parts = [];
+  for (const spec of PARTS) {
     const p = buildPart(ctx, spec);
     group.add(p.root);
-    return p;
-  });
+    parts.push(p);
+    await breathe();
+  }
   return { group, parts, assets: ctx.assets };
 }
 
+const BUILD_SLICE_MS = 24;
 const near = (a, b, eps) => Math.abs(a[0] - b[0]) < eps && Math.abs(a[1] - b[1]) < eps && Math.abs(a[2] - b[2]) < eps;
 
 /** Apply choreo pose + look to one built part. */

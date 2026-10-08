@@ -24,7 +24,7 @@ export async function ensureFonts() {
   if (typeof document === 'undefined' || !document.fonts) return;
   if (new URLSearchParams(location.search).get('fonts') === '0') return;
   try {
-    const hasLink = [...document.querySelectorAll('link[rel="stylesheet"]')].some((l) => l.href.includes('fonts.googleapis'));
+    const hasLink = [...document.querySelectorAll('link[rel="stylesheet"]')].some((l) => /fonts\.(css|googleapis)/.test(l.href));
     if (!hasLink) {
       const link = document.createElement('link');
       link.rel = 'stylesheet';

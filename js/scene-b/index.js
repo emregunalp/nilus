@@ -96,7 +96,7 @@ export async function mountScene({ canvas, getProgress, snap = false, quality = 
   try {
     await withTimeout(ensureFonts(), ASSET_TIMEOUT_MS);
     mark('fonts ready');
-    world = buildWorld({ renderer, quality, compact: isMobile });
+    world = await buildWorld({ renderer, quality, compact: isMobile });
     mark('world built');
   } catch (err) {
     renderer.dispose();

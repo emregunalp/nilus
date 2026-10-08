@@ -59,15 +59,19 @@ function setupLights(scene, renderer) {
   return env;
 }
 
-export function buildWorld({ renderer, quality, compact = false }) {
+export async function buildWorld({ renderer, quality, compact = false }) {
+  const breathe = () => new Promise((resolve) => setTimeout(resolve)); // lets the page respond between the build steps
   const scene = new THREE.Scene();
   scene.background = new THREE.Color(PALETTE.cream);
   scene.fog = new THREE.Fog(PALETTE.cream, 30, 80);
   const env = setupLights(scene, renderer);
   const neon = createNeonRegistry();
-  const stand = buildStand({ neon, quality });
+  await breathe();
+  const stand = await buildStand({ neon, quality });
   const blueprint = buildBlueprint();
+  await breathe();
   const logistics = buildLogistics();
+  await breathe();
   const fx = buildFx({ quality, compact, partCount: PARTS.length, shadowCount: PARTS.length + CRATE_COUNT + 1 });
   scene.add(stand.group, blueprint.group, logistics.group, fx.group);
   const platform = stand.parts.find((p) => p.spec.kind === 'platform');
