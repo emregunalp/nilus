@@ -12,6 +12,15 @@
   <meta property="og:description" content="Tasarım → Üretim → Depolama → Nakliye → Kurulum → Söküm → Bakım → Yeniden Kullanım. Kongre ve fuar standları.">
   <!-- The page's own address: the copy on GitHub Pages is the same site, and this tells search engines which one counts. -->
   <link rel="canonical" href="https://nilus.com.tr/">
+  <link rel="alternate" hreflang="tr" href="https://nilus.com.tr/">
+  <link rel="alternate" hreflang="en" href="https://nilus.com.tr/en.html">
+  <link rel="alternate" hreflang="x-default" href="https://nilus.com.tr/">
+  <!-- Who the site belongs to, for search engines: name, address and logo shown beside the results. -->
+  <script type="application/ld+json">
+  [{ "@context": "https://schema.org", "@type": "Organization", "name": "Nilus", "url": "https://nilus.com.tr/",
+     "logo": "https://nilus.com.tr/assets/icon-512.png", "email": "info@nilus.com.tr" },
+   { "@context": "https://schema.org", "@type": "WebSite", "name": "Nilus", "url": "https://nilus.com.tr/" }]
+  </script>
   <!-- Link preview card. Scrapers need absolute addresses. -->
   <meta property="og:site_name" content="Nilus">
   <meta property="og:url" content="https://nilus.com.tr/">
@@ -20,7 +29,12 @@
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Nilus logosu ve bir kongre standı modeli">
   <meta name="twitter:card" content="summary_large_image">
+  <!-- The site's icon ("n." from the logo). Search engines and older browsers ask for /favicon.ico and a PNG;
+       current browsers take the SVG. -->
+  <link rel="icon" href="favicon.ico" sizes="48x48">
   <link rel="icon" href="assets/favicon.svg?v=2" type="image/svg+xml">
+  <link rel="icon" href="assets/icon-192.png" type="image/png" sizes="192x192">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <!-- The typefaces are served from the site itself (css/fonts.css) and fetched with the first requests: the text
        settles at once and the 3D scene, which waits for them, starts sooner. -->

@@ -17,6 +17,7 @@ yayin/
 /*.JPG
 /*.jpeg
 /*.txt
+!/robots.txt
 /nilus logo/
 
 # Parked 360° project viewer and the design renders it used (not loaded by the site).

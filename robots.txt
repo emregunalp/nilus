@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /mesajlar/
+Disallow: /api/
+Disallow: /_dev/
+
+Sitemap: https://nilus.com.tr/sitemap.xml
