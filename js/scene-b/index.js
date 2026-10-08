@@ -49,16 +49,21 @@ function createRenderer(canvas, quality) {
 
 /**
  * Compiles the shaders of everything in the scene before the first frame, including the props that only appear in
- * later stages. Without it each of them stalls the page the first time it is shown (a visible hitch mid-scroll on a
- * phone). Where the browser can compile in the background the page stays responsive meanwhile.
+ * later stages. Without it the first frame freezes the page while everything compiles at once, and each later prop
+ * stalls it again the first time it is shown. Where the browser can compile in the background the page stays
+ * responsive meanwhile. `target`: the render target the frames are drawn into (null = the canvas) — programs are
+ * keyed by the output colour space, so they must be compiled for the same destination.
  */
-async function warmUp(renderer, scene, camera) {
+async function warmUp(renderer, scene, camera, target = null) {
   const hidden = [];
   scene.traverse((o) => { if (!o.visible) { hidden.push(o); o.visible = true; } });
+  const before = renderer.getRenderTarget();
   let compiled;
   try {
+    renderer.setRenderTarget(target);
     compiled = renderer.compileAsync(scene, camera); // collects the visible objects before it first yields
   } finally {
+    renderer.setRenderTarget(before);
     for (const o of hidden) o.visible = false;
   }
   await withTimeout(compiled.catch(() => null), WARM_UP_TIMEOUT_MS);
@@ -193,11 +198,9 @@ export async function mountScene({ canvas, getProgress, snap = false, quality = 
   if (ro) ro.observe(canvas); else window.addEventListener('resize', onResize);
 
   resize();
-  // Low quality draws straight to the canvas, so the programs compiled here are the ones the frames use. (High
-  // quality renders into a float target, which needs differently keyed programs; desktops do not need the help.)
-  if (quality === 'low' && !snap) {
+  if (!snap) {
     world.update(Pd, { clock: 0, introClock: introFreeze ?? (animate ? 0 : null), animate });
-    await warmUp(renderer, world.scene, rig.camera);
+    await warmUp(renderer, world.scene, rig.camera, pipeline.target);
     mark('shaders ready');
     start = last = performance.now(); // the hero's draw-in starts now, not while the shaders were compiling
   }

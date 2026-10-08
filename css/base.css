@@ -127,7 +127,7 @@ html.is-shot [data-reveal] { opacity: 1; transform: none; }
 .stage { position: fixed; inset: 0; z-index: 0; pointer-events: none; background: var(--cream); }
 #stage-canvas {
   position: absolute; inset: 0; width: 100%; height: 100%; display: block;
-  opacity: 0; transition: opacity 1.4s var(--ease);
+  opacity: 0; transition: opacity .7s var(--ease);
 }
 html.scene-ready #stage-canvas { opacity: 1; }
 html.no-webgl #stage-canvas { display: none; }

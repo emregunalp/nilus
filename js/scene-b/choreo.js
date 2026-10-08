@@ -86,8 +86,10 @@ export const T = Object.freeze({
 });
 
 /** Load-time draw-in of the hero drawing (seconds after mount; only when not in snap mode).
- *  Client (2026-09-26): "çizim animasyonunu biraz yavaşlat" — 0.35–3.3 s → 0.5–6.0 s (≈1.8× slower). */
-export const INTRO = Object.freeze({ start: 0.5, end: 6.0, span: 0.4, grid: [0.1, 1.8] });
+ *  Client (2026-09-26): "çizim animasyonunu biraz yavaşlat" — 0.35–3.3 s → 0.5–6.0 s (≈1.8× slower).
+ *  Client (2026-10-08): the opening felt long — "kısaltalım ve daha rahat aksın" → 0.25–4.2 s; the clock now also
+ *  starts only once the first frame is ready (index.js), so none of it is lost behind the loading. */
+export const INTRO = Object.freeze({ start: 0.25, end: 4.2, span: 0.4, grid: [0.05, 1.3] });
 const FORM_SPAN = 0.34;
 
 // ── pose helpers ───────────────────────────────────────────────────────────────────────────

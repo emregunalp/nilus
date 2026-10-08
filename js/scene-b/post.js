@@ -31,6 +31,7 @@ function useMaxChannelThreshold(bloom) {
 export function createPipeline(renderer, scene, camera, quality) {
   if (quality === 'low') {
     return {
+      target: null, // frames go straight to the canvas
       render: () => renderer.render(scene, camera),
       setSize: () => {},
       dispose: () => {},
@@ -45,6 +46,7 @@ export function createPipeline(renderer, scene, camera, quality) {
   composer.addPass(bloom);
   composer.addPass(new OutputPass());
   return {
+    target, // what the scene itself is drawn into (index.js compiles its shaders for this destination)
     render: () => composer.render(),
     setSize(w, h, dpr) {
       composer.setPixelRatio(dpr);
