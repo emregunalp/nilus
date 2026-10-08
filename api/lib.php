@@ -174,3 +174,55 @@ function nilus_inbox_protected($folder) {
   $rules = @file_get_contents($folder . '/.htaccess');
   return is_string($rules) && preg_match('/^\s*AuthType\s+\S+/mi', $rules) && preg_match('/^\s*Require\s+(valid-user|user\s+\S+)/mi', $rules);
 }
+
+/**
+ * Hands a complete message (headers, blank line, body) to this hosting's own mail server over SMTP. No login is
+ * involved: the recipients are the domain's own mailboxes, and a mail server takes mail for its own mailboxes
+ * from anyone — this is how every outside sender reaches them. Returns '' when the server took the message,
+ * otherwise a short note of the step that failed and the server's answer.
+ */
+function nilus_smtp_local($from, $recipients, $message) {
+  if (!function_exists('stream_socket_client')) return 'no sockets';
+  $socket = null;
+  $error = '';
+  foreach (array('127.0.0.1', 'localhost', 'mail.' . substr(strrchr($from, '@'), 1)) as $host) {
+    $errno = 0;
+    $errstr = '';
+    $socket = @stream_socket_client('tcp://' . $host . ':25', $errno, $errstr, 6);
+    if ($socket) break;
+    $error = $host . ': ' . $errstr;
+  }
+  if (!$socket) return 'connect ' . $error;
+  stream_set_timeout($socket, 12);
+
+  // One command, one reply; a reply may run over several lines ("250-…" continues, "250 …" ends).
+  $say = function ($command, $expect) use ($socket) {
+    if ($command !== null) fwrite($socket, $command . "\r\n");
+    $reply = '';
+    while (($line = fgets($socket, 600)) !== false) {
+      $reply .= $line;
+      if (strlen($line) < 4 || $line[3] !== '-') break;
+    }
+    if ($reply === '') return 'no reply';
+    return substr($reply, 0, 3) === $expect ? '' : trim(substr($reply, 0, 160));
+  };
+
+  $steps = array(array(null, '220', 'greeting'), array('EHLO ' . substr(strrchr($from, '@'), 1), '250', 'EHLO'), array('MAIL FROM:<' . $from . '>', '250', 'MAIL FROM'));
+  foreach ($recipients as $to) $steps[] = array('RCPT TO:<' . $to . '>', '250', 'RCPT TO');
+  $steps[] = array('DATA', '354', 'DATA');
+  $failure = '';
+  foreach ($steps as $step) {
+    $answer = $say($step[0], $step[1]);
+    if ($answer !== '') { $failure = $step[2] . ': ' . $answer; break; }
+  }
+  if ($failure === '') {
+    // A line that starts with a dot is doubled (SMTP's own rule); a dot alone on a line ends the message.
+    $data = preg_replace('/^\./m', '..', str_replace("\r\n", "\n", $message));
+    fwrite($socket, str_replace("\n", "\r\n", $data) . "\r\n.\r\n");
+    $answer = $say(null, '250');
+    if ($answer !== '') $failure = 'end of message: ' . $answer;
+  }
+  @fwrite($socket, "QUIT\r\n");
+  @fclose($socket);
+  return $failure;
+}

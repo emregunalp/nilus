@@ -99,14 +99,22 @@ $headers = array(
 $to = implode(', ', nilus_recipients());
 $body = chunk_split(base64_encode(implode("\r\n", $lines)));
 $headerText = implode("\r\n", $headers);
-// First with the site's own address as the envelope sender (bounces come back to the mailbox); some hostings
-// refuse that option to web scripts, so a second try goes without it.
-$sent = @mail($to, $encode($subject), $body, $headerText, '-f' . nilus_sender());
-if (!$sent) $sent = @mail($to, $encode($subject), $body, $headerText);
-$record['notified'] = (bool) $sent;
-if (!$sent) {
-  $problem = error_get_last();
-  $record['notifyError'] = $problem && isset($problem['message']) ? substr((string) $problem['message'], 0, 200) : 'mail() false';
+
+// The notice is handed straight to the hosting's own mail server. PHP's mail() is not used first: on this
+// hosting it answers "sent" and the message never reaches the mail system (seen in cPanel's delivery report,
+// 2026-10-08). It stays as a last resort, and its answer is not trusted.
+$domain = substr(strrchr(nilus_sender(), '@'), 1);
+$full = implode("\r\n", array_merge(array(
+  'Date: ' . date('r'),
+  'To: ' . $to,
+  'Subject: ' . $encode($subject),
+  'Message-ID: <' . $record['id'] . '@' . $domain . '>',
+), $headers)) . "\r\n\r\n" . $body;
+$problem = nilus_smtp_local(nilus_sender(), nilus_recipients(), $full);
+$record['notified'] = $problem === '';
+if ($problem !== '') {
+  $fallback = @mail($to, $encode($subject), $body, $headerText);
+  $record['notifyError'] = substr('smtp: ' . $problem . ' | mail(): ' . ($fallback ? 'accepted' : 'refused'), 0, 300);
 }
 
 nilus_locked(function () use ($record) {
@@ -115,5 +123,5 @@ nilus_locked(function () use ($record) {
   nilus_save_messages($list);
 });
 
-// "mail" says whether the hosting accepted the notice for delivery (not whether it has arrived).
+// "mail" says whether the mail server took the notice (the message itself is stored either way).
 nilus_json(201, array('ok' => true, 'mail' => $record['notified']));
