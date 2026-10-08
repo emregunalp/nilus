@@ -291,10 +291,10 @@
 .file-list li {
   display: inline-flex; align-items: center; gap: 8px; max-width: 100%;
   padding: 6px 6px 6px 12px; border: 1px solid rgba(27, 25, 22, .16); border-radius: 999px; background: rgba(247, 244, 238, .8);
-  font: 400 .7rem/1.2 var(--font-mono); letter-spacing: .02em; color: var(--ink);
+  font: 500 .86rem/1.2 var(--font-body); color: var(--ink); /* the same face and size as the "Dosya ekleyin" button above it */
 }
 .file-list .file-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 22ch; }
-.file-list .file-size { color: var(--ink-2); }
+.file-list .file-size { font-weight: 400; color: var(--ink-2); }
 .file-list button {
   width: 22px; height: 22px; border: 0; border-radius: 50%; background: rgba(27, 25, 22, .08); cursor: pointer;
   font: 400 .95rem/1 var(--font-body); color: var(--ink);
