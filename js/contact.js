@@ -64,6 +64,8 @@ function initForm(form) {
     const rejected = [];
     for (const file of picker.files) {
       if (!ALLOWED_EXT.includes(extensionOf(file.name))) rejected.push(`${file.name}: ${t('bu dosya türü desteklenmiyor', 'this file type is not supported')}`);
+      // An empty file cannot be stored (the server refuses it), and sending it would fail the whole message.
+      else if (file.size === 0) rejected.push(`${file.name}: ${t('dosya boş, eklenemedi', 'the file is empty and was not added')}`);
       else if (file.size > MAX_FILE_BYTES) rejected.push(`${file.name}: ${t('15 MB sınırını aşıyor', 'larger than the 15 MB limit')}`);
       else if (files.length >= MAX_FILES) rejected.push(`${file.name}: ${t(`en fazla ${MAX_FILES} dosya eklenebilir`, `no more than ${MAX_FILES} files can be added`)}`);
       else files.push(file);
