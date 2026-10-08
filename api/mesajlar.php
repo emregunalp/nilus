@@ -118,7 +118,7 @@ if ($problem !== '') {
 }
 
 nilus_locked(function () use ($record) {
-  $list = nilus_messages();
+  $list = nilus_purge_trash(nilus_messages()); // also the moment old deleted messages leave for good
   $list[] = $record;
   nilus_save_messages($list);
 });

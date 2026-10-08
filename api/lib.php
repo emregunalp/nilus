@@ -14,6 +14,7 @@ define('NILUS_MAX_FILE_BYTES', 15 * 1024 * 1024);
 define('NILUS_MAX_FILES', 5);
 define('NILUS_MAX_STORE_BYTES', 400 * 1024 * 1024); // all attachments together
 define('NILUS_ID_PATTERN', '/^[0-9a-f]{32}$/');
+define('NILUS_TRASH_SECONDS', 2 * 86400); // how long a message deleted in the inbox can still be taken back
 
 function nilus_allowed_ext() {
   return array('jpg', 'jpeg', 'png', 'webp', 'gif', 'heic', 'pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'zip', 'txt', 'dwg', 'ai', 'psd');
@@ -120,6 +121,34 @@ function nilus_messages() {
 
 function nilus_save_messages($list) {
   nilus_write_json(nilus_data_dir() . '/mesajlar.json', array_values($list));
+}
+
+/**
+ * Messages deleted in the inbox carry a "deleted" time and wait in the bin; once that is older than
+ * NILUS_TRASH_SECONDS they are removed for good, with their attachments. Takes the full list and returns what
+ * remains (saving it when something was removed). Call it while holding the lock (nilus_locked).
+ */
+function nilus_purge_trash($list) {
+  $keep = array();
+  $removed = false;
+  $now = time();
+  foreach ($list as $m) {
+    $deleted = !empty($m['deleted']) ? strtotime((string) $m['deleted']) : false;
+    if ($deleted && $now - $deleted > NILUS_TRASH_SECONDS) {
+      $removed = true;
+      $files = isset($m['files']) && is_array($m['files']) ? $m['files'] : array();
+      foreach ($files as $file) {
+        if (isset($file['id']) && is_string($file['id']) && preg_match(NILUS_ID_PATTERN, $file['id'])) {
+          @unlink(nilus_data_dir() . '/uploads/' . $file['id']);
+          @unlink(nilus_data_dir() . '/uploads/' . $file['id'] . '.meta.json');
+        }
+      }
+      continue;
+    }
+    $keep[] = $m;
+  }
+  if ($removed) nilus_save_messages($keep);
+  return $keep;
 }
 
 function nilus_upload_meta($id) {

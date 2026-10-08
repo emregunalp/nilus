@@ -81,6 +81,23 @@ if (!nilus_inbox_protected(__DIR__)) {
     .msg:not(.is-new) .msg-read { display: none; }
     .msg-actions .msg-delete { margin-left: auto; color: #B0247F; border-color: rgba(176, 36, 127, .35); }
     .msg-actions .msg-delete:hover { border-color: #B0247F; }
+    .msg.is-trashed { opacity: .82; }
+    .msg.is-trashed::before { border-style: dashed; }
+    /* the bin: closed by default, at the end of the list */
+    .inbox-bin { margin-top: 56px; border-top: 1px solid var(--ink); }
+    .inbox-bin summary { display: flex; align-items: baseline; gap: 12px; padding: 22px 0; cursor: pointer; list-style: none; }
+    .inbox-bin summary::-webkit-details-marker { display: none; }
+    .inbox-bin summary::after { content: '+'; margin-left: auto; font: 300 1.4rem/1 var(--font-body); color: var(--ink-2); }
+    .inbox-bin[open] summary::after { content: '–'; }
+    .bin-title { font: 400 1.45rem/1.15 var(--font-display); letter-spacing: -.015em; }
+    .bin-count { font: 500 var(--fs-mono)/1.4 var(--font-mono); letter-spacing: .1em; color: var(--ink-2); }
+    .bin-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px 24px; padding-bottom: 18px; border-bottom: 1px solid var(--line); }
+    .bin-head .btn { cursor: pointer; }
+    .bin-note { max-width: 60ch; font-size: .9rem; line-height: 1.6; color: var(--ink-2); }
+    /* delete everything: last thing on the page, small, away from the other buttons */
+    .inbox-foot { margin-top: 96px; padding-top: 22px; border-top: 1px solid var(--line); }
+    .inbox-clear { cursor: pointer; color: #B0247F; border-color: rgba(176, 36, 127, .35); }
+    .inbox-clear:hover { border-color: #B0247F; }
   </style>
 </head>
 <body>
@@ -96,14 +113,36 @@ if (!nilus_inbox_protected(__DIR__)) {
       </div>
     </header>
     <div class="inbox-list" id="list"></div>
+
+    <!-- Deleted messages wait here for two days before they are removed for good (api.php). -->
+    <details class="inbox-bin" id="bin" hidden>
+      <summary><span class="bin-title">Silinenler</span><span class="bin-count" id="bin-count"></span></summary>
+      <div class="bin-head">
+        <p class="bin-note" id="bin-note"></p>
+        <button type="button" class="btn btn-ghost btn-small" id="restore-all">Tümünü geri al</button>
+      </div>
+      <div class="inbox-list" id="bin-list"></div>
+    </details>
+
+    <!-- At the very end of the page on purpose, far from "Yenile": it is not a button to hit by accident. -->
+    <footer class="inbox-foot" id="foot" hidden>
+      <button type="button" class="btn btn-ghost btn-small inbox-clear" id="clear">Tüm mesajları sil</button>
+    </footer>
   </main>
 
   <script type="module">
     const ENDPOINT = 'api.php';
     const list = document.getElementById('list');
     const count = document.querySelector('.inbox-count');
+    const bin = document.getElementById('bin');
+    const binList = document.getElementById('bin-list');
+    const binCount = document.getElementById('bin-count');
+    const binNote = document.getElementById('bin-note');
+    const foot = document.getElementById('foot');
     const dateFormat = new Intl.DateTimeFormat('tr-TR', { dateStyle: 'long', timeStyle: 'short' });
     const dayFormat = new Intl.DateTimeFormat('tr-TR', { dateStyle: 'long' });
+    let keepHours = 48;
+    let activeCount = 0;
 
     const el = (tag, className, text) => {
       const node = document.createElement(tag);
@@ -113,6 +152,21 @@ if (!nilus_inbox_protected(__DIR__)) {
     };
 
     const formatSize = (bytes) => (bytes < 1024 * 1024 ? `${Math.max(1, Math.round(bytes / 1024))} KB` : `${(bytes / 1024 / 1024).toFixed(1)} MB`);
+    const keepText = () => (keepHours % 24 === 0 ? `${keepHours / 24} gün` : `${keepHours} saat`);
+
+    /** One change on the server (mark read, delete, restore…), then the lists are read again. */
+    async function change(query, button) {
+      if (button) button.disabled = true;
+      try {
+        const response = await fetch(`${ENDPOINT}?${query}`, { method: 'POST', headers: { 'X-Requested-With': 'nilus' } });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        await load();
+      } catch (err) {
+        console.error('[nilus] işlem yapılamadı', err);
+        alert('İşlem yapılamadı. Sayfayı yenileyip yeniden deneyin.');
+        if (button) button.disabled = false;
+      }
+    }
 
     // Photos show as thumbnails that open full size; other files are download links.
     function attachments(files) {
@@ -159,52 +213,68 @@ if (!nilus_inbox_protected(__DIR__)) {
       return dl;
     }
 
-    function render(messages) {
-      const unread = messages.filter((m) => !m.read).length;
-      count.textContent = messages.length ? `${messages.length} mesaj · ${unread} yeni` : 'Mesaj yok';
-      list.replaceChildren();
-      if (!messages.length) {
-        list.append(el('p', 'inbox-empty', 'Henüz mesaj gelmedi. Sitedeki formdan gönderilen mesajlar burada görünür.'));
-        return;
-      }
-      for (const m of messages) {
-        const item = el('article', m.read ? 'msg' : 'msg is-new');
-        const top = el('div', 'msg-top');
-        const isBrief = m.kind === 'brief' && m.brief;
-        const who = el('div', 'msg-who');
-        who.append(el('h2', 'msg-name', m.name));
-        if (isBrief) who.append(el('span', 'msg-tag', 'Teklif talebi'));
-        top.append(who, el('time', 'msg-date', dateFormat.format(new Date(m.date))));
-        const from = el('p', 'msg-from');
-        from.append(el('span', '', m.email));
-        if (m.company) from.append(el('span', '', m.company));
-        const actions = el('div', 'msg-actions');
-        const reply = el('a', 'btn btn-small', 'E-postayla yanıtla');
-        reply.href = `mailto:${encodeURIComponent(m.email)}`;
+    /** How long a deleted message still has before it is removed for good. */
+    function timeLeft(deleted) {
+      const hours = keepHours - (Date.now() - new Date(deleted).getTime()) / 3600000;
+      if (!(hours > 0)) return 'Kısa süre içinde kalıcı olarak silinecek.';
+      if (hours < 1) return 'Bir saatten kısa süre sonra kalıcı olarak silinecek.';
+      return hours < 24 ? `Yaklaşık ${Math.round(hours)} saat sonra kalıcı olarak silinecek.` : `Yaklaşık ${Math.round(hours / 24)} gün sonra kalıcı olarak silinecek.`;
+    }
+
+    function messageItem(m, trashed) {
+      const item = el('article', trashed ? 'msg is-trashed' : m.read ? 'msg' : 'msg is-new');
+      const top = el('div', 'msg-top');
+      const isBrief = m.kind === 'brief' && m.brief;
+      const who = el('div', 'msg-who');
+      who.append(el('h2', 'msg-name', m.name));
+      if (isBrief) who.append(el('span', 'msg-tag', 'Teklif talebi'));
+      top.append(who, el('time', 'msg-date', dateFormat.format(new Date(m.date))));
+      const from = el('p', 'msg-from');
+      from.append(el('span', '', m.email));
+      if (m.company) from.append(el('span', '', m.company));
+      const actions = el('div', 'msg-actions');
+      const reply = el('a', 'btn btn-small', 'E-postayla yanıtla');
+      reply.href = `mailto:${encodeURIComponent(m.email)}`;
+      actions.append(reply);
+      if (trashed) {
+        const restore = el('button', 'btn btn-ghost btn-small', 'Geri al');
+        restore.type = 'button';
+        restore.addEventListener('click', () => change(`gerial=${m.id}`, restore));
+        actions.append(restore);
+      } else {
         const read = el('button', 'btn btn-ghost btn-small msg-read', 'Okundu olarak işaretle');
         read.type = 'button';
-        read.addEventListener('click', async () => {
-          const response = await fetch(`${ENDPOINT}?okundu=${m.id}`, { method: 'POST', headers: { 'X-Requested-With': 'nilus' } });
-          if (response.ok) load();
-        });
-        // Deleting is permanent (the message and its attachments leave the server), so it asks first.
+        read.addEventListener('click', () => change(`okundu=${m.id}`, read));
         const remove = el('button', 'btn btn-ghost btn-small msg-delete', 'Sil');
         remove.type = 'button';
-        remove.addEventListener('click', async () => {
-          if (!confirm(`${m.name} adlı kişiden gelen mesaj ve ekleri kalıcı olarak silinsin mi?`)) return;
-          remove.disabled = true;
-          const response = await fetch(`${ENDPOINT}?sil=${m.id}`, { method: 'POST', headers: { 'X-Requested-With': 'nilus' } });
-          if (response.ok) load(); else { remove.disabled = false; alert('Mesaj silinemedi. Sayfayı yenileyip yeniden deneyin.'); }
+        remove.addEventListener('click', () => {
+          if (confirm(`${m.name} adlı kişiden gelen mesaj silinsin mi?\n\n${keepText()} boyunca sayfanın altındaki "Silinenler" bölümünden geri alabilirsiniz.`)) change(`sil=${m.id}`, remove);
         });
-        actions.append(reply, read, remove);
-        item.append(top, from);
-        if (isBrief) item.append(briefBlock(m.brief));
-        if (m.message) item.append(el('p', 'msg-text', m.message));
-        if (m.files?.length) item.append(attachments(m.files));
-        if (m.notified === false) item.append(el('p', 'msg-warn', `Bu mesaj için bildirim e-postası gönderilemedi.${m.notifyError ? ` (${m.notifyError})` : ''}`));
-        item.append(actions);
-        list.append(item);
+        actions.append(read, remove);
       }
+      item.append(top, from);
+      if (trashed) item.append(el('p', 'msg-warn', timeLeft(m.deleted)));
+      if (isBrief) item.append(briefBlock(m.brief));
+      if (m.message) item.append(el('p', 'msg-text', m.message));
+      if (m.files?.length) item.append(attachments(m.files));
+      if (m.notified === false) item.append(el('p', 'msg-warn', `Bu mesaj için bildirim e-postası gönderilemedi.${m.notifyError ? ` (${m.notifyError})` : ''}`));
+      item.append(actions);
+      return item;
+    }
+
+    function render({ messages = [], trash = [], keepHours: hours = 48 }) {
+      keepHours = hours;
+      activeCount = messages.length;
+      const unread = messages.filter((m) => !m.read).length;
+      count.textContent = messages.length ? `${messages.length} mesaj · ${unread} yeni` : 'Mesaj yok';
+      list.replaceChildren(...(messages.length
+        ? messages.map((m) => messageItem(m, false))
+        : [el('p', 'inbox-empty', trash.length ? 'Gelen kutusu boş. Silinen mesajlar aşağıda duruyor.' : 'Henüz mesaj gelmedi. Sitedeki formdan gönderilen mesajlar burada görünür.')]));
+      foot.hidden = !messages.length;
+      bin.hidden = !trash.length;
+      binCount.textContent = String(trash.length);
+      binNote.textContent = `Silinen mesajlar burada ${keepText()} bekler, sonra ekleriyle birlikte kalıcı olarak silinir. O zamana kadar geri alabilirsiniz.`;
+      binList.replaceChildren(...trash.map((m) => messageItem(m, true)));
     }
 
     async function load() {
@@ -220,6 +290,15 @@ if (!nilus_inbox_protected(__DIR__)) {
     }
 
     document.getElementById('refresh').addEventListener('click', load);
+    document.getElementById('restore-all').addEventListener('click', (e) => change('tumunugerial=1', e.currentTarget));
+    // Deleting everything asks twice.
+    document.getElementById('clear').addEventListener('click', (e) => {
+      const n = activeCount;
+      if (!n) return;
+      if (!confirm(`Gelen kutusundaki ${n} mesajın TÜMÜ silinsin mi?`)) return;
+      if (!confirm(`Emin misiniz?\n\n${n} mesajın hepsi silinecek. ${keepText()} boyunca "Silinenler" bölümünden geri alabilirsiniz; sonra ekleriyle birlikte kalıcı olarak silinir.`)) return;
+      change('tumunusil=1', e.currentTarget);
+    });
     load();
   </script>
 </body>
