@@ -1,0 +1,15 @@
+# Work files (local preview server, English-page build, translation pairs). They are not part of the website:
+# every request for anything in this folder is refused.
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteRule ^ - [F,L]
+</IfModule>
+<IfModule mod_authz_core.c>
+  Require all denied
+</IfModule>
+<IfModule !mod_authz_core.c>
+  <IfModule mod_access_compat.c>
+    Order allow,deny
+    Deny from all
+  </IfModule>
+</IfModule>

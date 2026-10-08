@@ -1,6 +1,9 @@
 # Private: messages and uploaded files from the contact form
 data/
 
+# The inbox page: works only with the local preview server, so it is not published
+/mesajlar.html
+
 # Local tooling and scratch output
 .claude/
 yayin/

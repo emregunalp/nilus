@@ -8,7 +8,8 @@ param([int]$Port = 5173)
 #   GET  api/mesajlar               → list messages, newest first (read by mesajlar.html)
 #   POST api/mesajlar/<id>/okundu   → mark a message as read
 # Everything lives under data/, which is never served as a static file.
-$root = $PSScriptRoot
+# This script lives in _dev/ (kept out of the published site); the site is the folder above it.
+$root = Split-Path $PSScriptRoot -Parent
 $store = Join-Path $root 'data\mesajlar.json'
 $uploads = Join-Path $root 'data\uploads'
 $utf8 = New-Object System.Text.UTF8Encoding $false
@@ -147,7 +148,7 @@ function Add-Message($ctx) {
 function Send-File($ctx, $path) {
   if ($path -eq '') { $path = 'index.html' }
   $file = [IO.Path]::GetFullPath((Join-Path $root $path))
-  $private = $path -match '^(data|\.claude)(/|$)' -or $path -match '(^|/)\.' -or $path -like '*.ps1'
+  $private = $path -match '^(data|\.claude|_dev)(/|$)' -or $path -match '(^|/)\.' -or $path -like '*.ps1'
   if ($private -or -not $file.StartsWith($root) -or -not (Test-Path $file -PathType Leaf)) { $ctx.Response.StatusCode = 404; return }
   $ext = [IO.Path]::GetExtension($file).ToLower()
   $ctx.Response.ContentType = if ($mime.ContainsKey($ext)) { $mime[$ext] } else { 'application/octet-stream' }

@@ -1,10 +1,11 @@
-# Builds en.html (English page) from index.html using the text pairs in i18n/en.json.
-# Edit index.html and i18n/en.json, then run this script again; never edit en.html by hand.
+# Builds en.html (English page) from index.html using the text pairs in _dev/i18n/en.json.
+# Edit index.html and _dev/i18n/en.json, then run this script again; never edit en.html by hand.
+# Lives in _dev/, which the web server does not serve; the site is the folder above it.
 # This file is ASCII on purpose: Windows PowerShell 5.1 misreads UTF-8 scripts without a BOM.
-$root = $PSScriptRoot
+$root = Split-Path $PSScriptRoot -Parent
 $utf8 = New-Object System.Text.UTF8Encoding $false
 $html = [IO.File]::ReadAllText("$root\index.html", $utf8)
-$pairs = ConvertFrom-Json ([IO.File]::ReadAllText("$root\i18n\en.json", $utf8))
+$pairs = ConvertFrom-Json ([IO.File]::ReadAllText("$PSScriptRoot\i18n\en.json", $utf8))
 
 # Longest first, so a whole sentence is translated before any word inside it can match on its own.
 $missing = @()
@@ -13,7 +14,7 @@ foreach ($pair in ($pairs | Sort-Object { $_[0].Length } -Descending)) {
   $html = $html.Replace($pair[0], $pair[1])
 }
 
-$note = "<!-- Generated from index.html by build-en.ps1. Edit index.html and i18n/en.json, then rebuild. -->"
+$note = "<!-- Generated from index.html by _dev/build-en.ps1. Edit index.html and _dev/i18n/en.json, then rebuild. -->"
 $html = $html -replace '(?i)^<!doctype html>', "<!doctype html>`r`n$note"
 [IO.File]::WriteAllText("$root\en.html", $html, $utf8)
 

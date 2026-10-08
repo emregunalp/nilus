@@ -10,7 +10,7 @@ import { t } from './i18n.js';
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const FALLBACK_EMAIL = 'info@nilus.com.tr';
 const UPLOAD_ENDPOINT = 'api/dosyalar';
-// Keep in step with serve.ps1 ($maxFiles, $maxFileBytes, $allowedExt).
+// Keep in step with _dev/serve.ps1 ($maxFiles, $maxFileBytes, $allowedExt).
 const MAX_FILES = 5;
 const MAX_FILE_BYTES = 15 * 1024 * 1024;
 const ALLOWED_EXT = ['jpg', 'jpeg', 'png', 'webp', 'gif', 'heic', 'pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'zip', 'txt', 'dwg', 'ai', 'psd'];
