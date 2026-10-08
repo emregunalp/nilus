@@ -79,6 +79,8 @@ if (!nilus_inbox_protected(__DIR__)) {
     .msg-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 4px; }
     .msg-actions button { cursor: pointer; }
     .msg:not(.is-new) .msg-read { display: none; }
+    .msg-actions .msg-delete { margin-left: auto; color: #B0247F; border-color: rgba(176, 36, 127, .35); }
+    .msg-actions .msg-delete:hover { border-color: #B0247F; }
   </style>
 </head>
 <body>
@@ -185,7 +187,16 @@ if (!nilus_inbox_protected(__DIR__)) {
           const response = await fetch(`${ENDPOINT}?okundu=${m.id}`, { method: 'POST', headers: { 'X-Requested-With': 'nilus' } });
           if (response.ok) load();
         });
-        actions.append(reply, read);
+        // Deleting is permanent (the message and its attachments leave the server), so it asks first.
+        const remove = el('button', 'btn btn-ghost btn-small msg-delete', 'Sil');
+        remove.type = 'button';
+        remove.addEventListener('click', async () => {
+          if (!confirm(`${m.name} adlı kişiden gelen mesaj ve ekleri kalıcı olarak silinsin mi?`)) return;
+          remove.disabled = true;
+          const response = await fetch(`${ENDPOINT}?sil=${m.id}`, { method: 'POST', headers: { 'X-Requested-With': 'nilus' } });
+          if (response.ok) load(); else { remove.disabled = false; alert('Mesaj silinemedi. Sayfayı yenileyip yeniden deneyin.'); }
+        });
+        actions.append(reply, read, remove);
         item.append(top, from);
         if (isBrief) item.append(briefBlock(m.brief));
         if (m.message) item.append(el('p', 'msg-text', m.message));

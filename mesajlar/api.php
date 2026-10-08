@@ -3,6 +3,7 @@
 //   GET  api.php                 → all messages, newest first
 //   GET  api.php?dosya=<id>      → one attachment (pictures inline, everything else as a download)
 //   POST api.php?okundu=<id>     → mark a message as read
+//   POST api.php?sil=<id>        → delete a message and its attachments (permanent)
 
 require dirname(__DIR__) . '/api/lib.php';
 
@@ -45,6 +46,34 @@ if ($method === 'POST' && isset($_GET['okundu'])) {
     return $hit;
   });
   nilus_json($found ? 200 : 404, array('ok' => $found));
+}
+
+if ($method === 'POST' && isset($_GET['sil'])) {
+  if (!isset($_SERVER['HTTP_X_REQUESTED_WITH']) || $_SERVER['HTTP_X_REQUESTED_WITH'] !== 'nilus') nilus_json(400, array('ok' => false));
+  $id = (string) $_GET['sil'];
+  if (!preg_match(NILUS_ID_PATTERN, $id)) nilus_json(400, array('ok' => false));
+  // The message leaves the list and its attachments leave the store. There is no undo.
+  $removed = nilus_locked(function () use ($id) {
+    $keep = array();
+    $files = null;
+    foreach (nilus_messages() as $m) {
+      if (isset($m['id']) && $m['id'] === $id) {
+        $files = isset($m['files']) && is_array($m['files']) ? $m['files'] : array();
+      } else {
+        $keep[] = $m;
+      }
+    }
+    if ($files === null) return false;
+    nilus_save_messages($keep);
+    foreach ($files as $file) {
+      if (isset($file['id']) && is_string($file['id']) && preg_match(NILUS_ID_PATTERN, $file['id'])) {
+        @unlink(nilus_data_dir() . '/uploads/' . $file['id']);
+        @unlink(nilus_data_dir() . '/uploads/' . $file['id'] . '.meta.json');
+      }
+    }
+    return true;
+  });
+  nilus_json($removed ? 200 : 404, array('ok' => $removed));
 }
 
 if ($method === 'GET') {
