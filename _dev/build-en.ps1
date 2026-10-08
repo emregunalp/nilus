@@ -24,8 +24,8 @@ $left = @()
 $n = 0
 foreach ($line in ($html -split "`n")) {
   $n++
-  # Brand names keep their own spelling (matched loosely here so this file stays ASCII).
-  $probe = $line -replace 'Pa.abah.e|Ar.elik|Eczac.ba..', ''
+  # Brand names and the postal address keep their own spelling (matched loosely here so this file stays ASCII).
+  $probe = $line -replace 'Pa.abah.e|Ar.elik|Eczac.ba..|Ata.ehir|.stanbul', ''
   if ($probe -cmatch $turkish -and $line -notmatch 'class="nav-lang"') { $left += ("{0}: {1}" -f $n, $line.Trim()) }
 }
 "en.html written ({0:N0} characters)" -f $html.Length

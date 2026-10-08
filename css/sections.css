@@ -241,6 +241,8 @@
   padding-bottom: 6px; transition: background-size .5s var(--ease);
 }
 .contact-mail a:hover, .contact-mail a:focus-visible { background-size: 100% 2px; }
+.contact-address { margin-top: 28px; }
+.contact-address address { font: 350 clamp(1.05rem, .95rem + .35vw, 1.25rem)/1.4 var(--font-display); letter-spacing: -.01em; }
 .contact-phone { margin-top: 28px; justify-items: start; }
 .contact-phone .btn { cursor: pointer; }
 

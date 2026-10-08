@@ -171,6 +171,7 @@
   ["Farklı ölçüler ve yerleşimler için de kiralık stand çözümlerimiz var. Alanınız yukarıdaki ölçülere uymuyorsa, uygun seçeneği birlikte belirleyelim.", "We also have rental stands for other sizes and layouts. If your space does not match the sizes above, let's work out the right option together."],
   ["Telefonu göster", "Show phone number"],
   [">Telefon<", ">Phone<"],
+  [">Adres<", ">Address<"],
   ["  <link rel=\"preload\" href=\"assets/fonts/fraunces-normal-latin-ext.woff2\" as=\"font\" type=\"font/woff2\" crossorigin>", "  <!-- (not preloaded on the English page) -->"],
   ["  <link rel=\"preload\" href=\"assets/fonts/inter-tight-normal-latin-ext.woff2\" as=\"font\" type=\"font/woff2\" crossorigin>", "  <!-- (not preloaded on the English page) -->"],
   ["<link rel=\"canonical\" href=\"https://nilus.com.tr/\">", "<link rel=\"canonical\" href=\"https://nilus.com.tr/en.html\">"],
