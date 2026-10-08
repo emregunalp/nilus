@@ -1,6 +1,6 @@
 // Message forms (contact section + bottom-right message box): attachments are uploaded first, then the message is
-// posted as JSON to the form's data-endpoint; the inbox lives on mesajlar.html. If the endpoint is unreachable the
-// visitor is pointed to the e-mail address instead.
+// posted as JSON to the form's data-endpoint (api/mesajlar.php on the site, the same address on the local preview
+// server); the inbox is mesajlar/. If the endpoint is unreachable the visitor is pointed to the e-mail address instead.
 // The contact form can also send a quote request (kind "brief": event, city, date, stand size); its radio switch
 // shows the parts of the form marked with the matching data-kind. It also asks for the company, which is required
 // there; the message box has no such field.
@@ -9,8 +9,8 @@ import { t } from './i18n.js';
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const FALLBACK_EMAIL = 'info@nilus.com.tr';
-const UPLOAD_ENDPOINT = 'api/dosyalar';
-// Keep in step with _dev/serve.ps1 ($maxFiles, $maxFileBytes, $allowedExt).
+const UPLOAD_ENDPOINT = 'api/dosyalar.php';
+// Keep in step with api/lib.php and _dev/serve.ps1 (file count, size and type limits).
 const MAX_FILES = 5;
 const MAX_FILE_BYTES = 15 * 1024 * 1024;
 const ALLOWED_EXT = ['jpg', 'jpeg', 'png', 'webp', 'gif', 'heic', 'pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'zip', 'txt', 'dwg', 'ai', 'psd'];

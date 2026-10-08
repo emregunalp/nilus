@@ -148,7 +148,7 @@ function Add-Message($ctx) {
 function Send-File($ctx, $path) {
   if ($path -eq '') { $path = 'index.html' }
   $file = [IO.Path]::GetFullPath((Join-Path $root $path))
-  $private = $path -match '^(data|\.claude|_dev)(/|$)' -or $path -match '(^|/)\.' -or $path -like '*.ps1'
+  $private = $path -match '^(data|\.claude|_dev)(/|$)' -or $path -match '(^|/)\.' -or $path -like '*.ps1' -or $path -like '*.php'
   if ($private -or -not $file.StartsWith($root) -or -not (Test-Path $file -PathType Leaf)) { $ctx.Response.StatusCode = 404; return }
   $ext = [IO.Path]::GetExtension($file).ToLower()
   $ctx.Response.ContentType = if ($mime.ContainsKey($ext)) { $mime[$ext] } else { 'application/octet-stream' }
@@ -166,6 +166,8 @@ while ($listener.IsListening) {
   $ctx = $listener.GetContext()
   try {
     $path = [Uri]::UnescapeDataString($ctx.Request.Url.AbsolutePath).TrimStart('/')
+    # The site posts to the PHP addresses (api/mesajlar.php, api/dosyalar.php); here they are the same handlers.
+    if ($path -match '^api/(mesajlar|dosyalar)\.php$') { $path = $path -replace '\.php$', '' }
     $method = $ctx.Request.HttpMethod
     if ($path -eq 'api/mesajlar' -and $method -eq 'POST') {
       Add-Message $ctx

@@ -32,12 +32,12 @@
   <!-- Turkish letters (latin-ext) -->
   <!-- (not preloaded on the English page) -->
   <!-- (not preloaded on the English page) -->
-  <link rel="stylesheet" href="css/fonts.css?v=20">
-  <link rel="stylesheet" href="css/base.css?v=20">
-  <link rel="stylesheet" href="css/chrome.css?v=20">
-  <link rel="stylesheet" href="css/hero-process.css?v=20">
-  <link rel="stylesheet" href="css/sections.css?v=20">
-  <link rel="stylesheet" href="css/projects.css?v=20">
+  <link rel="stylesheet" href="css/fonts.css?v=21">
+  <link rel="stylesheet" href="css/base.css?v=21">
+  <link rel="stylesheet" href="css/chrome.css?v=21">
+  <link rel="stylesheet" href="css/hero-process.css?v=21">
+  <link rel="stylesheet" href="css/sections.css?v=21">
+  <link rel="stylesheet" href="css/projects.css?v=21">
   <script>
     // Reveal-on-scroll hides [data-reveal] only when JS runs; if ui.js never boots, show everything.
     document.documentElement.classList.add('js');
@@ -80,10 +80,10 @@
   <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/shaders/CopyShader.js">
   <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/shaders/LuminosityHighPassShader.js">
   <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/shaders/OutputShader.js">
-  <script type="module" src="js/main.js?v=20"></script>
-  <script type="module" src="js/projects/index.js?v=20"></script>
-  <script type="module" src="js/rental/index.js?v=20"></script>
-  <script type="module" src="js/contact.js?v=20"></script>
+  <script type="module" src="js/main.js?v=21"></script>
+  <script type="module" src="js/projects/index.js?v=21"></script>
+  <script type="module" src="js/rental/index.js?v=21"></script>
+  <script type="module" src="js/contact.js?v=21"></script>
 </head>
 <body>
   <a class="skip-link" href="#content">Skip to content</a>
@@ -649,9 +649,9 @@
           </p>
         </div>
 
-        <!-- Quote requests and messages are posted to data-endpoint and listed on mesajlar.html. -->
+        <!-- Quote requests and messages are posted to data-endpoint (api/mesajlar.php) and listed in the inbox, mesajlar/. -->
         <!-- The choice at the top shows the parts marked with the matching data-kind (js/contact.js). -->
-        <form id="contact-form" class="contact-form" data-endpoint="api/mesajlar" novalidate data-reveal>
+        <form id="contact-form" class="contact-form" data-endpoint="api/mesajlar.php" novalidate data-reveal>
           <fieldset class="form-kind">
             <legend class="visually-hidden">What would you like to send?</legend>
             <label><input type="radio" name="kind" value="message" checked><span>Write a message</span></label>
@@ -732,7 +732,7 @@
         <button type="button" class="helpbox-close" aria-label="Close"><span aria-hidden="true">×</span></button>
       </div>
       <p class="helpbox-lede">Send us your question or idea and we will reply by e-mail.</p>
-      <form class="helpbox-form" data-endpoint="api/mesajlar" novalidate>
+      <form class="helpbox-form" data-endpoint="api/mesajlar.php" novalidate>
         <p class="field">
           <label for="hb-name">Full name</label>
           <input id="hb-name" name="name" type="text" autocomplete="name" maxlength="120" required>
