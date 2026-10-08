@@ -143,7 +143,14 @@ function initForm(form) {
         : t('Mesajınız bize ulaştı. En kısa sürede dönüş yapacağız.', 'We have received your message and will get back to you shortly.'), 'ok');
     } catch (err) {
       console.error('[nilus] mesaj gönderilemedi', err);
-      say(t(`Mesaj gönderilemedi. Lütfen ${FALLBACK_EMAIL} adresine yazın.`, `The message could not be sent. Please write to ${FALLBACK_EMAIL}.`), 'error');
+      // The short code at the end says where it failed (file upload or message, and the server's answer), so that
+      // a visitor's "it did not send" can be traced.
+      const text = String(err?.message || '');
+      const status = /HTTP (\d+)/.exec(text)?.[1];
+      const code = `${text.startsWith('upload') ? t('dosya', 'file') : t('mesaj', 'message')} ${status || t('bağlantı', 'connection')}`;
+      say(status === '429'
+        ? t('Kısa sürede çok fazla gönderim yapıldı. Lütfen birkaç dakika sonra yeniden deneyin.', 'Too many submissions in a short time. Please try again in a few minutes.')
+        : t(`Mesaj gönderilemedi. Lütfen ${FALLBACK_EMAIL} adresine yazın. (${code})`, `The message could not be sent. Please write to ${FALLBACK_EMAIL}. (${code})`), 'error');
     } finally {
       submit.disabled = false;
     }
