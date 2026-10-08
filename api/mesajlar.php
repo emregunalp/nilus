@@ -94,9 +94,20 @@ $headers = array(
   'Reply-To: ' . $email, // validated above: a single address, no line breaks
   'MIME-Version: 1.0',
   'Content-Type: text/plain; charset=UTF-8',
-  'Content-Transfer-Encoding: 8bit',
+  'Content-Transfer-Encoding: base64', // safe for any mail server, whatever the text contains
 );
-$record['notified'] = (bool) @mail(implode(', ', nilus_recipients()), $encode($subject), implode("\r\n", $lines), implode("\r\n", $headers), '-f' . nilus_sender());
+$to = implode(', ', nilus_recipients());
+$body = chunk_split(base64_encode(implode("\r\n", $lines)));
+$headerText = implode("\r\n", $headers);
+// First with the site's own address as the envelope sender (bounces come back to the mailbox); some hostings
+// refuse that option to web scripts, so a second try goes without it.
+$sent = @mail($to, $encode($subject), $body, $headerText, '-f' . nilus_sender());
+if (!$sent) $sent = @mail($to, $encode($subject), $body, $headerText);
+$record['notified'] = (bool) $sent;
+if (!$sent) {
+  $problem = error_get_last();
+  $record['notifyError'] = $problem && isset($problem['message']) ? substr((string) $problem['message'], 0, 200) : 'mail() false';
+}
 
 nilus_locked(function () use ($record) {
   $list = nilus_messages();
@@ -104,4 +115,5 @@ nilus_locked(function () use ($record) {
   nilus_save_messages($list);
 });
 
-nilus_json(201, array('ok' => true));
+// "mail" says whether the hosting accepted the notice for delivery (not whether it has arrived).
+nilus_json(201, array('ok' => true, 'mail' => $record['notified']));

@@ -190,7 +190,7 @@ if (!nilus_inbox_protected(__DIR__)) {
         if (isBrief) item.append(briefBlock(m.brief));
         if (m.message) item.append(el('p', 'msg-text', m.message));
         if (m.files?.length) item.append(attachments(m.files));
-        if (m.notified === false) item.append(el('p', 'msg-warn', 'Bu mesaj için bildirim e-postası gönderilemedi.'));
+        if (m.notified === false) item.append(el('p', 'msg-warn', `Bu mesaj için bildirim e-postası gönderilemedi.${m.notifyError ? ` (${m.notifyError})` : ''}`));
         item.append(actions);
         list.append(item);
       }
