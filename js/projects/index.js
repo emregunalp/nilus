@@ -1,26 +1,14 @@
 // Photo cards of the projects section: clicking a photo opens it large in the viewer dialog, where the arrows step
-// through the photos shown in the same grid. The sector filter decides which stands are shown.
+// through the photos of the same grid.
 // (The 360° model viewer built earlier is parked in ./3d/ and not loaded.)
 
 import { t } from '../i18n.js';
 
 const dialog = document.getElementById('viewer');
 const cards = [...document.querySelectorAll('.project[data-photo]')];
-const filters = [...document.querySelectorAll('.projects-filter button[data-filter]')];
 const pad2 = (n) => String(n).padStart(2, '0');
-/** The cards currently shown in the same grid as `card`. */
-const shown = (card) => cards.filter((other) => other.parentElement === card.parentElement && !other.hidden);
-
-function initFilter() {
-  const sectorCards = cards.filter((card) => card.dataset.sector);
-  for (const button of filters) {
-    button.addEventListener('click', () => {
-      const sector = button.dataset.filter;
-      filters.forEach((b) => b.setAttribute('aria-pressed', String(b === button)));
-      sectorCards.forEach((card) => { card.hidden = sector !== 'all' && card.dataset.sector !== sector; });
-    });
-  }
-}
+/** The cards of the same grid as `card`. */
+const shown = (card) => cards.filter((other) => other.parentElement === card.parentElement);
 
 function initViewer() {
   if (!dialog || !cards.length || typeof dialog.showModal !== 'function') return;
@@ -66,5 +54,4 @@ function initViewer() {
   dialog.addEventListener('close', () => current?.focus());
 }
 
-initFilter();
 initViewer();

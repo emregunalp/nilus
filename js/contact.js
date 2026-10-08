@@ -167,5 +167,24 @@ function initHelpbox() {
   });
 }
 
+/**
+ * "Telefonu göster": the number is kept out of the HTML (number harvesters read pages, they do not press buttons).
+ * data-k carries its ten digits after the leading 0, each as a letter: digit d → letter number (3d + 4) mod 10.
+ */
+function initPhoneReveal() {
+  document.querySelectorAll('.phone-reveal[data-k]').forEach((button) => {
+    button.addEventListener('click', () => {
+      const d = [...button.dataset.k].map((ch) => (((ch.charCodeAt(0) - 97 - 4 + 10) * 7) % 10)).join('');
+      const link = document.createElement('a');
+      link.href = `tel:+90${d}`;
+      const spaced = `${d.slice(0, 3)} ${d.slice(3, 6)} ${d.slice(6, 8)} ${d.slice(8)}`;
+      link.textContent = t(`0${spaced}`, `+90 ${spaced}`);
+      button.replaceWith(link);
+      link.focus();
+    });
+  });
+}
+
 document.querySelectorAll('form[data-endpoint]').forEach(initForm);
+initPhoneReveal();
 initHelpbox();

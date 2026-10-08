@@ -23,11 +23,11 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&family=Inter+Tight:wght@400..600&family=JetBrains+Mono:wght@400;500&display=swap">
-  <link rel="stylesheet" href="css/base.css?v=16">
-  <link rel="stylesheet" href="css/chrome.css?v=16">
-  <link rel="stylesheet" href="css/hero-process.css?v=16">
-  <link rel="stylesheet" href="css/sections.css?v=16">
-  <link rel="stylesheet" href="css/projects.css?v=16">
+  <link rel="stylesheet" href="css/base.css?v=17">
+  <link rel="stylesheet" href="css/chrome.css?v=17">
+  <link rel="stylesheet" href="css/hero-process.css?v=17">
+  <link rel="stylesheet" href="css/sections.css?v=17">
+  <link rel="stylesheet" href="css/projects.css?v=17">
   <script>
     // Reveal-on-scroll hides [data-reveal] only when JS runs; if ui.js never boots, show everything.
     document.documentElement.classList.add('js');
@@ -53,10 +53,10 @@
   <link rel="modulepreload" href="js/scene-b/fx.js">
   <link rel="modulepreload" href="js/scene-b/props-blueprint.js">
   <link rel="modulepreload" href="js/scene-b/props-logistics.js">
-  <script type="module" src="js/main.js?v=16"></script>
-  <script type="module" src="js/projects/index.js?v=16"></script>
-  <script type="module" src="js/rental/index.js?v=16"></script>
-  <script type="module" src="js/contact.js?v=16"></script>
+  <script type="module" src="js/main.js?v=17"></script>
+  <script type="module" src="js/projects/index.js?v=17"></script>
+  <script type="module" src="js/rental/index.js?v=17"></script>
+  <script type="module" src="js/contact.js?v=17"></script>
 </head>
 <body>
   <a class="skip-link" href="#content">İçeriğe geç</a>
@@ -290,130 +290,124 @@
             <h2 id="projects-title" class="section-title" data-reveal>Kurduğumuz <em>standlardan</em> seçmeler.</h2>
             <p class="section-lede" data-reveal>Kongre, fuar ve festival alanlarında kurduğumuz standlardan bazıları. Büyütmek için fotoğrafa tıklayın.</p>
           </div>
-          <!-- Shows the cards whose data-sector matches (js/projects/index.js). -->
-          <div class="projects-filter" role="group" aria-label="Sektöre göre süzün" data-reveal>
-            <button type="button" data-filter="all" aria-pressed="true">Tümü</button>
-            <button type="button" data-filter="pharma" aria-pressed="false">İlaç ve sağlık</button>
-            <button type="button" data-filter="coffee" aria-pressed="false">Kahve</button>
-          </div>
         </div>
 
         <div class="projects-grid">
-          <button class="project" type="button" data-sector="pharma" data-photo="assets/projects/photos/wegovy.jpg" data-name="Wegovy" data-reveal>
+          <button class="project" type="button" data-photo="assets/projects/photos/wegovy.jpg" data-name="Wegovy" data-reveal>
             <img src="assets/projects/photos/wegovy-s.jpg" srcset="assets/projects/photos/wegovy-xs.jpg 600w, assets/projects/photos/wegovy-s.jpg 900w" sizes="(max-width: 760px) 46vw, (max-width: 1180px) 31vw, 23vw" alt="Wegovy kongre standı" width="900" height="675" loading="lazy" decoding="async">
             <span class="project-meta"><span class="project-index" aria-hidden="true"></span><span class="project-name">Wegovy</span></span>
             <span class="project-cta" aria-hidden="true">Büyütün</span>
           </button>
 
-          <button class="project" type="button" data-sector="pharma" data-photo="assets/projects/photos/sensodyne.jpg" data-name="Sensodyne" data-reveal>
+          <button class="project" type="button" data-photo="assets/projects/photos/sensodyne.jpg" data-name="Sensodyne" data-reveal>
             <img src="assets/projects/photos/sensodyne-s.jpg" srcset="assets/projects/photos/sensodyne-xs.jpg 600w, assets/projects/photos/sensodyne-s.jpg 900w" sizes="(max-width: 760px) 46vw, (max-width: 1180px) 31vw, 23vw" alt="Sensodyne kongre standı" width="900" height="675" loading="lazy" decoding="async">
             <span class="project-meta"><span class="project-index" aria-hidden="true"></span><span class="project-name">Sensodyne</span></span>
             <span class="project-cta" aria-hidden="true">Büyütün</span>
           </button>
 
-          <button class="project" type="button" data-sector="pharma" data-photo="assets/projects/photos/haleon.jpg" data-name="Haleon" data-reveal>
+          <button class="project" type="button" data-photo="assets/projects/photos/haleon.jpg" data-name="Haleon" data-reveal>
             <img src="assets/projects/photos/haleon-s.jpg" srcset="assets/projects/photos/haleon-xs.jpg 600w, assets/projects/photos/haleon-s.jpg 900w" sizes="(max-width: 760px) 46vw, (max-width: 1180px) 31vw, 23vw" alt="Haleon kongre standı" width="900" height="675" loading="lazy" decoding="async">
             <span class="project-meta"><span class="project-index" aria-hidden="true"></span><span class="project-name">Haleon</span></span>
             <span class="project-cta" aria-hidden="true">Büyütün</span>
           </button>
 
-          <button class="project" type="button" data-sector="pharma" data-photo="assets/projects/photos/gsk.jpg" data-name="GSK" data-reveal>
+          <button class="project" type="button" data-photo="assets/projects/photos/gsk.jpg" data-name="GSK" data-reveal>
             <img src="assets/projects/photos/gsk-s.jpg" srcset="assets/projects/photos/gsk-xs.jpg 600w, assets/projects/photos/gsk-s.jpg 900w" sizes="(max-width: 760px) 46vw, (max-width: 1180px) 31vw, 23vw" alt="GSK kongre standı" width="900" height="675" loading="lazy" decoding="async">
             <span class="project-meta"><span class="project-index" aria-hidden="true"></span><span class="project-name">GSK</span></span>
             <span class="project-cta" aria-hidden="true">Büyütün</span>
           </button>
 
-          <button class="project" type="button" data-sector="pharma" data-photo="assets/projects/photos/takeda.jpg" data-name="Takeda" data-reveal>
+          <button class="project" type="button" data-photo="assets/projects/photos/takeda.jpg" data-name="Takeda" data-reveal>
             <img src="assets/projects/photos/takeda-s.jpg" srcset="assets/projects/photos/takeda-xs.jpg 600w, assets/projects/photos/takeda-s.jpg 900w" sizes="(max-width: 760px) 46vw, (max-width: 1180px) 31vw, 23vw" alt="Takeda kongre standı" width="900" height="675" loading="lazy" decoding="async">
             <span class="project-meta"><span class="project-index" aria-hidden="true"></span><span class="project-name">Takeda</span></span>
             <span class="project-cta" aria-hidden="true">Büyütün</span>
           </button>
 
-          <button class="project" type="button" data-sector="coffee" data-photo="assets/projects/photos/tchibo.jpg" data-name="Tchibo" data-reveal>
+          <button class="project" type="button" data-photo="assets/projects/photos/tchibo.jpg" data-name="Tchibo" data-reveal>
             <img src="assets/projects/photos/tchibo-s.jpg" srcset="assets/projects/photos/tchibo-xs.jpg 600w, assets/projects/photos/tchibo-s.jpg 900w" sizes="(max-width: 760px) 46vw, (max-width: 1180px) 31vw, 23vw" alt="Tchibo kahve standı" width="900" height="675" loading="lazy" decoding="async">
             <span class="project-meta"><span class="project-index" aria-hidden="true"></span><span class="project-name">Tchibo</span></span>
             <span class="project-cta" aria-hidden="true">Büyütün</span>
           </button>
 
-          <button class="project" type="button" data-sector="coffee" data-photo="assets/projects/photos/gloria-jeans.jpg" data-name="Gloria Jean's" data-reveal>
+          <button class="project" type="button" data-photo="assets/projects/photos/gloria-jeans.jpg" data-name="Gloria Jean's" data-reveal>
             <img src="assets/projects/photos/gloria-jeans-s.jpg" srcset="assets/projects/photos/gloria-jeans-xs.jpg 600w, assets/projects/photos/gloria-jeans-s.jpg 900w" sizes="(max-width: 760px) 46vw, (max-width: 1180px) 31vw, 23vw" alt="Gloria Jean's kahve standı" width="900" height="675" loading="lazy" decoding="async">
             <span class="project-meta"><span class="project-index" aria-hidden="true"></span><span class="project-name">Gloria Jean's</span></span>
             <span class="project-cta" aria-hidden="true">Büyütün</span>
           </button>
 
-          <button class="project" type="button" data-sector="coffee" data-photo="assets/projects/photos/vergnano.jpg" data-name="Caffè Vergnano" data-reveal>
+          <button class="project" type="button" data-photo="assets/projects/photos/vergnano.jpg" data-name="Caffè Vergnano" data-reveal>
             <img src="assets/projects/photos/vergnano-s.jpg" srcset="assets/projects/photos/vergnano-xs.jpg 600w, assets/projects/photos/vergnano-s.jpg 900w" sizes="(max-width: 760px) 46vw, (max-width: 1180px) 31vw, 23vw" alt="Caffè Vergnano kahve standı" width="900" height="675" loading="lazy" decoding="async">
             <span class="project-meta"><span class="project-index" aria-hidden="true"></span><span class="project-name">Caffè Vergnano</span></span>
             <span class="project-cta" aria-hidden="true">Büyütün</span>
           </button>
 
-          <button class="project" type="button" data-sector="pharma" data-photo="assets/projects/photos/fujifilm.jpg" data-name="Fujifilm" data-reveal>
+          <button class="project" type="button" data-photo="assets/projects/photos/fujifilm.jpg" data-name="Fujifilm" data-reveal>
             <img src="assets/projects/photos/fujifilm-s.jpg" srcset="assets/projects/photos/fujifilm-xs.jpg 600w, assets/projects/photos/fujifilm-s.jpg 900w" sizes="(max-width: 760px) 46vw, (max-width: 1180px) 31vw, 23vw" alt="Fujifilm kongre standı" width="900" height="675" loading="lazy" decoding="async">
             <span class="project-meta"><span class="project-index" aria-hidden="true"></span><span class="project-name">Fujifilm</span></span>
             <span class="project-cta" aria-hidden="true">Büyütün</span>
           </button>
 
-          <button class="project" type="button" data-sector="pharma" data-photo="assets/projects/photos/sanofi.jpg" data-name="Sanofi" data-reveal>
+          <button class="project" type="button" data-photo="assets/projects/photos/sanofi.jpg" data-name="Sanofi" data-reveal>
             <img src="assets/projects/photos/sanofi-s.jpg" srcset="assets/projects/photos/sanofi-xs.jpg 600w, assets/projects/photos/sanofi-s.jpg 900w" sizes="(max-width: 760px) 46vw, (max-width: 1180px) 31vw, 23vw" alt="Sanofi kongre standı" width="900" height="675" loading="lazy" decoding="async">
             <span class="project-meta"><span class="project-index" aria-hidden="true"></span><span class="project-name">Sanofi</span></span>
             <span class="project-cta" aria-hidden="true">Büyütün</span>
           </button>
 
-          <button class="project" type="button" data-sector="pharma" data-photo="assets/projects/photos/grifols.jpg" data-name="Grifols" data-reveal>
+          <button class="project" type="button" data-photo="assets/projects/photos/grifols.jpg" data-name="Grifols" data-reveal>
             <img src="assets/projects/photos/grifols-s.jpg" srcset="assets/projects/photos/grifols-xs.jpg 600w, assets/projects/photos/grifols-s.jpg 900w" sizes="(max-width: 760px) 46vw, (max-width: 1180px) 31vw, 23vw" alt="Grifols kongre standı" width="900" height="675" loading="lazy" decoding="async">
             <span class="project-meta"><span class="project-index" aria-hidden="true"></span><span class="project-name">Grifols</span></span>
             <span class="project-cta" aria-hidden="true">Büyütün</span>
           </button>
 
-          <button class="project" type="button" data-sector="pharma" data-photo="assets/projects/photos/sakura.jpg" data-name="Takeda · Hemofili" data-reveal>
+          <button class="project" type="button" data-photo="assets/projects/photos/sakura.jpg" data-name="Takeda · Hemofili" data-reveal>
             <img src="assets/projects/photos/sakura-s.jpg" srcset="assets/projects/photos/sakura-xs.jpg 600w, assets/projects/photos/sakura-s.jpg 900w" sizes="(max-width: 760px) 46vw, (max-width: 1180px) 31vw, 23vw" alt="Takeda hemofili kongre standı" width="900" height="675" loading="lazy" decoding="async">
             <span class="project-meta"><span class="project-index" aria-hidden="true"></span><span class="project-name">Takeda · Hemofili</span></span>
             <span class="project-cta" aria-hidden="true">Büyütün</span>
           </button>
 
-          <button class="project" type="button" data-sector="coffee" data-photo="assets/projects/photos/walters.jpg" data-name="Walter's Coffee" data-reveal>
+          <button class="project" type="button" data-photo="assets/projects/photos/walters.jpg" data-name="Walter's Coffee" data-reveal>
             <img src="assets/projects/photos/walters-s.jpg" srcset="assets/projects/photos/walters-xs.jpg 600w, assets/projects/photos/walters-s.jpg 900w" sizes="(max-width: 760px) 46vw, (max-width: 1180px) 31vw, 23vw" alt="Walter's Coffee kahve standı" width="900" height="675" loading="lazy" decoding="async">
             <span class="project-meta"><span class="project-index" aria-hidden="true"></span><span class="project-name">Walter's Coffee</span></span>
             <span class="project-cta" aria-hidden="true">Büyütün</span>
           </button>
 
-          <button class="project" type="button" data-sector="coffee" data-photo="assets/projects/photos/julius-meinl.jpg" data-name="Julius Meinl" data-reveal>
+          <button class="project" type="button" data-photo="assets/projects/photos/julius-meinl.jpg" data-name="Julius Meinl" data-reveal>
             <img src="assets/projects/photos/julius-meinl-s.jpg" srcset="assets/projects/photos/julius-meinl-xs.jpg 600w, assets/projects/photos/julius-meinl-s.jpg 900w" sizes="(max-width: 760px) 46vw, (max-width: 1180px) 31vw, 23vw" alt="Julius Meinl kahve servis arabası" width="900" height="675" loading="lazy" decoding="async">
             <span class="project-meta"><span class="project-index" aria-hidden="true"></span><span class="project-name">Julius Meinl</span></span>
             <span class="project-cta" aria-hidden="true">Büyütün</span>
           </button>
 
-          <button class="project" type="button" data-sector="coffee" data-photo="assets/projects/photos/pasabahce.jpg" data-name="Paşabahçe" data-reveal>
+          <button class="project" type="button" data-photo="assets/projects/photos/pasabahce.jpg" data-name="Paşabahçe" data-reveal>
             <img src="assets/projects/photos/pasabahce-s.jpg" srcset="assets/projects/photos/pasabahce-xs.jpg 600w, assets/projects/photos/pasabahce-s.jpg 900w" sizes="(max-width: 760px) 46vw, (max-width: 1180px) 31vw, 23vw" alt="Paşabahçe festival standı" width="900" height="675" loading="lazy" decoding="async">
             <span class="project-meta"><span class="project-index" aria-hidden="true"></span><span class="project-name">Paşabahçe</span></span>
             <span class="project-cta" aria-hidden="true">Büyütün</span>
           </button>
 
-          <button class="project" type="button" data-sector="pharma" data-photo="assets/projects/photos/novo-nordisk.jpg" data-name="Novo Nordisk" data-reveal>
+          <button class="project" type="button" data-photo="assets/projects/photos/novo-nordisk.jpg" data-name="Novo Nordisk" data-reveal>
             <img src="assets/projects/photos/novo-nordisk-s.jpg" srcset="assets/projects/photos/novo-nordisk-xs.jpg 600w, assets/projects/photos/novo-nordisk-s.jpg 900w" sizes="(max-width: 760px) 46vw, (max-width: 1180px) 31vw, 23vw" alt="Novo Nordisk kongre standı" width="900" height="675" loading="lazy" decoding="async">
             <span class="project-meta"><span class="project-index" aria-hidden="true"></span><span class="project-name">Novo Nordisk</span></span>
             <span class="project-cta" aria-hidden="true">Büyütün</span>
           </button>
 
-          <button class="project" type="button" data-sector="pharma" data-photo="assets/projects/photos/merck.jpg" data-name="Merck" data-reveal>
+          <button class="project" type="button" data-photo="assets/projects/photos/merck.jpg" data-name="Merck" data-reveal>
             <img src="assets/projects/photos/merck-s.jpg" srcset="assets/projects/photos/merck-xs.jpg 600w, assets/projects/photos/merck-s.jpg 900w" sizes="(max-width: 760px) 46vw, (max-width: 1180px) 31vw, 23vw" alt="Merck kongre standı" width="900" height="675" loading="lazy" decoding="async">
             <span class="project-meta"><span class="project-index" aria-hidden="true"></span><span class="project-name">Merck</span></span>
             <span class="project-cta" aria-hidden="true">Büyütün</span>
           </button>
 
-          <button class="project" type="button" data-sector="pharma" data-photo="assets/projects/photos/roche.jpg" data-name="Roche" data-reveal>
+          <button class="project" type="button" data-photo="assets/projects/photos/roche.jpg" data-name="Roche" data-reveal>
             <img src="assets/projects/photos/roche-s.jpg" srcset="assets/projects/photos/roche-xs.jpg 600w, assets/projects/photos/roche-s.jpg 900w" sizes="(max-width: 760px) 46vw, (max-width: 1180px) 31vw, 23vw" alt="Roche kongre standı" width="900" height="675" loading="lazy" decoding="async">
             <span class="project-meta"><span class="project-index" aria-hidden="true"></span><span class="project-name">Roche</span></span>
             <span class="project-cta" aria-hidden="true">Büyütün</span>
           </button>
 
-          <button class="project" type="button" data-sector="pharma" data-photo="assets/projects/photos/parodontax.jpg" data-name="Parodontax" data-reveal>
+          <button class="project" type="button" data-photo="assets/projects/photos/parodontax.jpg" data-name="Parodontax" data-reveal>
             <img src="assets/projects/photos/parodontax-s.jpg" srcset="assets/projects/photos/parodontax-xs.jpg 600w, assets/projects/photos/parodontax-s.jpg 900w" sizes="(max-width: 760px) 46vw, (max-width: 1180px) 31vw, 23vw" alt="Parodontax kongre standı" width="900" height="675" loading="lazy" decoding="async">
             <span class="project-meta"><span class="project-index" aria-hidden="true"></span><span class="project-name">Parodontax</span></span>
             <span class="project-cta" aria-hidden="true">Büyütün</span>
           </button>
 
-          <button class="project" type="button" data-sector="pharma" data-photo="assets/projects/photos/otrivine.jpg" data-name="Otrivine" data-reveal>
+          <button class="project" type="button" data-photo="assets/projects/photos/otrivine.jpg" data-name="Otrivine" data-reveal>
             <img src="assets/projects/photos/otrivine-s.jpg" srcset="assets/projects/photos/otrivine-xs.jpg 600w, assets/projects/photos/otrivine-s.jpg 900w" sizes="(max-width: 760px) 46vw, (max-width: 1180px) 31vw, 23vw" alt="Otrivine kongre standı" width="900" height="675" loading="lazy" decoding="async">
             <span class="project-meta"><span class="project-index" aria-hidden="true"></span><span class="project-name">Otrivine</span></span>
             <span class="project-cta" aria-hidden="true">Büyütün</span>
@@ -619,6 +613,12 @@
           <p class="contact-mail" data-reveal>
             <span class="contact-mail-label">E-posta</span>
             <a href="mailto:info@nilus.com.tr">info@nilus.com.tr</a>
+          </p>
+          <!-- The number is not in the page: js/contact.js writes it in when the button is pressed, so programs that
+               collect phone numbers from web pages do not find it. -->
+          <p class="contact-mail contact-phone" data-reveal>
+            <span class="contact-mail-label">Telefon</span>
+            <button type="button" class="btn btn-ghost btn-small phone-reveal" data-k="jddghcbech">Telefonu göster</button>
           </p>
         </div>
 

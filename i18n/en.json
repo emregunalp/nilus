@@ -108,10 +108,6 @@
   ["Işıklı tekstil baskıları hazırlar, standı etkinlik alanında kurarız.", "We produce the illuminated fabric prints and install the stand at the venue."],
   ["<h4>Söküm</h4>", "<h4>Dismantling</h4>"],
   ["Etkinlik bitince standı söker ve geri alırız.", "When the event ends we dismantle the stand and take it back."],
-  ["Sektöre göre süzün", "Filter by sector"],
-  [">Tümü<", ">All<"],
-  [">İlaç ve sağlık<", ">Pharma and health<"],
-  [">Kahve<", ">Coffee<"],
   [" kahve standı\"", " coffee stand\""],
   [" kahve servis arabası\"", " coffee service trolley\""],
   [" festival standı\"", " festival stand\""],
@@ -178,5 +174,7 @@
   ["Seçenekler bu üç modelle <em>sınırlı değil.</em>", "There is more than <em>these three models.</em>"],
   ["Hazır standlarımızı etkinliğinize göre kiralayabilirsiniz. Işıklı tekstil baskılar markanızın görselleriyle hazırlanır. Aşağıda üç model var; seçenekler bunlarla sınırlı değil.", "You can rent our ready-made stands for your event. The illuminated fabric prints are produced with your brand's artwork. Three models are shown below; the options are not limited to these."],
   ["Diğer seçenekler hakkında bilgi almak için bize ulaşın.", "Get in touch to find out about the other options."],
-  ["Farklı ölçüler ve yerleşimler için de kiralık stand çözümlerimiz var. Alanınız yukarıdaki ölçülere uymuyorsa, uygun seçeneği birlikte belirleyelim.", "We also have rental stands for other sizes and layouts. If your space does not match the sizes above, let's work out the right option together."]
+  ["Farklı ölçüler ve yerleşimler için de kiralık stand çözümlerimiz var. Alanınız yukarıdaki ölçülere uymuyorsa, uygun seçeneği birlikte belirleyelim.", "We also have rental stands for other sizes and layouts. If your space does not match the sizes above, let's work out the right option together."],
+  ["Telefonu göster", "Show phone number"],
+  [">Telefon<", ">Phone<"]
 ]

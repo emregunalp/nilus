@@ -1,5 +1,5 @@
-/* Projects: stand photos in one even grid, heading and a sector filter above it. Adding a stand = adding one
-   .project button in the HTML (with its data-sector); the numbering and the layout follow by themselves. */
+/* Projects: stand photos in one even grid, heading above it. Adding a stand = adding one
+   .project button in the HTML; the numbering and the layout follow by themselves. */
 
 /* ---------- section ---------- */
 .projects-head {
@@ -8,17 +8,6 @@
 }
 .projects-head .section-title { max-width: 20ch; }
 .projects-head .section-lede { max-width: 44ch; }
-.projects-filter {
-  display: inline-flex; gap: 4px; padding: 4px;
-  border: 1px solid rgba(27, 25, 22, .16); border-radius: 999px; background: rgba(247, 244, 238, .6);
-}
-.projects-filter button {
-  padding: 10px 16px 9px; border: 0; border-radius: 999px; background: none; cursor: pointer;
-  font: 500 .86rem/1 var(--font-body); color: var(--ink-2); white-space: nowrap;
-  transition: background-color .3s var(--ease), color .3s var(--ease);
-}
-.projects-filter button:hover { color: var(--ink); }
-.projects-filter button[aria-pressed='true'] { background: var(--ink); color: var(--cream); }
 
 .projects-grid {
   display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(12px, 1.4vw, 20px);
@@ -33,7 +22,6 @@
   text-align: left; cursor: pointer;
   counter-increment: project;
 }
-.project[hidden] { display: none; }
 .project::before { /* neon hairline accent, as on the step cards */
   content: ''; position: absolute; z-index: 2; left: -1px; top: -1px; height: 2px; width: 38%;
   background: var(--neon-grad); box-shadow: 0 0 12px rgba(255, 47, 185, .55);
@@ -53,7 +41,7 @@
   -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
   border-top: 1px solid var(--line);
 }
-/* Numbered by CSS so the count stays right when the filter hides cards. */
+/* Numbered by CSS, so adding or removing a card never needs renumbering. */
 .project-index { font: 500 .66rem/1 var(--font-mono); letter-spacing: .12em; color: var(--ink-2); }
 .project-index::before { content: counter(project, decimal-leading-zero); }
 .project-name {
