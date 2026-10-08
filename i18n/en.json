@@ -5,7 +5,7 @@
   ["content=\"tr_TR\"", "content=\"en_GB\""],
   ["Nilus — Standın tüm süreci, tek ekipte", "Nilus — The whole life of a stand, with one team"],
   ["Tasarım → Üretim → Depolama → Nakliye → Kurulum → Söküm → Bakım → Yeniden Kullanım. Kongre ve fuar standları.", "Design → Production → Storage → Transport → Installation → Dismantling → Maintenance → Reuse. Congress and exhibition stands."],
-  ["content=\"https://emregunalp.github.io/nilus/\"", "content=\"https://emregunalp.github.io/nilus/en.html\""],
+  ["content=\"https://nilus.com.tr/\"", "content=\"https://nilus.com.tr/en.html\""],
   ["Nilus logosu ve bir kongre standı modeli", "The Nilus logo and a model of a congress stand"],
   ["İçeriğe geç", "Skip to content"],
   ["Nilus — sayfa başı", "Nilus — top of page"],
@@ -177,5 +177,6 @@
   ["Telefonu göster", "Show phone number"],
   [">Telefon<", ">Phone<"],
   ["  <link rel=\"preload\" href=\"assets/fonts/fraunces-normal-latin-ext.woff2\" as=\"font\" type=\"font/woff2\" crossorigin>", "  <!-- (not preloaded on the English page) -->"],
-  ["  <link rel=\"preload\" href=\"assets/fonts/inter-tight-normal-latin-ext.woff2\" as=\"font\" type=\"font/woff2\" crossorigin>", "  <!-- (not preloaded on the English page) -->"]
+  ["  <link rel=\"preload\" href=\"assets/fonts/inter-tight-normal-latin-ext.woff2\" as=\"font\" type=\"font/woff2\" crossorigin>", "  <!-- (not preloaded on the English page) -->"],
+  ["<link rel=\"canonical\" href=\"https://nilus.com.tr/\">", "<link rel=\"canonical\" href=\"https://nilus.com.tr/en.html\">"]
 ]
