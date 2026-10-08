@@ -1,7 +1,7 @@
 // Message forms (contact section + bottom-right message box): attachments are uploaded first, then the message is
 // posted as JSON to the form's data-endpoint (api/mesajlar.php on the site, the same address on the local preview
 // server); the inbox is mesajlar/. If the endpoint is unreachable the visitor is pointed to the e-mail address instead.
-// The contact form can also send a quote request (kind "brief": event, city, date, stand size); its radio switch
+// The contact form can also send a quote request (kind "brief": event, city, date, stand size — all optional); its radio switch
 // shows the parts of the form marked with the matching data-kind. It also asks for the company, which is required
 // there; the message box has no such field.
 
@@ -27,8 +27,9 @@ function initForm(form) {
   const fileList = form.querySelector('.file-list');
   const isBrief = () => Boolean(kind) && kind.value === 'brief';
   const who = company ? [name, company, email] : [name, email];
-  const required = () => (isBrief() ? [...who, brief.date] : [...who, message]);
-  const fields = [...who, message, ...(brief ? [brief.date] : [])];
+  // A quote request only needs to say who is asking; a plain message also needs its text.
+  const required = () => (isBrief() ? who : [...who, message]);
+  const fields = [...who, message];
   let files = [];
 
   const say = (text, kind = '') => {
@@ -99,10 +100,12 @@ function initForm(form) {
     const problems = required().filter(isInvalid);
     fields.forEach((field) => mark(field, problems.includes(field)));
     if (problems.length) {
-      const last = asBrief ? t('etkinlik tarihini', 'the date of the event') : t('mesajınızı', 'your message');
-      say(company
-        ? t(`Lütfen adınızı, firmanızı, geçerli bir e-posta adresini ve ${last} yazın.`, `Please enter your name, your company, a valid e-mail address and ${last}.`)
-        : t(`Lütfen adınızı, geçerli bir e-posta adresini ve ${last} yazın.`, `Please enter your name, a valid e-mail address and ${last}.`), 'error');
+      const asked = company
+        ? t('adınızı, firmanızı ve geçerli bir e-posta adresini', 'your name, your company and a valid e-mail address')
+        : t('adınızı ve geçerli bir e-posta adresini', 'your name and a valid e-mail address');
+      say(asBrief
+        ? t(`Lütfen ${asked} yazın.`, `Please enter ${asked}.`)
+        : t(`Lütfen ${asked}, ayrıca mesajınızı yazın.`, `Please enter ${asked}, and your message.`), 'error');
       problems[0].focus();
       return;
     }

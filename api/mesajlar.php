@@ -28,15 +28,15 @@ $valid = $name !== '' && nilus_len($name) <= 120
   && nilus_len($email) <= 200 && filter_var($email, FILTER_VALIDATE_EMAIL) !== false
   && nilus_len($company) <= 160 && nilus_len($message) <= 4000;
 
-// A quote request needs the event date (event name, city and stand size are optional) and may come without a
-// note; a plain message needs its text.
+// A quote request only has to say who is asking: event name, city, date, stand size and the note are all
+// optional. A plain message needs its text.
 $kind = 'message';
 $brief = null;
 if (isset($in['kind']) && $in['kind'] === 'brief') {
   $kind = 'brief';
   $brief = array('event' => $get('event'), 'city' => $get('city'), 'date' => $get('date'), 'size' => $get('size'));
   $valid = $valid && nilus_len($brief['event']) <= 160 && nilus_len($brief['city']) <= 80
-    && preg_match('/^\d{4}-\d{2}-\d{2}$/', $brief['date']) && nilus_len($brief['size']) <= 80;
+    && ($brief['date'] === '' || preg_match('/^\d{4}-\d{2}-\d{2}$/', $brief['date'])) && nilus_len($brief['size']) <= 80;
 } else {
   $valid = $valid && $message !== '';
 }
@@ -67,7 +67,7 @@ if ($brief) {
   $lines[] = '';
   $lines[] = 'Etkinlik: ' . ($brief['event'] !== '' ? $brief['event'] : '—');
   $lines[] = 'Şehir: ' . ($brief['city'] !== '' ? $brief['city'] : '—');
-  $lines[] = 'Etkinlik tarihi: ' . date('d.m.Y', strtotime($brief['date']));
+  $lines[] = 'Etkinlik tarihi: ' . ($brief['date'] !== '' ? date('d.m.Y', strtotime($brief['date'])) : '—');
   $lines[] = 'Stand ölçüsü: ' . ($brief['size'] !== '' ? $brief['size'] : '—');
 }
 if ($message !== '') {

@@ -114,8 +114,8 @@ function Add-Message($ctx) {
   $message = ([string]$in.message).Trim()
   $valid = $name -and $name.Length -le 120 -and $email.Length -le 200 -and $email -match $emailPattern -and
     $company.Length -le 160 -and $message.Length -le 4000
-  # A quote request needs the event date (event name, city and stand size are optional) and may come without a
-  # note; a plain message needs its text.
+  # A quote request only has to say who is asking: event name, city, date, stand size and the note are all
+  # optional. A plain message needs its text.
   $kind = 'message'
   $brief = $null
   if ([string]$in.kind -eq 'brief') {
@@ -125,7 +125,7 @@ function Add-Message($ctx) {
       date = ([string]$in.date).Trim(); size = ([string]$in.size).Trim()
     }
     $valid = $valid -and $brief.event.Length -le 160 -and $brief.city.Length -le 80 -and
-      $brief.date -match '^\d{4}-\d{2}-\d{2}$' -and $brief.size.Length -le 80
+      ($brief.date -eq '' -or $brief.date -match '^\d{4}-\d{2}-\d{2}$') -and $brief.size.Length -le 80
   } else {
     $valid = $valid -and $message
   }

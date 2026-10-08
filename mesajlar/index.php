@@ -146,7 +146,7 @@ if (!nilus_inbox_protected(__DIR__)) {
       const rows = [
         ['Etkinlik', brief.event || '—'],
         ['Şehir', brief.city || '—'],
-        ['Tarih', Number.isNaN(day.getTime()) ? brief.date : dayFormat.format(day)],
+        ['Tarih', !brief.date ? '—' : Number.isNaN(day.getTime()) ? brief.date : dayFormat.format(day)],
         ['Stand ölçüsü', brief.size || '—'],
       ];
       for (const [label, value] of rows) {
