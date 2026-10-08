@@ -24,11 +24,11 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&family=Inter+Tight:wght@400..600&family=JetBrains+Mono:wght@400;500&display=swap">
-  <link rel="stylesheet" href="css/base.css?v=15">
-  <link rel="stylesheet" href="css/chrome.css?v=15">
-  <link rel="stylesheet" href="css/hero-process.css?v=15">
-  <link rel="stylesheet" href="css/sections.css?v=15">
-  <link rel="stylesheet" href="css/projects.css?v=15">
+  <link rel="stylesheet" href="css/base.css?v=16">
+  <link rel="stylesheet" href="css/chrome.css?v=16">
+  <link rel="stylesheet" href="css/hero-process.css?v=16">
+  <link rel="stylesheet" href="css/sections.css?v=16">
+  <link rel="stylesheet" href="css/projects.css?v=16">
   <script>
     // Reveal-on-scroll hides [data-reveal] only when JS runs; if ui.js never boots, show everything.
     document.documentElement.classList.add('js');
@@ -54,10 +54,10 @@
   <link rel="modulepreload" href="js/scene-b/fx.js">
   <link rel="modulepreload" href="js/scene-b/props-blueprint.js">
   <link rel="modulepreload" href="js/scene-b/props-logistics.js">
-  <script type="module" src="js/main.js?v=15"></script>
-  <script type="module" src="js/projects/index.js?v=15"></script>
-  <script type="module" src="js/rental/index.js?v=15"></script>
-  <script type="module" src="js/contact.js?v=15"></script>
+  <script type="module" src="js/main.js?v=16"></script>
+  <script type="module" src="js/projects/index.js?v=16"></script>
+  <script type="module" src="js/rental/index.js?v=16"></script>
+  <script type="module" src="js/contact.js?v=16"></script>
 </head>
 <body>
   <a class="skip-link" href="#content">Skip to content</a>
@@ -423,23 +423,23 @@
       </div>
     </section>
 
-    <!-- Rental stands: the three ready-made layouts (drawings and figures from the rental catalogue), how renting
-         works, the same layouts shown printed, and a note that other sizes and stock stands can be rented too.
-         The layout cards show the catalogue pictures; js/rental puts a turnable 3D model over each printed example. -->
+    <!-- Rental stands: the three ready-made layouts (figures from the rental catalogue) shown with sample Nilus
+         prints, how renting works, and a note that other sizes and stock stands can be rented too. js/rental puts a
+         turnable 3D model over each picture. -->
     <section id="kiralik" class="section rental" aria-labelledby="rental-title">
       <div class="wrap">
         <div class="rental-head">
           <div>
             <p class="eyebrow" data-reveal><span class="neon-dot" aria-hidden="true"></span>Rental stands</p>
             <h2 id="rental-title" class="section-title" data-reveal>A ready-made stand, <em>printed for your brand.</em></h2>
-            <p class="section-lede" data-reveal>You can rent our ready-made stands for your event. The illuminated fabric prints are produced with your brand's artwork. Three sample layouts are shown below; the options are not limited to these.</p>
+            <p class="section-lede" data-reveal>You can rent our ready-made stands for your event. The illuminated fabric prints are produced with your brand's artwork. Three models are shown below; the options are not limited to these.</p>
           </div>
           <a class="btn" href="#iletisim" data-reveal>Request a quote for a rental stand<span class="btn-arrow btn-arrow-side" aria-hidden="true">→</span></a>
         </div>
 
         <ol class="rental-options">
           <li class="rental-option" data-reveal>
-            <div class="rental-view"><img src="assets/rental/option-1.jpg" alt="Drawing of the 3 × 2 metre rental stand: one illuminated poster, one desk, one table" width="1280" height="720" loading="lazy" decoding="async"></div>
+            <div class="rental-view" data-layout="1" data-art="ink"><img src="assets/rental/example-1.jpg" alt="Example of the 3 × 2 metre rental stand with prints applied" width="1280" height="720" loading="lazy" decoding="async"></div>
             <div class="rental-body">
               <p class="rental-unit">1 unit</p>
               <h3 class="rental-size">3 × 2 m</h3>
@@ -452,7 +452,7 @@
             </div>
           </li>
           <li class="rental-option" data-reveal>
-            <div class="rental-view"><img src="assets/rental/option-2.jpg" alt="Drawing of the 6 × 2 metre rental stand: one full-width illuminated poster, one desk, two tables" width="1280" height="720" loading="lazy" decoding="async"></div>
+            <div class="rental-view" data-layout="2" data-art="cream"><img src="assets/rental/example-2.jpg" alt="Example of the 6 × 2 metre rental stand with one poster, prints applied" width="1280" height="720" loading="lazy" decoding="async"></div>
             <div class="rental-body">
               <p class="rental-unit">2 units · one poster</p>
               <h3 class="rental-size">6 × 2 m</h3>
@@ -465,7 +465,7 @@
             </div>
           </li>
           <li class="rental-option" data-reveal>
-            <div class="rental-view"><img src="assets/rental/option-3.jpg" alt="Drawing of the 6 × 2 metre rental stand: two illuminated posters, two desks, one table" width="1280" height="720" loading="lazy" decoding="async"></div>
+            <div class="rental-view" data-layout="3" data-art="duo"><img src="assets/rental/example-3.jpg" alt="Example of the 6 × 2 metre rental stand with two posters, prints applied" width="1280" height="720" loading="lazy" decoding="async"></div>
             <div class="rental-body">
               <p class="rental-unit">2 units · two posters</p>
               <h3 class="rental-size">6 × 2 m</h3>
@@ -478,6 +478,7 @@
             </div>
           </li>
         </ol>
+        <p class="rental-note" data-reveal>The prints shown are samples; your stand carries your own artwork.</p>
 
         <h3 class="rental-subtitle" data-reveal>How it works</h3>
         <ol class="rental-steps">
@@ -503,34 +504,8 @@
           </li>
         </ol>
 
-        <h3 class="rental-subtitle" data-reveal>Printed examples</h3>
-        <p class="rental-note" data-reveal>The same layouts with prints applied. The examples use Nilus artwork; your stand carries your own.</p>
-        <ol class="rental-options rental-examples">
-          <li class="rental-option" data-reveal>
-            <div class="rental-view" data-layout="1" data-art="ink"><img src="assets/rental/example-1.jpg" alt="Example of the 3 × 2 metre rental stand with prints applied" width="1280" height="720" loading="lazy" decoding="async"></div>
-            <div class="rental-body">
-              <p class="rental-unit">1 unit</p>
-              <h3 class="rental-size">3 × 2 m · one poster</h3>
-            </div>
-          </li>
-          <li class="rental-option" data-reveal>
-            <div class="rental-view" data-layout="2" data-art="cream"><img src="assets/rental/example-2.jpg" alt="Example of the 6 × 2 metre rental stand with one poster, prints applied" width="1280" height="720" loading="lazy" decoding="async"></div>
-            <div class="rental-body">
-              <p class="rental-unit">2 units</p>
-              <h3 class="rental-size">6 × 2 m · one poster</h3>
-            </div>
-          </li>
-          <li class="rental-option" data-reveal>
-            <div class="rental-view" data-layout="3" data-art="duo"><img src="assets/rental/example-3.jpg" alt="Example of the 6 × 2 metre rental stand with two posters, prints applied" width="1280" height="720" loading="lazy" decoding="async"></div>
-            <div class="rental-body">
-              <p class="rental-unit">2 units</p>
-              <h3 class="rental-size">6 × 2 m · two posters</h3>
-            </div>
-          </li>
-        </ol>
-
         <div class="rental-more" data-reveal>
-          <h3 class="section-title rental-more-title">There is more than <em>these three layouts.</em></h3>
+          <h3 class="section-title rental-more-title">There is more than <em>these three models.</em></h3>
           <div class="rental-more-body">
             <p>We also have rental stands for other sizes and layouts. If your space does not match the sizes above, we work out the right option with you.</p>
             <p>You can also rent one of the ready-built stands in our warehouse. Get in touch to find out which stands we have.</p>

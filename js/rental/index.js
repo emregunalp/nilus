@@ -1,6 +1,5 @@
-// Rental section: the printed examples get a turnable 3D model on top of their picture (the layout cards above
-// them keep the catalogue pictures). The 3D code is only fetched when the examples come near the screen; if it
-// cannot start (no WebGL), the pictures simply stay.
+// Rental section: each layout card gets a turnable 3D model on top of its picture. The 3D code is only fetched
+// when the cards come near the screen; if it cannot start (no WebGL), the pictures simply stay.
 
 const hosts = [...document.querySelectorAll('.rental-view[data-layout]')];
 const isShot = document.documentElement.classList.contains('is-shot');

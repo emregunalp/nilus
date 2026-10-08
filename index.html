@@ -23,11 +23,11 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&family=Inter+Tight:wght@400..600&family=JetBrains+Mono:wght@400;500&display=swap">
-  <link rel="stylesheet" href="css/base.css?v=15">
-  <link rel="stylesheet" href="css/chrome.css?v=15">
-  <link rel="stylesheet" href="css/hero-process.css?v=15">
-  <link rel="stylesheet" href="css/sections.css?v=15">
-  <link rel="stylesheet" href="css/projects.css?v=15">
+  <link rel="stylesheet" href="css/base.css?v=16">
+  <link rel="stylesheet" href="css/chrome.css?v=16">
+  <link rel="stylesheet" href="css/hero-process.css?v=16">
+  <link rel="stylesheet" href="css/sections.css?v=16">
+  <link rel="stylesheet" href="css/projects.css?v=16">
   <script>
     // Reveal-on-scroll hides [data-reveal] only when JS runs; if ui.js never boots, show everything.
     document.documentElement.classList.add('js');
@@ -53,10 +53,10 @@
   <link rel="modulepreload" href="js/scene-b/fx.js">
   <link rel="modulepreload" href="js/scene-b/props-blueprint.js">
   <link rel="modulepreload" href="js/scene-b/props-logistics.js">
-  <script type="module" src="js/main.js?v=15"></script>
-  <script type="module" src="js/projects/index.js?v=15"></script>
-  <script type="module" src="js/rental/index.js?v=15"></script>
-  <script type="module" src="js/contact.js?v=15"></script>
+  <script type="module" src="js/main.js?v=16"></script>
+  <script type="module" src="js/projects/index.js?v=16"></script>
+  <script type="module" src="js/rental/index.js?v=16"></script>
+  <script type="module" src="js/contact.js?v=16"></script>
 </head>
 <body>
   <a class="skip-link" href="#content">İçeriğe geç</a>
@@ -422,23 +422,23 @@
       </div>
     </section>
 
-    <!-- Rental stands: the three ready-made layouts (drawings and figures from the rental catalogue), how renting
-         works, the same layouts shown printed, and a note that other sizes and stock stands can be rented too.
-         The layout cards show the catalogue pictures; js/rental puts a turnable 3D model over each printed example. -->
+    <!-- Rental stands: the three ready-made layouts (figures from the rental catalogue) shown with sample Nilus
+         prints, how renting works, and a note that other sizes and stock stands can be rented too. js/rental puts a
+         turnable 3D model over each picture. -->
     <section id="kiralik" class="section rental" aria-labelledby="rental-title">
       <div class="wrap">
         <div class="rental-head">
           <div>
             <p class="eyebrow" data-reveal><span class="neon-dot" aria-hidden="true"></span>Kiralık stand</p>
             <h2 id="rental-title" class="section-title" data-reveal>Hazır stand, <em>markanıza özel</em> baskı.</h2>
-            <p class="section-lede" data-reveal>Hazır standlarımızı etkinliğinize göre kiralayabilirsiniz. Işıklı tekstil baskılar markanızın görselleriyle hazırlanır. Aşağıda üç yerleşim örneği var; seçenekler bunlarla sınırlı değil.</p>
+            <p class="section-lede" data-reveal>Hazır standlarımızı etkinliğinize göre kiralayabilirsiniz. Işıklı tekstil baskılar markanızın görselleriyle hazırlanır. Aşağıda üç model var; seçenekler bunlarla sınırlı değil.</p>
           </div>
           <a class="btn" href="#iletisim" data-reveal>Kiralık stand için teklif isteyin<span class="btn-arrow btn-arrow-side" aria-hidden="true">→</span></a>
         </div>
 
         <ol class="rental-options">
           <li class="rental-option" data-reveal>
-            <div class="rental-view"><img src="assets/rental/option-1.jpg" alt="3 × 2 metrelik kiralık stand çizimi: bir ışıklı poster, bir desk, bir masa" width="1280" height="720" loading="lazy" decoding="async"></div>
+            <div class="rental-view" data-layout="1" data-art="ink"><img src="assets/rental/example-1.jpg" alt="Baskı uygulanmış 3 × 2 metrelik kiralık stand örneği" width="1280" height="720" loading="lazy" decoding="async"></div>
             <div class="rental-body">
               <p class="rental-unit">1 birim</p>
               <h3 class="rental-size">3 × 2 m</h3>
@@ -451,7 +451,7 @@
             </div>
           </li>
           <li class="rental-option" data-reveal>
-            <div class="rental-view"><img src="assets/rental/option-2.jpg" alt="6 × 2 metrelik kiralık stand çizimi: tek parça ışıklı poster, bir desk, iki masa" width="1280" height="720" loading="lazy" decoding="async"></div>
+            <div class="rental-view" data-layout="2" data-art="cream"><img src="assets/rental/example-2.jpg" alt="Baskı uygulanmış 6 × 2 metrelik, tek posterli kiralık stand örneği" width="1280" height="720" loading="lazy" decoding="async"></div>
             <div class="rental-body">
               <p class="rental-unit">2 birim · tek poster</p>
               <h3 class="rental-size">6 × 2 m</h3>
@@ -464,7 +464,7 @@
             </div>
           </li>
           <li class="rental-option" data-reveal>
-            <div class="rental-view"><img src="assets/rental/option-3.jpg" alt="6 × 2 metrelik kiralık stand çizimi: iki ışıklı poster, iki desk, bir masa" width="1280" height="720" loading="lazy" decoding="async"></div>
+            <div class="rental-view" data-layout="3" data-art="duo"><img src="assets/rental/example-3.jpg" alt="Baskı uygulanmış 6 × 2 metrelik, iki posterli kiralık stand örneği" width="1280" height="720" loading="lazy" decoding="async"></div>
             <div class="rental-body">
               <p class="rental-unit">2 birim · iki poster</p>
               <h3 class="rental-size">6 × 2 m</h3>
@@ -477,6 +477,7 @@
             </div>
           </li>
         </ol>
+        <p class="rental-note" data-reveal>Görsellerdeki baskılar örnektir; standınızda kendi görselleriniz yer alır.</p>
 
         <h3 class="rental-subtitle" data-reveal>Nasıl çalışır</h3>
         <ol class="rental-steps">
@@ -502,34 +503,8 @@
           </li>
         </ol>
 
-        <h3 class="rental-subtitle" data-reveal>Baskılı örnekler</h3>
-        <p class="rental-note" data-reveal>Aynı yerleşimlerin baskı uygulanmış hali. Örnekler Nilus görselleriyle hazırlandı; sizin standınızda kendi görselleriniz yer alır.</p>
-        <ol class="rental-options rental-examples">
-          <li class="rental-option" data-reveal>
-            <div class="rental-view" data-layout="1" data-art="ink"><img src="assets/rental/example-1.jpg" alt="Baskı uygulanmış 3 × 2 metrelik kiralık stand örneği" width="1280" height="720" loading="lazy" decoding="async"></div>
-            <div class="rental-body">
-              <p class="rental-unit">1 birim</p>
-              <h3 class="rental-size">3 × 2 m · bir poster</h3>
-            </div>
-          </li>
-          <li class="rental-option" data-reveal>
-            <div class="rental-view" data-layout="2" data-art="cream"><img src="assets/rental/example-2.jpg" alt="Baskı uygulanmış 6 × 2 metrelik, tek posterli kiralık stand örneği" width="1280" height="720" loading="lazy" decoding="async"></div>
-            <div class="rental-body">
-              <p class="rental-unit">2 birim</p>
-              <h3 class="rental-size">6 × 2 m · tek poster</h3>
-            </div>
-          </li>
-          <li class="rental-option" data-reveal>
-            <div class="rental-view" data-layout="3" data-art="duo"><img src="assets/rental/example-3.jpg" alt="Baskı uygulanmış 6 × 2 metrelik, iki posterli kiralık stand örneği" width="1280" height="720" loading="lazy" decoding="async"></div>
-            <div class="rental-body">
-              <p class="rental-unit">2 birim</p>
-              <h3 class="rental-size">6 × 2 m · iki poster</h3>
-            </div>
-          </li>
-        </ol>
-
         <div class="rental-more" data-reveal>
-          <h3 class="section-title rental-more-title">Seçenekler bu üç yerleşimle <em>sınırlı değil.</em></h3>
+          <h3 class="section-title rental-more-title">Seçenekler bu üç modelle <em>sınırlı değil.</em></h3>
           <div class="rental-more-body">
             <p>Farklı ölçüler ve yerleşimler için de kiralık stand çözümlerimiz var. Alanınız yukarıdaki ölçülere uymuyorsa, alanınıza uygun seçeneği birlikte belirleriz.</p>
             <p>Depomuzda bulunan hazır standlardan da kiralayabilirsiniz. Elimizdeki standlar hakkında bilgi almak için bize ulaşın.</p>

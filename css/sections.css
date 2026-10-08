@@ -92,7 +92,7 @@
 .principle:hover::before { width: 64%; }
 
 /* ---------- rental stands ---------- */
-/* Three ready-made layouts as cards (catalogue drawing + figures), then the same layouts shown printed. */
+/* Three ready-made layouts as cards: the stand with sample prints, and its figures. */
 .rental-head {
   display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 28px 48px;
   margin-bottom: clamp(32px, 5vh, 56px);
@@ -104,7 +104,7 @@
   background: rgba(247, 244, 238, .7); border: 1px solid var(--line); border-radius: var(--radius);
   box-shadow: 0 24px 60px -44px rgba(27, 25, 22, .5);
 }
-/* The catalogue picture, or a printed example: js/rental puts a turnable 3D model over those (.is-3d) when WebGL is available. */
+/* A still of the printed stand; js/rental puts a turnable 3D model over it (.is-3d) when WebGL is available. */
 /* The backdrop is the catalogue's own studio: grey wall, lighter floor with a pool of light under the stand. */
 .rental-view {
   position: relative; aspect-ratio: 16 / 9; overflow: hidden;
@@ -139,9 +139,8 @@
 .rental-step-num { font: 500 var(--fs-mono)/1 var(--font-mono); letter-spacing: .16em; color: var(--neon-pink); }
 .rental-steps h4 { margin-top: 14px; font: 400 clamp(1.25rem, 1.05rem + .6vw, 1.6rem)/1.15 var(--font-display); letter-spacing: -.015em; }
 .rental-steps p { margin-top: 10px; color: var(--ink-2); line-height: 1.6; text-wrap: pretty; }
-/* the printed examples: same cards, a line of text instead of the figures */
-.rental-note { max-width: 62ch; margin: -6px 0 24px; color: var(--ink-2); line-height: 1.6; text-wrap: pretty; }
-.rental-examples .rental-size { font-size: clamp(1.35rem, 1.1rem + .7vw, 1.75rem); }
+/* under the cards: the prints shown are samples */
+.rental-note { max-width: 62ch; margin-top: 18px; font-size: .9rem; color: var(--ink-2); line-height: 1.6; text-wrap: pretty; }
 /* more than these three: other sizes and the stands in stock */
 .rental-more {
   display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 24px clamp(32px, 6vw, 96px); align-items: start;
