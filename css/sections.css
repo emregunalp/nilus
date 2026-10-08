@@ -300,7 +300,8 @@
   font: 400 .95rem/1 var(--font-body); color: var(--ink);
 }
 .file-list button:hover { background: var(--ink); color: var(--cream); }
-.field-optional { letter-spacing: .04em; text-transform: none; opacity: .8; }
+/* Required fields carry a star; everything without one is optional. */
+.field-required { margin-left: .15em; color: var(--neon-pink); }
 .field input, .field textarea {
   width: 100%; padding: 8px 0 10px;
   font: 400 1rem/1.5 var(--font-body); color: var(--ink);

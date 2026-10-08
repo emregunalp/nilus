@@ -32,12 +32,12 @@
   <!-- Turkish letters (latin-ext) -->
   <!-- (not preloaded on the English page) -->
   <!-- (not preloaded on the English page) -->
-  <link rel="stylesheet" href="css/fonts.css?v=26">
-  <link rel="stylesheet" href="css/base.css?v=26">
-  <link rel="stylesheet" href="css/chrome.css?v=26">
-  <link rel="stylesheet" href="css/hero-process.css?v=26">
-  <link rel="stylesheet" href="css/sections.css?v=26">
-  <link rel="stylesheet" href="css/projects.css?v=26">
+  <link rel="stylesheet" href="css/fonts.css?v=27">
+  <link rel="stylesheet" href="css/base.css?v=27">
+  <link rel="stylesheet" href="css/chrome.css?v=27">
+  <link rel="stylesheet" href="css/hero-process.css?v=27">
+  <link rel="stylesheet" href="css/sections.css?v=27">
+  <link rel="stylesheet" href="css/projects.css?v=27">
   <script>
     // Reveal-on-scroll hides [data-reveal] only when JS runs; if ui.js never boots, show everything.
     document.documentElement.classList.add('js');
@@ -80,10 +80,10 @@
   <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/shaders/CopyShader.js">
   <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/shaders/LuminosityHighPassShader.js">
   <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/shaders/OutputShader.js">
-  <script type="module" src="js/main.js?v=26"></script>
-  <script type="module" src="js/projects/index.js?v=26"></script>
-  <script type="module" src="js/rental/index.js?v=26"></script>
-  <script type="module" src="js/contact.js?v=26"></script>
+  <script type="module" src="js/main.js?v=27"></script>
+  <script type="module" src="js/projects/index.js?v=27"></script>
+  <script type="module" src="js/rental/index.js?v=27"></script>
+  <script type="module" src="js/contact.js?v=27"></script>
 </head>
 <body>
   <a class="skip-link" href="#content">Skip to content</a>
@@ -659,40 +659,40 @@
           </fieldset>
           <div class="field-row">
             <p class="field">
-              <label for="cf-name">Full name</label>
+              <label for="cf-name">Full name <span class="field-required" aria-hidden="true">*</span></label>
               <input id="cf-name" name="name" type="text" autocomplete="name" maxlength="120" required>
             </p>
             <p class="field">
-              <label for="cf-company">Company</label>
+              <label for="cf-company">Company <span class="field-required" aria-hidden="true">*</span></label>
               <input id="cf-company" name="company" type="text" autocomplete="organization" maxlength="160" required>
             </p>
           </div>
           <p class="field">
-            <label for="cf-email">E-mail</label>
+            <label for="cf-email">E-mail <span class="field-required" aria-hidden="true">*</span></label>
             <input id="cf-email" name="email" type="email" autocomplete="email" maxlength="200" required>
           </p>
           <div class="brief-fields" data-kind="brief" hidden>
             <div class="field-row">
               <p class="field">
-                <label for="cf-city">City <span class="field-optional">(optional)</span></label>
+                <label for="cf-city">City</label>
                 <input id="cf-city" name="city" type="text" maxlength="80">
               </p>
               <p class="field">
-                <label for="cf-size">Stand size <span class="field-optional">(optional)</span></label>
+                <label for="cf-size">Stand size</label>
                 <input id="cf-size" name="size" type="text" maxlength="80" placeholder="e.g. 6 × 4 m">
               </p>
             </div>
             <p class="field">
-              <label for="cf-date">Event date <span class="field-optional">(optional)</span></label>
+              <label for="cf-date">Event date</label>
               <input id="cf-date" name="date" type="date" class="is-empty">
             </p>
           </div>
           <p class="field">
-            <label for="cf-message"><span data-kind="message">Your message</span><span data-kind="brief" hidden>Your notes <span class="field-optional">(optional)</span></span></label>
+            <label for="cf-message"><span data-kind="message">Your message <span class="field-required" aria-hidden="true">*</span></span><span data-kind="brief" hidden>Your notes</span></label>
             <textarea id="cf-message" name="message" rows="5" maxlength="4000"></textarea>
           </p>
           <div class="field field-files">
-            <span class="field-label">Photo or file <span class="field-optional">(optional)</span></span>
+            <span class="field-label">Photo or file</span>
             <label class="file-pick"><input type="file" name="files" multiple><span aria-hidden="true">+</span>Add files</label>
             <ul class="file-list" aria-label="Attached files"></ul>
           </div>
@@ -728,19 +728,19 @@
       <p class="helpbox-lede">Send us your question or idea and we will reply by e-mail.</p>
       <form class="helpbox-form" data-endpoint="api/mesajlar.php" novalidate>
         <p class="field">
-          <label for="hb-name">Full name</label>
+          <label for="hb-name">Full name <span class="field-required" aria-hidden="true">*</span></label>
           <input id="hb-name" name="name" type="text" autocomplete="name" maxlength="120" required>
         </p>
         <p class="field">
-          <label for="hb-email">E-mail</label>
+          <label for="hb-email">E-mail <span class="field-required" aria-hidden="true">*</span></label>
           <input id="hb-email" name="email" type="email" autocomplete="email" maxlength="200" required>
         </p>
         <p class="field">
-          <label for="hb-message">Your message</label>
+          <label for="hb-message">Your message <span class="field-required" aria-hidden="true">*</span></label>
           <textarea id="hb-message" name="message" rows="3" maxlength="4000" required></textarea>
         </p>
         <div class="field field-files">
-          <span class="field-label">Photo or file <span class="field-optional">(optional)</span></span>
+          <span class="field-label">Photo or file</span>
           <label class="file-pick"><input type="file" name="files" multiple><span aria-hidden="true">+</span>Add files</label>
           <ul class="file-list" aria-label="Attached files"></ul>
         </div>

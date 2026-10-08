@@ -140,9 +140,7 @@
   ["Notlarınız", "Your notes"],
   [">E-posta<", ">E-mail<"],
   ["Ad Soyad", "Full name"],
-  ["(isteğe bağlı)", "(optional)"],
   ["Mesajınız", "Your message"],
-  ["Fotoğraf veya dosya ", "Photo or file "],
   ["Dosya ekleyin", "Add files"],
   ["Eklenen dosyalar", "Attached files"],
   ["Bu alanı boş bırakın", "Leave this field empty"],
@@ -166,8 +164,6 @@
   ["Baskı uygulanmış 6 × 2 metrelik, tek posterli kiralık stand örneği", "Example of the 6 × 2 metre rental stand with one poster, prints applied"],
   ["Baskı uygulanmış 6 × 2 metrelik, iki posterli kiralık stand örneği", "Example of the 6 × 2 metre rental stand with two posters, prints applied"],
   ["Bilgi almak için bize ulaşın", "Get in touch for details"],
-  [">Firma<", ">Company<"],
-  ["Şehir <span", "City <span"],
   ["Görsellerdeki baskılar örnektir; standınızda kendi görselleriniz yer alır.", "The prints shown are samples; your stand carries your own artwork."],
   ["Seçenekler bu üç modelle <em>sınırlı değil.</em>", "There is more than <em>these three models.</em>"],
   ["Hazır standlarımızı etkinliğinize göre kiralayabilirsiniz. Işıklı tekstil baskılar markanızın görselleriyle hazırlanır. Aşağıda üç model var; seçenekler bunlarla sınırlı değil.", "You can rent our ready-made stands for your event. The illuminated fabric prints are produced with your brand's artwork. Three models are shown below; the options are not limited to these."],
@@ -177,5 +173,9 @@
   [">Telefon<", ">Phone<"],
   ["  <link rel=\"preload\" href=\"assets/fonts/fraunces-normal-latin-ext.woff2\" as=\"font\" type=\"font/woff2\" crossorigin>", "  <!-- (not preloaded on the English page) -->"],
   ["  <link rel=\"preload\" href=\"assets/fonts/inter-tight-normal-latin-ext.woff2\" as=\"font\" type=\"font/woff2\" crossorigin>", "  <!-- (not preloaded on the English page) -->"],
-  ["<link rel=\"canonical\" href=\"https://nilus.com.tr/\">", "<link rel=\"canonical\" href=\"https://nilus.com.tr/en.html\">"]
+  ["<link rel=\"canonical\" href=\"https://nilus.com.tr/\">", "<link rel=\"canonical\" href=\"https://nilus.com.tr/en.html\">"],
+  ["Firma <span", "Company <span"],
+  ["E-posta <span", "E-mail <span"],
+  [">Şehir<", ">City<"],
+  ["Fotoğraf veya dosya", "Photo or file"]
 ]
