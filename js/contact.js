@@ -1,7 +1,7 @@
 // Message forms (contact section + bottom-right message box): attachments are uploaded first, then the message is
 // posted as JSON to the form's data-endpoint (api/mesajlar.php on the site, the same address on the local preview
 // server); the inbox is mesajlar/. If the endpoint is unreachable the visitor is pointed to the e-mail address instead.
-// The contact form can also send a quote request (kind "brief": event, city, date, stand size — all optional); its radio switch
+// The contact form can also send a quote request (kind "brief": city, date, stand size — all optional); its radio switch
 // shows the parts of the form marked with the matching data-kind. It also asks for the company, which is required
 // there; the message box has no such field.
 
@@ -22,7 +22,7 @@ function initForm(form) {
   const status = form.querySelector('.form-status');
   const submit = form.querySelector('button[type="submit"]');
   const { name, email, message, company, website, kind } = form.elements;
-  const brief = kind ? { event: form.elements.event, city: form.elements.city, date: form.elements.date, size: form.elements.size } : null;
+  const brief = kind ? { city: form.elements.city, date: form.elements.date, size: form.elements.size } : null;
   const picker = form.querySelector('input[type="file"]');
   const fileList = form.querySelector('.file-list');
   const isBrief = () => Boolean(kind) && kind.value === 'brief';
@@ -76,6 +76,13 @@ function initForm(form) {
   });
 
   fields.forEach((field) => field.addEventListener('input', () => mark(field, false)));
+
+  // An empty date field shows the browser's own "gg.aa.yyyy" mask; .is-empty lets the CSS set it like a placeholder.
+  const dates = [...form.querySelectorAll('input[type="date"]')];
+  const syncDates = () => dates.forEach((input) => input.classList.toggle('is-empty', !input.value));
+  dates.forEach((input) => ['input', 'change'].forEach((type) => input.addEventListener(type, syncDates)));
+  form.addEventListener('reset', () => setTimeout(syncDates));
+  syncDates();
 
   function syncKind() {
     form.querySelectorAll('[data-kind]').forEach((el) => { el.hidden = el.dataset.kind !== kind.value; });
@@ -131,7 +138,6 @@ function initForm(form) {
           website: website ? website.value : '',
           ...(asBrief && {
             kind: 'brief',
-            event: brief.event.value.trim(),
             city: brief.city.value.trim(),
             date: brief.date.value,
             size: brief.size.value.trim(),

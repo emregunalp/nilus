@@ -308,7 +308,10 @@
   transition: border-color .3s var(--ease), box-shadow .3s var(--ease);
 }
 .field input::placeholder { color: var(--ink-2); opacity: .55; }
-.field input[type='date'] { min-height: calc(1.5em + 19px); color-scheme: light; }
+.field input[type='date'] { min-height: calc(1.5em + 19px); color-scheme: light; font-variant-numeric: tabular-nums; }
+/* Empty: the browser's day/month/year mask reads as a placeholder, like "örn. 6 × 4 m" beside it (js/contact.js). */
+.field input[type='date'].is-empty { color: rgba(94, 87, 77, .55); }
+.field input[type='date']::-webkit-calendar-picker-indicator { opacity: .5; cursor: pointer; }
 .field textarea { resize: vertical; min-height: 120px; }
 .field input:focus, .field textarea:focus { outline: none; border-color: var(--ink); box-shadow: 0 1px 0 var(--ink); }
 .field input[aria-invalid='true'], .field textarea[aria-invalid='true'] { border-color: #B0247F; box-shadow: 0 1px 0 #B0247F; }

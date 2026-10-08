@@ -65,7 +65,7 @@ if ($company !== '') $lines[] = 'Firma: ' . $company;
 $lines[] = 'E-posta: ' . $email;
 if ($brief) {
   $lines[] = '';
-  $lines[] = 'Etkinlik: ' . ($brief['event'] !== '' ? $brief['event'] : '—');
+  if ($brief['event'] !== '') $lines[] = 'Etkinlik: ' . $brief['event']; // the form no longer asks for it
   $lines[] = 'Şehir: ' . ($brief['city'] !== '' ? $brief['city'] : '—');
   $lines[] = 'Etkinlik tarihi: ' . ($brief['date'] !== '' ? date('d.m.Y', strtotime($brief['date'])) : '—');
   $lines[] = 'Stand ölçüsü: ' . ($brief['size'] !== '' ? $brief['size'] : '—');

@@ -144,7 +144,7 @@ if (!nilus_inbox_protected(__DIR__)) {
       const dl = el('dl', 'msg-brief');
       const day = new Date(`${brief.date}T00:00`);
       const rows = [
-        ['Etkinlik', brief.event || '—'],
+        ...(brief.event ? [['Etkinlik', brief.event]] : []), // older requests; the form no longer asks for it
         ['Şehir', brief.city || '—'],
         ['Tarih', !brief.date ? '—' : Number.isNaN(day.getTime()) ? brief.date : dayFormat.format(day)],
         ['Stand ölçüsü', brief.size || '—'],
