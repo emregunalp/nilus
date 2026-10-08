@@ -14,7 +14,7 @@ if (!is_array($in)) nilus_json(400, array('ok' => false));
 // The form's trap field is invisible to people: whoever fills it is a bot. Accept and drop.
 if (!empty($in['website'])) nilus_json(201, array('ok' => true));
 
-nilus_rate_limit('mesaj', 6, 600);
+nilus_rate_limit('mesaj', 20, 600);
 
 $get = function ($key, $multiline = false) use ($in) {
   return isset($in[$key]) ? nilus_text($in[$key], $multiline) : '';

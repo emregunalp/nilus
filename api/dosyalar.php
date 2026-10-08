@@ -16,7 +16,7 @@ $dot = strrpos($name, '.');
 $ext = $dot === false ? '' : strtolower(substr($name, $dot + 1));
 if ($name === '' || nilus_len($name) > 150 || !in_array($ext, nilus_allowed_ext(), true)) nilus_json(415, array('ok' => false));
 
-nilus_rate_limit('dosya', 30, 600);
+nilus_rate_limit('dosya', 80, 600);
 
 $dir = nilus_data_dir() . '/uploads';
 
