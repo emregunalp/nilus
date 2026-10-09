@@ -80,8 +80,7 @@ export const T = Object.freeze({
   scan: [6.34, 6.86],
   reuse: [7.0, 7.36],
   reignite: [7.34, 7.6],
-  ring: [7.4, 8.0],
-  ringClose: [8.0, 8.7],
+  ring: [7.4, 7.95], // the lifecycle ring closes completely before the stage ends (client, 2026-10-09)
 });
 
 /** Load-time draw-in of the hero drawing (seconds after mount; only when not in snap mode).
@@ -344,7 +343,7 @@ export function propsState(P, intro = 1) {
     cities: CITY_SHOW.map(([a0, a1, b0, b1]) => fadeInOut(a0, a1, b0, b1)),
     trail: routeProgress(P),
     hall: fadeInOut(3.72, 3.96, 6.95, 7.25),
-    ring: 0.74 * easeInOut(segment(P, ...T.ring)) + 0.26 * easeInOut(segment(P, ...T.ringClose)),
+    ring: easeInOut(segment(P, ...T.ring)),
     ringAlpha: smooth(segment(P, T.ring[0] - 0.05, T.ring[0] + 0.05)),
   };
 }
