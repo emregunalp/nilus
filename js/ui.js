@@ -19,6 +19,11 @@ const root = document.documentElement;
 const $ = (sel, scope = document) => scope.querySelector(sel);
 const $$ = (sel, scope = document) => [...scope.querySelectorAll(sel)];
 const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
+// Tells the 3D film that a stage was chosen with a button, so it plays that stage from its start (scene-b/play.js).
+const announceStage = (p) => {
+  const index = Math.floor(p);
+  if (index >= 0 && index < STAGE_COUNT) window.dispatchEvent(new CustomEvent('nilus:stage', { detail: { index } }));
+};
 const pad2 = (n) => String(n).padStart(2, '0');
 
 function safely(name, fn) {
@@ -112,7 +117,9 @@ function initRail({ progress }) {
   buttons.forEach((btn) => {
     btn.addEventListener('click', () => {
       const i = Number(btn.dataset.i);
-      if (Number.isFinite(i)) progress.scrollToProgress(i + RAIL_JUMP_OFFSET);
+      if (!Number.isFinite(i)) return;
+      announceStage(i);
+      progress.scrollToProgress(i + RAIL_JUMP_OFFSET);
     });
   });
   render(progress.get());
@@ -163,7 +170,7 @@ function initAnchors({ progress, reducedMotion }) {
     if (!target) return;
     e.preventDefault();
     const p = Number(link.dataset.progress);
-    if (progress && link.dataset.progress !== undefined && Number.isFinite(p)) progress.scrollToProgress(p);
+    if (progress && link.dataset.progress !== undefined && Number.isFinite(p)) { announceStage(p); progress.scrollToProgress(p); }
     else target.scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth', block: 'start' });
     if (id !== 'hero') history.replaceState(null, '', `#${id}`);
   });

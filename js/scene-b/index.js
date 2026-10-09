@@ -6,7 +6,7 @@ import { buildWorld } from './world.js';
 import { createCameraRig } from './camera.js';
 import { createPipeline } from './post.js';
 import { cameraAt, P_MIN, P_MAX, smooth, segment } from './choreo.js';
-import { createPlayhead } from './play.js?v=36';
+import { createPlayhead } from './play.js?v=37';
 import { ensureFonts } from './textures.js';
 import { PALETTE, setLineResolution, forgetLineMaterials } from './materials.js';
 
@@ -191,6 +191,9 @@ export async function mountScene({ canvas, getProgress, snap = false, quality = 
   const onResize = () => { resize(); schedule(); };
   const onVisible = () => { if (!document.hidden) { last = performance.now(); dirty = true; schedule(); } };
   const onLost = (e) => e.preventDefault();
+  // A stage chosen with a button (js/ui.js) is played from its start instead of being scrubbed to.
+  const onStage = (e) => { playhead.jump(Number(e.detail?.index)); schedule(); };
+  window.addEventListener('nilus:stage', onStage);
   if (animate) window.addEventListener('pointermove', onPointer, { passive: true });
   canvas.addEventListener('webglcontextlost', onLost);
   document.addEventListener('visibilitychange', onVisible);
@@ -218,6 +221,7 @@ export async function mountScene({ canvas, getProgress, snap = false, quality = 
       document.removeEventListener('visibilitychange', onVisible);
       window.removeEventListener('pointermove', onPointer);
       canvas.removeEventListener('webglcontextlost', onLost);
+      window.removeEventListener('nilus:stage', onStage);
       world.dispose();
       pipeline.dispose();
       forgetLineMaterials();
