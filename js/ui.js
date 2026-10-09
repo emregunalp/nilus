@@ -1,17 +1,19 @@
 // Page UI: nav state, mobile menu, reveal-on-scroll, process rail, in-page links, lifecycle ring.
 // Every piece tolerates missing DOM — a lost element must never take the page down.
 
-import { cardFadeOpacity } from './scroll.js';
 import { STAGE_NAMES } from './i18n.js';
 
 const STAGE_COUNT = STAGE_NAMES.length;
 const RAIL_SHOW_FROM = -0.15;
 const RAIL_HIDE_AFTER = 8.5;
 const NAV_SCROLLED_Y = 8;
-const RAIL_JUMP_OFFSET = 0.4;
+// A rail button lands in the middle of its stage's scroll span; the stand then plays the stage to its end by itself.
+const RAIL_JUMP_OFFSET = 0.5;
+// The first card comes up as the hero leaves; a card passed in a fast scroll or a jump never gets to flash up.
+const CARD_FROM = -0.02;
+const CARD_SWAP_MS = 130;
 const REVEAL_MARGIN = '0px 0px -8% 0px';
 const REVEAL_STAGGER_S = 0.08;
-const MOBILE_QUERY = '(max-width: 820px)';
 
 const root = document.documentElement;
 const $ = (sel, scope = document) => scope.querySelector(sel);
@@ -117,21 +119,26 @@ function initRail({ progress }) {
   progress.onChange(render);
 }
 
-/* ---------- mobile: a released step card fades before it scrolls over the stand ---------- */
-function initMobileCardFade({ progress }) {
+/* ---------- process cards: one at a time, fixed in place ---------- */
+// The scroll only chooses the stage. Its card stays put in the text column for the whole stage and is swapped for
+// the next one at the boundary, so a card is never caught half-way on or off the screen (client, 2026-10-09).
+function initStepCards({ progress, isShot }) {
   const steps = $$('#process .step');
   if (!steps.length) return;
-  const mq = matchMedia(MOBILE_QUERY);
-  // Opacity sits on .step, not on the card: the card's own opacity belongs to the reveal animation.
+  let wanted = null;
+  let timer = 0;
+  const show = (index) => steps.forEach((step, i) => step.classList.toggle('is-active', i === index));
   const render = (p) => {
-    steps.forEach((step, i) => {
-      const o = mq.matches ? cardFadeOpacity(p, i) : 1;
-      step.style.opacity = o < 1 ? o.toFixed(3) : '';
-    });
+    const index = p >= CARD_FROM && p < STAGE_COUNT ? clamp(Math.floor(p), 0, STAGE_COUNT - 1) : -1;
+    if (index === wanted) return;
+    wanted = index;
+    clearTimeout(timer);
+    if (isShot) { show(index); return; }
+    show(-1); // the old card leaves at once; the new one follows when the scroll has stayed on its stage
+    if (index >= 0) timer = setTimeout(() => show(wanted), CARD_SWAP_MS);
   };
   render(progress.get());
   progress.onChange(render);
-  mq.addEventListener?.('change', () => render(progress.get()));
 }
 
 /* ---------- in-page links ---------- */
@@ -191,7 +198,7 @@ export function initUI({ progress, isShot = false, reducedMotion = false } = {})
   safely('menu', initMenu);
   safely('reveals', () => initReveals({ isShot, reducedMotion }));
   safely('rail', () => initRail({ progress }));
-  safely('card-fade', () => initMobileCardFade({ progress }));
+  safely('step-cards', () => initStepCards({ progress, isShot }));
   safely('anchors', () => initAnchors({ progress, reducedMotion }));
   safely('lifecycle', initLifecycle);
 }

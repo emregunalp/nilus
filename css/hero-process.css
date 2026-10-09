@@ -51,19 +51,27 @@
 
 /* ---------- process ---------- */
 .process { position: relative; }
-/* Each stage owns 240vh of scroll (2× the first cut — the client asked for half-speed animation).
-   The card is sticky so the text stays put while the stand works; --sticky-top/--sticky-bottom are the
-   single source for CSS and for scroll.js, which emulates sticky in shot mode (window not scrolled). */
+/* The scroll only chooses the stage: each stage owns 80vh of it, and the stand plays the stage to its end by itself
+   (scene-b: playTarget). The stage's card is fixed in the text column for the whole stage and is swapped for the
+   next one at the boundary (ui.js: initStepCards), so it is never caught half-way on or off the screen.
+   Without JS the cards are plain blocks, one under the other. */
 .step {
   position: relative;
-  min-height: 240vh;
-  display: flex; align-items: flex-start;
+  min-height: 80vh;
   padding: 0 var(--gutter);
-  --sticky-top: 22vh;
 }
+html.js-ui .step-card {
+  --card-edge: top; /* read by scroll.js in shot mode */
+  position: fixed; z-index: 2; left: var(--gutter); top: max(calc(var(--nav-h) + 24px), 22vh);
+  margin: 0;
+  opacity: 0; transform: translateY(16px); pointer-events: none;
+  /* The blur behind a card is dropped only after it has faded out: eight stacked blurs would be costly. */
+  transition: opacity .3s var(--ease), transform .5s var(--ease), -webkit-backdrop-filter 0s .3s, backdrop-filter 0s .3s;
+}
+html.js-ui .step:not(.is-active) .step-card { -webkit-backdrop-filter: none; backdrop-filter: none; }
+html.js-ui .step.is-active .step-card { opacity: 1; transform: none; pointer-events: auto; transition-delay: 0s; }
 .step-card {
-  position: sticky; top: var(--sticky-top);
-  margin: 34vh 0 45vh;
+  margin: 12vh 0;
   width: var(--col-text);
   padding: clamp(26px, 3vw, 40px) clamp(24px, 2.8vw, 40px) clamp(26px, 3vw, 36px);
   background: rgba(243, 237, 227, .72);
@@ -133,12 +141,12 @@
   .scroll-cue { bottom: 22px; }
   .scroll-cue-line { height: 28px; }
 
-  /* Shorter than on desktop (client, 2026-10-08: the story took too much swiping on a phone). The card is pinned until
-     about 0.7 of the stage, then fades (scroll.js CARD_FADE) before the next one comes up. */
-  .step { min-height: 150vh; align-items: flex-end; padding: 0 16px; --sticky-top: auto; --sticky-bottom: 16px; }
+  /* One swipe per stage, roughly. The card is pinned to the bottom of the screen, under the stand. */
+  .step { min-height: 100vh; padding: 0 16px; }
+  html.js-ui .step-card { --card-edge: bottom; left: 16px; right: 16px; top: auto; bottom: 16px; }
   /* No backdrop blur on phones: blurring the moving 3D canvas behind a card this wide costs a frame's worth of GPU time. */
   .step-card {
-    top: auto; bottom: var(--sticky-bottom); margin: 24vh 0 16px; width: 100%; padding: 24px 22px 24px;
+    margin: 24px 0; width: auto; padding: 24px 22px 24px;
     background: rgba(243, 237, 227, .93); -webkit-backdrop-filter: none; backdrop-filter: none;
   }
   .step-title { margin-top: 16px; font-size: 2.35rem; }
@@ -160,5 +168,5 @@
   .step-card .chips { display: none; }
 }
 
-/* Shot mode (?p= / ?y=): the window never scrolls, so CSS sticky cannot engage — scroll.js positions the cards. */
-html.is-shot .step-card { position: relative; top: auto; bottom: auto; }
+/* Shot mode (?p= / ?y=): the content is translated instead of scrolled, which un-fixes the cards — scroll.js moves
+   them back (pinCards). */

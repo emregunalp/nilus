@@ -47,10 +47,9 @@ export function stagger(P, a, b, i, n, span = 0.35) {
 }
 
 // ── timeline (single source of truth for every window) ───────────────────────────────────
-// A stage's text card is fully on screen for roughly P ∈ [i + 0.28, i + 0.73] (desktop; a little earlier on phones)
-// and has left by i + 1. What a stage is about must be on screen inside that window: Kurulum's finished, lit stand
-// used to arrive only as its card was leaving (client, 2026-10-08), so the truck now arrives earlier, the stand is
-// complete as the card settles and the neon comes on in front of the reader, then holds until Söküm.
+// A stage's text card is on screen for the whole of P ∈ [i, i + 1), and the film plays each stage by itself up to
+// STAGE_HOLD[i] (play.js). So everything a stage is about has to happen inside [i, STAGE_HOLD[i]]: Kurulum's stand is
+// complete and lit by 4.5 and then holds, turning slowly, until Söküm.
 export const T = Object.freeze({
   drawScroll: [-0.95, -0.3], // scrolling finishes the load-time draw-in if it is still running
   axes: [-0.6, 0.4], // cyan construction lines grow through the stand
@@ -61,8 +60,8 @@ export const T = Object.freeze({
   crateIn: [2.02, 2.14],
   pack: [2.06, 2.44],
   lidClose1: [2.42, 2.52],
-  toRack: [2.5, 2.84],
-  truckIn: [2.76, 2.97],
+  toRack: [2.5, 2.74],
+  truckIn: [2.8, 2.97], // only after Depolama's finished picture (play.js: STAGE_HOLD)
   load: [2.97, 3.2],
   drive: [3.22, 3.72],
   unload: [3.72, 3.94],

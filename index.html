@@ -47,12 +47,12 @@
   <!-- Turkish letters (latin-ext) -->
   <link rel="preload" href="assets/fonts/fraunces-normal-latin-ext.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/inter-tight-normal-latin-ext.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="css/fonts.css?v=29">
-  <link rel="stylesheet" href="css/base.css?v=29">
-  <link rel="stylesheet" href="css/chrome.css?v=29">
-  <link rel="stylesheet" href="css/hero-process.css?v=29">
-  <link rel="stylesheet" href="css/sections.css?v=29">
-  <link rel="stylesheet" href="css/projects.css?v=29">
+  <link rel="stylesheet" href="css/fonts.css?v=30">
+  <link rel="stylesheet" href="css/base.css?v=30">
+  <link rel="stylesheet" href="css/chrome.css?v=30">
+  <link rel="stylesheet" href="css/hero-process.css?v=30">
+  <link rel="stylesheet" href="css/sections.css?v=30">
+  <link rel="stylesheet" href="css/projects.css?v=30">
   <script>
     // Reveal-on-scroll hides [data-reveal] only when JS runs; if ui.js never boots, show everything.
     document.documentElement.classList.add('js');
@@ -71,6 +71,7 @@
   <link rel="modulepreload" href="js/scene-b/materials.js">
   <link rel="modulepreload" href="js/scene-b/textures.js">
   <link rel="modulepreload" href="js/scene-b/choreo.js">
+  <link rel="modulepreload" href="js/scene-b/play.js">
   <link rel="modulepreload" href="js/scene-b/layout.js">
   <link rel="modulepreload" href="js/scene-b/route.js">
   <link rel="modulepreload" href="js/scene-b/camera.js">
@@ -95,10 +96,10 @@
   <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/shaders/CopyShader.js">
   <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/shaders/LuminosityHighPassShader.js">
   <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/shaders/OutputShader.js">
-  <script type="module" src="js/main.js?v=29"></script>
-  <script type="module" src="js/projects/index.js?v=29"></script>
-  <script type="module" src="js/rental/index.js?v=29"></script>
-  <script type="module" src="js/contact.js?v=29"></script>
+  <script type="module" src="js/main.js?v=30"></script>
+  <script type="module" src="js/projects/index.js?v=30"></script>
+  <script type="module" src="js/rental/index.js?v=30"></script>
+  <script type="module" src="js/contact.js?v=30"></script>
 </head>
 <body>
   <a class="skip-link" href="#content">İçeriğe geç</a>
@@ -169,7 +170,7 @@
         <h1 id="hero-title" class="hero-title" data-reveal>Bir standın <span class="nowrap">bütün süreci,</span> <em>tek ekipte.</em></h1>
         <p class="hero-lede" data-reveal>Kongre ve fuar standlarını tasarlıyor, üretiyor ve kuruyoruz. Etkinlik sonrasında söküm, depolama, bakım ve yeniden kullanım da aynı ekip tarafından yürütülüyor.</p>
         <div class="hero-actions" data-reveal>
-          <a class="btn" href="#process" data-progress="0.4">Süreci izleyin<span class="btn-arrow" aria-hidden="true">↓</span></a>
+          <a class="btn" href="#process" data-progress="0.5">Süreci izleyin<span class="btn-arrow" aria-hidden="true">↓</span></a>
           <a class="btn btn-ghost" href="#projeler">Projelere gidin<span class="btn-arrow btn-arrow-side" aria-hidden="true">→</span></a>
         </div>
         <ul class="hero-facts" data-reveal>
@@ -178,7 +179,7 @@
           <li>Tek noktadan yönetim</li>
         </ul>
       </div>
-      <a class="scroll-cue" href="#process" data-progress="0.4">
+      <a class="scroll-cue" href="#process" data-progress="0.5">
         <span class="scroll-cue-line" aria-hidden="true"></span>Kaydırın — süreci izleyin
       </a>
     </section>
@@ -187,7 +188,7 @@
       <h2 id="process-title" class="visually-hidden">Bir standın süreci: sekiz aşama</h2>
 
       <article class="step" data-stage="0" aria-labelledby="step-0">
-        <div class="step-card" data-reveal>
+        <div class="step-card">
           <p class="step-index"><span>01</span> / 08</p>
           <h3 id="step-0" class="step-title">Tasarım</h3>
           <p class="step-lead">Süreç, briefle başlar.</p>
@@ -197,7 +198,7 @@
       </article>
 
       <article class="step" data-stage="1" aria-labelledby="step-1">
-        <div class="step-card" data-reveal>
+        <div class="step-card">
           <p class="step-index"><span>02</span> / 08</p>
           <h3 id="step-1" class="step-title">Üretim</h3>
           <p class="step-lead">Onaylanan tasarım üretime alınır.</p>
@@ -207,7 +208,7 @@
       </article>
 
       <article class="step" data-stage="2" aria-labelledby="step-2">
-        <div class="step-card" data-reveal>
+        <div class="step-card">
           <p class="step-index"><span>03</span> / 08</p>
           <h3 id="step-2" class="step-title">Depolama</h3>
           <p class="step-lead">Parçalar paketlenir, depoya alınır.</p>
@@ -217,7 +218,7 @@
       </article>
 
       <article class="step" data-stage="3" aria-labelledby="step-3">
-        <div class="step-card" data-reveal>
+        <div class="step-card">
           <p class="step-index"><span>04</span> / 08</p>
           <h3 id="step-3" class="step-title">Nakliye</h3>
           <p class="step-lead">Planlı sevkiyat, zamanında teslim.</p>
@@ -227,7 +228,7 @@
       </article>
 
       <article class="step" data-stage="4" aria-labelledby="step-4">
-        <div class="step-card" data-reveal>
+        <div class="step-card">
           <p class="step-index"><span>05</span> / 08</p>
           <h3 id="step-4" class="step-title">Kurulum</h3>
           <p class="step-lead">Stand, etkinlik alanında kurulur.</p>
@@ -237,7 +238,7 @@
       </article>
 
       <article class="step" data-stage="5" aria-labelledby="step-5">
-        <div class="step-card" data-reveal>
+        <div class="step-card">
           <p class="step-index"><span>06</span> / 08</p>
           <h3 id="step-5" class="step-title">Söküm</h3>
           <p class="step-lead">Etkinlik sonrası kontrollü söküm.</p>
@@ -247,7 +248,7 @@
       </article>
 
       <article class="step" data-stage="6" aria-labelledby="step-6">
-        <div class="step-card" data-reveal>
+        <div class="step-card">
           <p class="step-index"><span>07</span> / 08</p>
           <h3 id="step-6" class="step-title">Bakım</h3>
           <p class="step-lead">Her parça kontrol edilir.</p>
@@ -257,7 +258,7 @@
       </article>
 
       <article class="step" data-stage="7" aria-labelledby="step-7">
-        <div class="step-card" data-reveal>
+        <div class="step-card">
           <p class="step-index"><span>08</span> / 08</p>
           <h3 id="step-7" class="step-title">Yeniden Kullanım</h3>
           <p class="step-lead">Aynı stand, farklı etkinlikler.</p>

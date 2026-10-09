@@ -3,7 +3,10 @@
 // Knots are the scrollY values where P crosses an integer; between knots P is linear.
 // Anchors are measured through the offsetTop chain, so shot-mode transforms never skew them.
 
-export const ACTIVE_LINE = 0.55;
+// A stage begins when the top of its block reaches this line (fraction of the viewport height, from the top). It
+// sits just under the nav: the first stage's card is fixed in the left column and may only come up once the hero's
+// text has scrolled out of it.
+export const ACTIVE_LINE = 0.12;
 const P_MIN = -1;
 const P_MAX = 9;
 
@@ -59,39 +62,6 @@ export function progressToScroll(p, anchors, viewportH) {
   return knots[j] + (idx - j) * (knots[j + 1] - knots[j]);
 }
 
-/**
- * SAF: CSS `position: sticky` sonucu (viewport px). Shot mode'da pencere kaymadığı için kartların yerini bu verir.
- * top/bottom: yapışma mesafesi (null = o kenar yok); blockTop/blockBottom: kartın kenarlık kutusunun kapsayıcı
- * içinde durabileceği aralık (kapsayıcı içerik kutusu − kartın kendi marjları). Dönen değer: doğal yere göre kayma.
- */
-export function stickyOffset({ naturalTop, height, top = null, bottom = null, blockTop, blockBottom, viewportH }) {
-  let vt = naturalTop;
-  if (top !== null) vt = Math.min(Math.max(vt, top), blockBottom - height);
-  if (bottom !== null) vt = Math.max(Math.min(vt, viewportH - bottom - height), blockTop);
-  return vt - naturalTop;
-}
-
-/**
- * SAF: mobilde adım kartının opaklığı. Kart altta sabitken okunur; aşamanın sonunda sabitlikten çıkıp yukarı
- * kayarken standın ÜSTÜNDEN geçer (Kurulum doruğundaki neonu örtüyordu) → çıkıştan hemen önce söner.
- */
-export const CARD_FADE = Object.freeze({ start: 0.72, end: 0.84 });
-export function cardFadeOpacity(p, index) {
-  const t = p - index;
-  if (!(t > CARD_FADE.start)) return 1;
-  if (t >= CARD_FADE.end) return 0;
-  return 1 - (t - CARD_FADE.start) / (CARD_FADE.end - CARD_FADE.start);
-}
-
-/** '22vh' | '16px' | 'auto' → px ya da null. Yalnız sticky değişkenlerinin kullandığı birimler. */
-function lengthPx(raw, vh) {
-  const v = String(raw || '').trim();
-  const n = parseFloat(v);
-  if (!Number.isFinite(n)) return null;
-  if (v.endsWith('vh')) return (n * vh) / 100;
-  return n;
-}
-
 function docTop(el) {
   let y = 0;
   for (let node = el; node; node = node.offsetParent) y += node.offsetTop || 0;
@@ -135,26 +105,12 @@ export function createProgress({ content, hero, steps = [], process, forced = nu
     return computeProgress(isForcedY ? forcedY : window.scrollY, anchors, vh);
   };
 
-  // Shot mode: .step-card is position:relative (CSS); place each card where sticky would have put it at scrollY = y.
-  const emulateSticky = (y) => {
+  // Shot mode: the step cards are position:fixed, but inside the translated content "fixed" means fixed to the
+  // content, so they are moved back by the same distance (bottom-pinned cards, phones: from the content's end).
+  const pinCards = (y) => {
     for (const card of content.querySelectorAll('.step-card')) {
-      const block = card.parentElement;
-      if (!block) continue;
-      const cs = getComputedStyle(card);
-      const bs = getComputedStyle(block);
-      const top = lengthPx(bs.getPropertyValue('--sticky-top'), vh);
-      const bottom = lengthPx(bs.getPropertyValue('--sticky-bottom'), vh);
-      const blockDocTop = docTop(block);
-      const off = stickyOffset({
-        naturalTop: docTop(card) - y,
-        height: card.offsetHeight,
-        top,
-        bottom,
-        blockTop: blockDocTop + parseFloat(bs.paddingTop || 0) + parseFloat(cs.marginTop || 0) - y,
-        blockBottom: blockDocTop + block.offsetHeight - parseFloat(bs.paddingBottom || 0) - parseFloat(cs.marginBottom || 0) - y,
-        viewportH: vh,
-      });
-      card.style.transform = off ? `translate3d(0, ${Math.round(off)}px, 0)` : '';
+      const fromBottom = getComputedStyle(card).getPropertyValue('--card-edge').trim() === 'bottom';
+      card.style.translate = `0 ${Math.round(fromBottom ? y + vh - content.offsetHeight : y)}px`;
     }
   };
 
@@ -162,7 +118,7 @@ export function createProgress({ content, hero, steps = [], process, forced = nu
     if (!content || !(isForced || isForcedY)) return;
     const y = isForced ? progressToScroll(forced, anchors, vh) : forcedY;
     content.style.transform = `translate3d(0, ${-Math.round(y)}px, 0)`;
-    emulateSticky(y);
+    pinCards(y);
   };
 
   const emit = (force = false) => {

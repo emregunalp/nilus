@@ -48,12 +48,12 @@
   <!-- Turkish letters (latin-ext) -->
   <!-- (not preloaded on the English page) -->
   <!-- (not preloaded on the English page) -->
-  <link rel="stylesheet" href="css/fonts.css?v=29">
-  <link rel="stylesheet" href="css/base.css?v=29">
-  <link rel="stylesheet" href="css/chrome.css?v=29">
-  <link rel="stylesheet" href="css/hero-process.css?v=29">
-  <link rel="stylesheet" href="css/sections.css?v=29">
-  <link rel="stylesheet" href="css/projects.css?v=29">
+  <link rel="stylesheet" href="css/fonts.css?v=30">
+  <link rel="stylesheet" href="css/base.css?v=30">
+  <link rel="stylesheet" href="css/chrome.css?v=30">
+  <link rel="stylesheet" href="css/hero-process.css?v=30">
+  <link rel="stylesheet" href="css/sections.css?v=30">
+  <link rel="stylesheet" href="css/projects.css?v=30">
   <script>
     // Reveal-on-scroll hides [data-reveal] only when JS runs; if ui.js never boots, show everything.
     document.documentElement.classList.add('js');
@@ -72,6 +72,7 @@
   <link rel="modulepreload" href="js/scene-b/materials.js">
   <link rel="modulepreload" href="js/scene-b/textures.js">
   <link rel="modulepreload" href="js/scene-b/choreo.js">
+  <link rel="modulepreload" href="js/scene-b/play.js">
   <link rel="modulepreload" href="js/scene-b/layout.js">
   <link rel="modulepreload" href="js/scene-b/route.js">
   <link rel="modulepreload" href="js/scene-b/camera.js">
@@ -96,10 +97,10 @@
   <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/shaders/CopyShader.js">
   <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/shaders/LuminosityHighPassShader.js">
   <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/shaders/OutputShader.js">
-  <script type="module" src="js/main.js?v=29"></script>
-  <script type="module" src="js/projects/index.js?v=29"></script>
-  <script type="module" src="js/rental/index.js?v=29"></script>
-  <script type="module" src="js/contact.js?v=29"></script>
+  <script type="module" src="js/main.js?v=30"></script>
+  <script type="module" src="js/projects/index.js?v=30"></script>
+  <script type="module" src="js/rental/index.js?v=30"></script>
+  <script type="module" src="js/contact.js?v=30"></script>
 </head>
 <body>
   <a class="skip-link" href="#content">Skip to content</a>
@@ -170,7 +171,7 @@
         <h1 id="hero-title" class="hero-title" data-reveal>The whole life <span class="nowrap">of a stand,</span> <em>with one team.</em></h1>
         <p class="hero-lede" data-reveal>We design, build and install congress and exhibition stands. After the event, dismantling, storage, maintenance and reuse stay with the same team.</p>
         <div class="hero-actions" data-reveal>
-          <a class="btn" href="#process" data-progress="0.4">See the process<span class="btn-arrow" aria-hidden="true">↓</span></a>
+          <a class="btn" href="#process" data-progress="0.5">See the process<span class="btn-arrow" aria-hidden="true">↓</span></a>
           <a class="btn btn-ghost" href="#projeler">Go to projects<span class="btn-arrow btn-arrow-side" aria-hidden="true">→</span></a>
         </div>
         <ul class="hero-facts" data-reveal>
@@ -179,7 +180,7 @@
           <li>One team, start to finish</li>
         </ul>
       </div>
-      <a class="scroll-cue" href="#process" data-progress="0.4">
+      <a class="scroll-cue" href="#process" data-progress="0.5">
         <span class="scroll-cue-line" aria-hidden="true"></span>Scroll — see the process
       </a>
     </section>
@@ -188,7 +189,7 @@
       <h2 id="process-title" class="visually-hidden">The life of a stand: eight stages</h2>
 
       <article class="step" data-stage="0" aria-labelledby="step-0">
-        <div class="step-card" data-reveal>
+        <div class="step-card">
           <p class="step-index"><span>01</span> / 08</p>
           <h3 id="step-0" class="step-title">Design</h3>
           <p class="step-lead">It starts with the brief.</p>
@@ -198,7 +199,7 @@
       </article>
 
       <article class="step" data-stage="1" aria-labelledby="step-1">
-        <div class="step-card" data-reveal>
+        <div class="step-card">
           <p class="step-index"><span>02</span> / 08</p>
           <h3 id="step-1" class="step-title">Production</h3>
           <p class="step-lead">The approved design goes into production.</p>
@@ -208,7 +209,7 @@
       </article>
 
       <article class="step" data-stage="2" aria-labelledby="step-2">
-        <div class="step-card" data-reveal>
+        <div class="step-card">
           <p class="step-index"><span>03</span> / 08</p>
           <h3 id="step-2" class="step-title">Storage</h3>
           <p class="step-lead">Parts are packed and stored.</p>
@@ -218,7 +219,7 @@
       </article>
 
       <article class="step" data-stage="3" aria-labelledby="step-3">
-        <div class="step-card" data-reveal>
+        <div class="step-card">
           <p class="step-index"><span>04</span> / 08</p>
           <h3 id="step-3" class="step-title">Transport</h3>
           <p class="step-lead">Planned shipping, on-time delivery.</p>
@@ -228,7 +229,7 @@
       </article>
 
       <article class="step" data-stage="4" aria-labelledby="step-4">
-        <div class="step-card" data-reveal>
+        <div class="step-card">
           <p class="step-index"><span>05</span> / 08</p>
           <h3 id="step-4" class="step-title">Installation</h3>
           <p class="step-lead">The stand is installed at the venue.</p>
@@ -238,7 +239,7 @@
       </article>
 
       <article class="step" data-stage="5" aria-labelledby="step-5">
-        <div class="step-card" data-reveal>
+        <div class="step-card">
           <p class="step-index"><span>06</span> / 08</p>
           <h3 id="step-5" class="step-title">Dismantling</h3>
           <p class="step-lead">Controlled dismantling after the event.</p>
@@ -248,7 +249,7 @@
       </article>
 
       <article class="step" data-stage="6" aria-labelledby="step-6">
-        <div class="step-card" data-reveal>
+        <div class="step-card">
           <p class="step-index"><span>07</span> / 08</p>
           <h3 id="step-6" class="step-title">Maintenance</h3>
           <p class="step-lead">Every part is checked.</p>
@@ -258,7 +259,7 @@
       </article>
 
       <article class="step" data-stage="7" aria-labelledby="step-7">
-        <div class="step-card" data-reveal>
+        <div class="step-card">
           <p class="step-index"><span>08</span> / 08</p>
           <h3 id="step-7" class="step-title">Reuse</h3>
           <p class="step-lead">The same stand, different events.</p>
