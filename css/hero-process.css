@@ -115,6 +115,11 @@
   text-wrap: balance;
 }
 
+/* Tablets: no backdrop blur either — blurring the moving 3D canvas behind the card costs a frame's worth of GPU time. */
+@media (hover: none) and (pointer: coarse) {
+  .step-card { background: rgba(243, 237, 227, .93); -webkit-backdrop-filter: none; backdrop-filter: none; }
+}
+
 /* ---------- mobile: stand in the top ~55%, text in the lower half ---------- */
 @media (max-width: 820px) {
   .hero {

@@ -167,6 +167,12 @@ html.no-webgl .stage-fallback { display: block; }
   .grain { display: none; }
 }
 
+/* Tablets (touch, but wide enough for the desktop layout) have a phone's graphics chip: the same savings apply. */
+@media (hover: none) and (pointer: coarse) {
+  .stage { bottom: auto; height: 100vh; height: 100lvh; }
+  .grain { display: none; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
   html.js [data-reveal] { opacity: 1; transform: none; }

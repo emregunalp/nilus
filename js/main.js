@@ -24,10 +24,13 @@ const sceneDisabled = sceneParam === 'none';
 const variant = Object.hasOwn(SCENES, sceneParam) ? sceneParam : DEFAULT_SCENE;
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const isMobile = matchMedia('(max-width: 820px)').matches;
+// Tablets are wide enough for the desktop layout but draw with a phone's graphics chip: the glow pipeline made
+// the page stutter there (client's tablet, 2026-10-09). They get the same light rendering as phones.
+const isTouch = matchMedia('(hover: none) and (pointer: coarse)').matches;
 const qParam = params.get('q');
 const quality = qParam === 'low' || qParam === 'high'
   ? qParam
-  : (isMobile || (navigator.hardwareConcurrency || 8) <= 4 ? 'low' : 'high');
+  : (isMobile || isTouch || (navigator.hardwareConcurrency || 8) <= 4 ? 'low' : 'high');
 
 const root = document.documentElement;
 root.classList.toggle('is-shot', isShot);
