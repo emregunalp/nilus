@@ -32,7 +32,7 @@ html.nav-scrolled .nav {
   background: var(--neon-grad); transform: scaleX(0); transform-origin: left;
   transition: transform .45s var(--ease);
 }
-.nav-links a:hover::after { transform: scaleX(1); }
+.nav-links a:hover::after, .nav-links a[aria-current='page']::after { transform: scaleX(1); }
 .nav-links .nav-lang { font: 500 .78rem/1 var(--font-mono); letter-spacing: .12em; padding: 8px 10px 7px; border: 1px solid rgba(27, 25, 22, .28); border-radius: 999px; }
 .nav-links .nav-lang::after { content: none; }
 .nav-links .nav-lang:hover { background: var(--ink); color: var(--cream); border-color: var(--ink); }
@@ -180,7 +180,12 @@ html.rail-on .rail { opacity: 1; visibility: visible; transition-delay: 0s; }
     height: 30px; display: flex; align-items: center;
     background: linear-gradient(180deg, rgba(243, 237, 227, .7), rgba(243, 237, 227, 0));
   }
-  .rail-list { display: none; }
+  /* Phones: the stage list is a column of dots down the right edge, under the bar — small enough to leave the stand
+     alone, and each dot still jumps to its stage (client, 2026-10-09). The current stage's name is in the bar. */
+  .rail-list { position: absolute; right: 2px; top: 40px; gap: 0; }
+  .rail-list button { width: 34px; height: 26px; padding: 0; justify-content: center; }
+  .rail-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .rail-dot { width: 8px; height: 8px; }
   .rail-skip { position: static; margin-left: auto; padding: 6px 10px 5px; font-size: .6rem; background: rgba(243, 237, 227, .95); -webkit-backdrop-filter: none; backdrop-filter: none; }
   html.nav-scrolled .nav { background: rgba(243, 237, 227, .97); -webkit-backdrop-filter: none; backdrop-filter: none; }
   .rail-current {

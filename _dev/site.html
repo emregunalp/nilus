@@ -1,0 +1,825 @@
+<!doctype html>
+<!-- SOURCE of every page of the site. _dev/build.ps1 cuts it into the pages listed in _dev/pages.json (@only blocks: the pages a part belongs to; {{...}}: filled in per page) and writes the English ones with _dev/i18n/en.json. -->
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>{{title}}</title>
+  <meta name="description" content="{{description}}">
+  <meta name="theme-color" content="#F3EDE3">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="tr_TR">
+  <meta property="og:title" content="{{og-title}}">
+  <meta property="og:description" content="{{og-description}}">
+  <!-- The page's own address and its other-language twin (filled in by _dev/build.ps1). -->
+  <link rel="canonical" href="{{url}}">
+  <link rel="alternate" hreflang="tr" href="{{url-tr}}">
+  <link rel="alternate" hreflang="en" href="{{url-en}}">
+  <link rel="alternate" hreflang="x-default" href="{{url-tr}}">
+  <!-- @only surec -->
+  <!-- Who the site belongs to, for search engines: name, address and logo shown beside the results. -->
+  <script type="application/ld+json">
+  [{ "@context": "https://schema.org", "@type": "Organization", "name": "Nilus", "url": "https://nilus.com.tr/",
+     "logo": "https://nilus.com.tr/assets/icon-512.png", "email": "info@nilus.com.tr",
+     "address": { "@type": "PostalAddress", "streetAddress": "Barbaros Mah. Ihlamur Blv. No: 3/15",
+                  "addressLocality": "Ataşehir", "addressRegion": "İstanbul", "addressCountry": "TR" } },
+   { "@context": "https://schema.org", "@type": "WebSite", "name": "Nilus", "url": "https://nilus.com.tr/" }]
+  </script>
+  <!-- @end -->
+  <!-- Link preview card. Scrapers need absolute addresses. -->
+  <meta property="og:site_name" content="Nilus">
+  <meta property="og:url" content="{{url}}">
+  <meta property="og:image" content="https://nilus.com.tr/assets/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Nilus logosu ve bir kongre standı modeli">
+  <meta name="twitter:card" content="summary_large_image">
+  <!-- The site's icon ("n." from the logo). Search engines and older browsers ask for /favicon.ico and a PNG;
+       current browsers take the SVG. -->
+  <link rel="icon" href="favicon.ico" sizes="48x48">
+  <link rel="icon" href="assets/favicon.svg?v=2" type="image/svg+xml">
+  <link rel="icon" href="assets/icon-192.png" type="image/png" sizes="192x192">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <!-- @only surec -->
+  <script>
+    // Links from before the site was split into pages (nilus.com.tr/#iletisim ...) go on to the section's own page.
+    (function () { var to = {{moved}}[location.hash]; if (to) location.replace(to); })();
+  </script>
+  <!-- @end -->
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <!-- The typefaces are served from the site itself (css/fonts.css) and fetched with the first requests: the text
+       settles at once and the 3D scene, which waits for them, starts sooner. -->
+  <link rel="preload" href="assets/fonts/fraunces-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/fraunces-italic-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/inter-tight-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/jetbrains-mono-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <!-- Turkish letters (latin-ext) -->
+  <link rel="preload" href="assets/fonts/fraunces-normal-latin-ext.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/inter-tight-normal-latin-ext.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/fonts.css?v=31">
+  <link rel="stylesheet" href="css/base.css?v=31">
+  <link rel="stylesheet" href="css/chrome.css?v=31">
+  <link rel="stylesheet" href="css/hero-process.css?v=31">
+  <link rel="stylesheet" href="css/sections.css?v=31">
+  <link rel="stylesheet" href="css/projects.css?v=31">
+  <script>
+    // Reveal-on-scroll hides [data-reveal] only when JS runs; if ui.js never boots, show everything.
+    document.documentElement.classList.add('js');
+    setTimeout(function () { if (!document.documentElement.classList.contains('js-ui')) document.documentElement.classList.remove('js'); }, 4500);
+  </script>
+  <!-- @only surec kiralik -->
+  <script type="importmap">{ "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.min.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/" } }</script>
+  <!-- @end -->
+  <!-- @only surec -->
+  <!-- The 3D scene is a chain of modules that would otherwise be discovered one level at a time; fetch them together. -->
+  <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.min.js">
+  <link rel="modulepreload" href="js/scene-b/index.js">
+  <link rel="modulepreload" href="js/scene-b/world.js">
+  <link rel="modulepreload" href="js/scene-b/stand.js">
+  <link rel="modulepreload" href="js/scene-b/geo.js">
+  <link rel="modulepreload" href="js/scene-b/logo.js">
+  <link rel="modulepreload" href="js/scene-b/materials.js">
+  <link rel="modulepreload" href="js/scene-b/textures.js">
+  <link rel="modulepreload" href="js/scene-b/choreo.js">
+  <link rel="modulepreload" href="js/scene-b/play.js">
+  <link rel="modulepreload" href="js/scene-b/layout.js">
+  <link rel="modulepreload" href="js/scene-b/route.js">
+  <link rel="modulepreload" href="js/scene-b/camera.js">
+  <link rel="modulepreload" href="js/scene-b/post.js">
+  <link rel="modulepreload" href="js/scene-b/fx.js">
+  <link rel="modulepreload" href="js/scene-b/props-blueprint.js">
+  <link rel="modulepreload" href="js/scene-b/props-logistics.js">
+  <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/lines/LineSegments2.js">
+  <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/lines/LineSegmentsGeometry.js">
+  <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/lines/LineMaterial.js">
+  <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/geometries/RoundedBoxGeometry.js">
+  <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/utils/BufferGeometryUtils.js">
+  <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/loaders/SVGLoader.js">
+  <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/environments/RoomEnvironment.js">
+  <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/postprocessing/EffectComposer.js">
+  <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/postprocessing/RenderPass.js">
+  <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/postprocessing/UnrealBloomPass.js">
+  <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/postprocessing/OutputPass.js">
+  <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/postprocessing/ShaderPass.js">
+  <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/postprocessing/MaskPass.js">
+  <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/postprocessing/Pass.js">
+  <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/shaders/CopyShader.js">
+  <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/shaders/LuminosityHighPassShader.js">
+  <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/shaders/OutputShader.js">
+  <!-- @end -->
+  <!-- @only surec -->
+  <script type="module" src="js/main.js?v=31"></script>
+  <!-- @end -->
+  <!-- @only projeler kiralik yaklasim hakkimizda iletisim -->
+  <script type="module" src="js/page.js?v=31"></script>
+  <!-- @end -->
+  <!-- @only projeler -->
+  <script type="module" src="js/projects/index.js?v=31"></script>
+  <!-- @end -->
+  <!-- @only kiralik -->
+  <script type="module" src="js/rental/index.js?v=31"></script>
+  <!-- @end -->
+  <script type="module" src="js/contact.js?v=31"></script>
+</head>
+<body>
+  <a class="skip-link" href="#content">İçeriğe geç</a>
+
+  <!-- Nilus logo (original artwork, nilus logo/nilus logo black.svg) — referenced with <use> in nav and footer. -->
+  <svg class="visually-hidden" aria-hidden="true" focusable="false">
+    <symbol id="nilus-logo" viewBox="9 9 543 147">
+      <path d="M23.48,86.74c0-2.23-.15-3.59-.61-4.59-.46-.99-1.24-1.63-2.5-2.4l-4.08-2.23-4.08-2.23v-6.41l20-6.7,20-6.7h7.96v17.47c5.44-5.63,10.97-9.85,16.62-12.67,5.65-2.82,11.43-4.22,17.35-4.22,10.97,0,18.64,2.96,23.57,9.42,4.93,6.46,7.11,16.41,7.11,30.38v28.73c0,3.21.14,5.88.44,7.96.29,2.09.73,3.59,1.31,4.46.58.97,1.65,1.75,3.18,2.36,1.53.61,3.52,1.04,5.95,1.33v9.51h-57.47v-9.51c2.23-.48,4.08-1.07,5.49-1.75,1.41-.68,2.38-1.46,2.86-2.33s.87-2.28,1.14-4.27c.27-1.99.41-4.56.41-7.77v-20.38c0-9.32-.97-16.16-3.52-20.68-2.55-4.51-6.67-6.7-12.98-6.7-1.84,0-3.69.24-5.58.75-1.89.51-3.83,1.29-5.87,2.35v44.66c0,3.3.14,5.97.41,8.03.27,2.06.65,3.52,1.14,4.39.49.88,1.5,1.65,3.03,2.28s3.57,1.12,6.09,1.41v9.51H11.64v-9.51c2.62-.39,4.76-.92,6.41-1.58,1.65-.66,2.82-1.43,3.5-2.31.68-.87,1.16-2.33,1.48-4.37.31-2.04.46-4.66.46-7.87v-37.86Z"/>
+      <path d="M205.43,150.23h-63.49v-9.51c3.11-.29,5.63-.73,7.55-1.33,1.92-.61,3.23-1.38,3.91-2.36.68-.87,1.16-2.38,1.48-4.46.31-2.09.46-4.76.46-7.96v-37.86c0-2.82-.05-4.47-.65-5.63-.61-1.16-1.77-1.84-4-2.72l-3.69-1.46-3.69-1.46v-7.18l19.41-6.41,19.41-6.41h9.9v69.12c0,3.21.19,5.88.56,7.96.36,2.09.9,3.59,1.58,4.46.68.97,1.94,1.75,3.81,2.36,1.87.61,4.34,1.04,7.45,1.33v9.51ZM173.01,48.49c-5.05,0-9.66-2.09-13.01-5.44-3.35-3.35-5.43-7.96-5.43-13.01s2.09-9.76,5.43-13.08c3.35-3.32,7.96-5.36,13.01-5.36,2.43,0,4.71.44,6.84,1.34,2.14.9,4.13,2.26,5.97,4.1,6.02,5.24,6.65,13.3,3.86,19.95-2.79,6.65-9,11.89-16.67,11.5Z"/>
+      <path d="M225.25,42.67c0-2.81-.34-5.1-1.02-6.82-.68-1.72-1.7-2.89-3.06-3.47l-4.85-2.04-4.85-2.04v-6.99l21.36-4.85,21.36-4.85h9.7c-.68,3.59-1.16,6.99-1.48,10.15-.31,3.16-.46,6.07-.46,8.69v94.16c0,3.21.19,5.88.56,7.96.36,2.09.9,3.59,1.58,4.46.68.97,1.94,1.75,3.81,2.36,1.87.61,4.34,1.04,7.45,1.33v9.51h-63.49v-9.51c3.11-.29,5.63-.73,7.55-1.33,1.92-.61,3.23-1.38,3.91-2.36.68-.87,1.16-2.38,1.48-4.46.31-2.09.46-4.76.46-7.96V42.67Z"/>
+      <path d="M406.99,147.9l-21.26,2.52-21.26,2.52h-7.77v-17.09c-5.63,5.53-11.26,9.71-16.87,12.5-5.61,2.79-11.19,4.2-16.72,4.2-10.48,0-18.25-2.77-23.4-8.81-5.14-6.04-7.67-15.36-7.67-28.47v-36.31c0-2.43,0-3.79-.39-4.66-.39-.87-1.17-1.26-2.72-1.75l-3.01-1.17-3.01-1.17v-8.93l23.79-2.33,23.79-2.33c-.58,1.84-1.02,3.93-1.31,6.28-.29,2.35-.44,4.97-.44,7.89v37.08c0,7.38,1.6,13.3,4.64,17.38,3.03,4.08,7.5,6.31,13.23,6.31,1.55,0,3.15-.24,4.83-.75,1.67-.51,3.42-1.29,5.27-2.36v-45.82c0-2.62-.24-4.71-.83-6.34-.58-1.63-1.5-2.79-2.86-3.57-1.36-.78-2.48-1.26-3.86-1.63s-3.03-.61-5.46-.9v-8.93l25.73-2.33,25.73-2.33c-.49,1.75-.88,3.79-1.14,6.14s-.41,5.02-.41,8.03v53.78c0,3.01.15,5.49.46,7.43s.8,3.35,1.48,4.22c.58.87,1.75,1.55,3.5,2.01,1.75.46,4.08.7,6.99.7h.97v8.93Z"/>
+      <path d="M482.74,143.83c-4.18,3.2-8.98,5.58-14.42,7.16-5.44,1.58-11.5,2.35-18.2,2.35s-12.28-.53-17.6-1.6c-5.32-1.07-10.07-2.67-14.25-4.81l-1.75-13.4-1.75-13.4h8.93c2.81,6.7,6.26,11.6,10.92,14.83s10.53,4.78,18.2,4.78c3.2,0,6.21-1.02,8.42-2.6,2.21-1.58,3.62-3.71,3.62-5.94,0-2.62-1.12-4.66-3.79-6.46-2.67-1.8-6.89-3.35-13.11-5-10.87-2.91-19.03-6.99-24.46-12.23-5.44-5.24-8.15-11.65-8.15-19.22,0-5.44,1.07-10.19,3.2-14.27,2.14-4.08,5.34-7.48,9.61-10.2,4.27-2.72,9.03-4.76,14.27-6.11,5.24-1.36,10.97-2.04,17.18-2.04,4.37,0,9.08.48,14.15,1.48,5.07,1,10.51,2.5,16.33,4.54l.68,11.84.68,11.84h-9.12c-2.62-5.34-6.12-9.37-10.46-12.06-4.34-2.69-9.54-4.05-15.56-4.05-3.79,0-6.6.58-8.47,1.77-1.87,1.19-2.79,2.99-2.79,5.41s.83,3.98,3.42,5.48c2.6,1.5,6.96,2.96,14.05,5.19,10.77,3.4,18.93,7.28,24.39,12.28,5.46,5,8.23,11.11,8.23,18.98,0,5.34-1.02,10.1-3.08,14.32-2.06,4.22-5.17,7.91-9.34,11.12Z"/>
+      <path d="M549.36,132.76c0,5.44-2.18,10.39-5.73,13.98-3.54,3.59-8.45,5.82-13.88,5.82-5.14,0-9.95-2.28-13.47-5.9-3.52-3.62-5.75-8.57-5.75-13.91s2.14-10.49,5.61-14.05c3.47-3.57,8.28-5.75,13.61-5.75s10.44,2.18,13.95,5.75c3.52,3.57,5.65,8.52,5.65,14.05Z"/>
+    </symbol>
+  </svg>
+
+  <!-- @only surec -->
+  <div id="stage" class="stage" aria-hidden="true">
+    <canvas id="stage-canvas"></canvas>
+    <div class="stage-fallback">
+      <img src="assets/stand-poster.svg" alt="" width="628" height="575" decoding="async">
+    </div>
+  </div>
+  <!-- @end -->
+  <div class="grain" aria-hidden="true"></div>
+
+  <header class="nav">
+    <div class="nav-inner">
+      <a class="wordmark" href="{{home}}" aria-label="Nilus — sayfa başı">
+        <!-- The outer viewBox starts at 0: <use> places the symbol at the origin, so an offset here would crop the artwork. -->
+        <svg class="logo" viewBox="0 0 543 147" aria-hidden="true" focusable="false"><use href="#nilus-logo"/></svg>
+      </a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-menu">
+        <span class="nav-toggle-lines" aria-hidden="true"></span><span class="visually-hidden">Menü</span>
+      </button>
+      <nav id="nav-menu" class="nav-menu" aria-label="Ana menü">
+        <ul class="nav-links">
+{{nav}}
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- @only surec -->
+  <nav class="rail" aria-label="Süreç ilerlemesi">
+    <p class="rail-current" aria-hidden="true"><span class="rail-num">01</span><span class="rail-name">Tasarım</span></p>
+    <div class="rail-bar" aria-hidden="true"><span class="rail-fill"></span></div>
+    <ol class="rail-list">
+      <li><button type="button" data-i="0"><span class="rail-label">Tasarım</span><span class="rail-dot"></span></button></li>
+      <li><button type="button" data-i="1"><span class="rail-label">Üretim</span><span class="rail-dot"></span></button></li>
+      <li><button type="button" data-i="2"><span class="rail-label">Depolama</span><span class="rail-dot"></span></button></li>
+      <li><button type="button" data-i="3"><span class="rail-label">Nakliye</span><span class="rail-dot"></span></button></li>
+      <li><button type="button" data-i="4"><span class="rail-label">Kurulum</span><span class="rail-dot"></span></button></li>
+      <li><button type="button" data-i="5"><span class="rail-label">Söküm</span><span class="rail-dot"></span></button></li>
+      <li><button type="button" data-i="6"><span class="rail-label">Bakım</span><span class="rail-dot"></span></button></li>
+      <li><button type="button" data-i="7"><span class="rail-label">Yeniden Kullanım</span><span class="rail-dot"></span></button></li>
+    </ol>
+    <a class="rail-skip" href="#projeler">Projelere gidin<span aria-hidden="true">→</span></a>
+  </nav>
+  <!-- @end -->
+
+  <main id="content" tabindex="-1">
+    <!-- @only surec -->
+    <section id="hero" class="hero" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="eyebrow" data-reveal><span class="neon-dot" aria-hidden="true"></span>Kongre ve fuar standları</p>
+        <h1 id="hero-title" class="hero-title" data-reveal>Bir standın <span class="nowrap">bütün süreci,</span> <em>tek ekipte.</em></h1>
+        <p class="hero-lede" data-reveal>Kongre ve fuar standlarını tasarlıyor, üretiyor ve kuruyoruz. Etkinlik sonrasında söküm, depolama, bakım ve yeniden kullanım da aynı ekip tarafından yürütülüyor.</p>
+        <div class="hero-actions" data-reveal>
+          <a class="btn" href="#process" data-progress="0.5">Süreci izleyin<span class="btn-arrow" aria-hidden="true">↓</span></a>
+          <a class="btn btn-ghost" href="#projeler">Projelere gidin<span class="btn-arrow btn-arrow-side" aria-hidden="true">→</span></a>
+        </div>
+        <ul class="hero-facts" data-reveal>
+          <li><strong>25+</strong> yıl deneyim</li>
+          <li><strong>8</strong> aşamalı süreç</li>
+          <li>Tek noktadan yönetim</li>
+        </ul>
+      </div>
+      <a class="scroll-cue" href="#process" data-progress="0.5">
+        <span class="scroll-cue-line" aria-hidden="true"></span>Kaydırın — süreci izleyin
+      </a>
+    </section>
+
+    <section id="process" class="process" aria-labelledby="process-title">
+      <h2 id="process-title" class="visually-hidden">Bir standın süreci: sekiz aşama</h2>
+
+      <article class="step" data-stage="0" aria-labelledby="step-0">
+        <div class="step-card">
+          <p class="step-index"><span>01</span> / 08</p>
+          <h3 id="step-0" class="step-title">Tasarım</h3>
+          <p class="step-lead">Süreç, briefle başlar.</p>
+          <p class="step-text">Proje briefini alıyor, markanızın etkinlikteki ihtiyacını birlikte netleştiriyoruz. Tasarımı görünümle birlikte modülerliğe, lojistiğe ve tekrar kuruluma göre planlıyoruz.</p>
+          <ul class="chips"><li>Brief analizi</li><li>3D tasarım</li><li>Teknik çizim</li></ul>
+        </div>
+      </article>
+
+      <article class="step" data-stage="1" aria-labelledby="step-1">
+        <div class="step-card">
+          <p class="step-index"><span>02</span> / 08</p>
+          <h3 id="step-1" class="step-title">Üretim</h3>
+          <p class="step-lead">Onaylanan tasarım üretime alınır.</p>
+          <p class="step-text">Tasarım atölyemizde üretilir; teknik hazırlıklar bu aşamada tamamlanır. Parçalar sahaya çıkmadan önce ön montajla bir araya getirilir; aydınlatma ve teknik ekipman gibi detaylar test edilir.</p>
+          <ul class="chips"><li>Atölye üretimi</li><li>Teknik hazırlık</li><li>Ön montaj ve ışık testi</li></ul>
+        </div>
+      </article>
+
+      <article class="step" data-stage="2" aria-labelledby="step-2">
+        <div class="step-card">
+          <p class="step-index"><span>03</span> / 08</p>
+          <h3 id="step-2" class="step-title">Depolama</h3>
+          <p class="step-lead">Parçalar paketlenir, depoya alınır.</p>
+          <p class="step-text">Stand parçalarına ayrılır, paketlenir ve etiketlenir. Bir sonraki etkinliğe kadar depomuzda, envanter kaydıyla saklanır.</p>
+          <ul class="chips"><li>Paketleme</li><li>Etiketleme</li><li>Envanter takibi</li></ul>
+        </div>
+      </article>
+
+      <article class="step" data-stage="3" aria-labelledby="step-3">
+        <div class="step-card">
+          <p class="step-index"><span>04</span> / 08</p>
+          <h3 id="step-3" class="step-title">Nakliye</h3>
+          <p class="step-lead">Planlı sevkiyat, zamanında teslim.</p>
+          <p class="step-text">Paketlenen stand, etkinliğin yapılacağı şehre planlı bir sevkiyatla gönderilir. Taşıma kolaylığı tasarım aşamasında düşünüldüğü için lojistiği kolaylıkla yapılır.</p>
+          <ul class="chips"><li>Planlı sevkiyat</li><li>Şehirler arası lojistik</li><li>Zamanında teslim</li></ul>
+        </div>
+      </article>
+
+      <article class="step" data-stage="4" aria-labelledby="step-4">
+        <div class="step-card">
+          <p class="step-index"><span>05</span> / 08</p>
+          <h3 id="step-4" class="step-title">Kurulum</h3>
+          <p class="step-lead">Stand, etkinlik alanında kurulur.</p>
+          <p class="step-text">Saha ekibimiz standı alanda kurar; teknik ekipman ve aydınlatma devreye alınır. Stand, açılıştan önce kontrol edilerek teslim edilir.</p>
+          <ul class="chips"><li>Saha koordinasyonu</li><li>Montaj</li><li>Işık ve ekran devreye alma</li></ul>
+        </div>
+      </article>
+
+      <article class="step" data-stage="5" aria-labelledby="step-5">
+        <div class="step-card">
+          <p class="step-index"><span>06</span> / 08</p>
+          <h3 id="step-5" class="step-title">Söküm</h3>
+          <p class="step-lead">Etkinlik sonrası kontrollü söküm.</p>
+          <p class="step-text">Etkinlik bittiğinde stand kontrollü biçimde sökülür. Parçalar sayılır, paketlenir ve depoya geri gönderilir.</p>
+          <ul class="chips"><li>Kontrollü söküm</li><li>Parça sayımı</li><li>Paketleme</li></ul>
+        </div>
+      </article>
+
+      <article class="step" data-stage="6" aria-labelledby="step-6">
+        <div class="step-card">
+          <p class="step-index"><span>07</span> / 08</p>
+          <h3 id="step-6" class="step-title">Bakım</h3>
+          <p class="step-lead">Her parça kontrol edilir.</p>
+          <p class="step-text">Depoya dönen parçalar tek tek kontrol edilir; gereken onarım ve yenileme yapılır. Stand, bir sonraki organizasyon için hazır hale getirilir.</p>
+          <ul class="chips"><li>Parça kontrolü</li><li>Onarım ve yenileme</li><li>Kalite onayı</li></ul>
+        </div>
+      </article>
+
+      <article class="step" data-stage="7" aria-labelledby="step-7">
+        <div class="step-card">
+          <p class="step-index"><span>08</span> / 08</p>
+          <h3 id="step-7" class="step-title">Yeniden Kullanım</h3>
+          <p class="step-lead">Aynı stand, farklı etkinlikler.</p>
+          <p class="step-text">Bir stand çoğu zaman tek bir etkinlikle sınırlı kalmaz. Yıl boyunca farklı şehirlerde, farklı alan ölçülerinde ve değişen ihtiyaçlara göre yeniden kurulur.</p>
+          <ul class="chips"><li>Farklı şehir</li><li>Farklı ölçü</li><li>Aynı marka dili</li></ul>
+        </div>
+      </article>
+
+      <div class="process-outro">
+        <p class="eyebrow" data-reveal><span class="neon-dot" aria-hidden="true"></span>Döngü tamamlandı</p>
+        <p class="outro-statement" data-reveal>Her etkinlikte yeniden tedarikçi aramayın. <em>Standınızı tanıyan bir ekiple</em> çalışın.</p>
+      </div>
+    </section>
+
+    <section id="yonetim" class="section lifecycle" aria-labelledby="lifecycle-title">
+      <div class="wrap lifecycle-grid">
+        <div class="lifecycle-copy">
+          <p class="eyebrow" data-reveal>Tek noktadan yönetim</p>
+          <h2 id="lifecycle-title" class="section-title" data-reveal>Tüm süreç, <em>tek bir ekipte.</em></h2>
+          <p class="section-lede" data-reveal>Nilus olarak standın tasarımdan yeniden kullanıma kadar tüm sürecini yönetiyoruz. Tasarım, üretim ve saha operasyonlarını farklı firmalarla koordine etmek yerine, tüm süreci tek bir ekiple yürütürsünüz.</p>
+        </div>
+        <figure class="lifecycle-figure" data-reveal>
+          <svg class="lifecycle-svg" viewBox="-135 -10 870 620" aria-hidden="true" focusable="false">
+            <defs>
+              <linearGradient id="lc-grad" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#FF2FB9"/>
+                <stop offset=".55" stop-color="#8A6BFF"/>
+                <stop offset="1" stop-color="#38D6FF"/>
+              </linearGradient>
+              <filter id="lc-glow" x="-10%" y="-10%" width="120%" height="120%">
+                <feGaussianBlur stdDeviation="5" result="b"/>
+                <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+            </defs>
+            <circle class="lc-track" cx="300" cy="300" r="220"/>
+            <circle class="lc-ticks" cx="300" cy="300" r="244"/>
+            <circle class="lc-arc" cx="300" cy="300" r="220" pathLength="100" transform="rotate(-90 300 300)" filter="url(#lc-glow)"/>
+            <path class="lc-arrow" d="M272 72 l12 8 -12 8"/>
+            <g class="lc-center">
+              <text x="300" y="300" class="lc-center-title">tek ekip</text>
+              <text x="300" y="342" class="lc-center-sub">8 aşama · tek döngü</text>
+            </g>
+            <g class="lc-node" data-i="0"><circle cx="300" cy="80" r="9"/><text x="300" y="40" text-anchor="middle"><tspan class="n">01</tspan> Tasarım</text></g>
+            <g class="lc-node" data-i="1"><circle cx="455.6" cy="144.4" r="9"/><text x="484" y="118" text-anchor="start"><tspan class="n">02</tspan> Üretim</text></g>
+            <g class="lc-node" data-i="2"><circle cx="520" cy="300" r="9"/><text x="552" y="306" text-anchor="start"><tspan class="n">03</tspan> Depolama</text></g>
+            <g class="lc-node" data-i="3"><circle cx="455.6" cy="455.6" r="9"/><text x="484" y="496" text-anchor="start"><tspan class="n">04</tspan> Nakliye</text></g>
+            <g class="lc-node" data-i="4"><circle cx="300" cy="520" r="9"/><text x="300" y="572" text-anchor="middle"><tspan class="n">05</tspan> Kurulum</text></g>
+            <g class="lc-node" data-i="5"><circle cx="144.4" cy="455.6" r="9"/><text x="116" y="496" text-anchor="end"><tspan class="n">06</tspan> Söküm</text></g>
+            <g class="lc-node" data-i="6"><circle cx="80" cy="300" r="9"/><text x="48" y="306" text-anchor="end"><tspan class="n">07</tspan> Bakım</text></g>
+            <g class="lc-node" data-i="7"><circle cx="144.4" cy="144.4" r="9"/><text x="116" y="118" text-anchor="end"><tspan class="n">08</tspan> Yeniden Kullanım</text></g>
+          </svg>
+          <figcaption class="visually-hidden">Sekiz aşamalı döngü: Tasarım, Üretim, Depolama, Nakliye, Kurulum, Söküm, Bakım, Yeniden Kullanım — ve yeniden Tasarım.</figcaption>
+        </figure>
+      </div>
+    </section>
+    <!-- @end -->
+
+    <!-- @only projeler -->
+    <section id="projeler" class="section projects" aria-labelledby="projects-title">
+      <div class="wrap">
+        <div class="projects-head">
+          <div>
+            <p class="eyebrow" data-reveal><span class="neon-dot" aria-hidden="true"></span>Projeler</p>
+            <h2 id="projects-title" class="section-title" data-reveal>Kurduğumuz <em>standlardan</em> seçmeler.</h2>
+            <p class="section-lede" data-reveal>Kongre, fuar ve festival alanlarında kurduğumuz standlardan bazıları. Büyütmek için fotoğrafa tıklayın.</p>
+          </div>
+        </div>
+
+        <div class="projects-grid">
+          <button class="project" type="button" data-photo="assets/projects/photos/wegovy.jpg" data-name="Wegovy" data-reveal>
+            <img src="assets/projects/photos/wegovy-s.jpg" srcset="assets/projects/photos/wegovy-xs.jpg 600w, assets/projects/photos/wegovy-s.jpg 900w" sizes="(max-width: 760px) 46vw, (max-width: 1180px) 31vw, 23vw" alt="Wegovy kongre standı" width="900" height="675" loading="lazy" decoding="async">
+            <span class="project-meta"><span class="project-index" aria-hidden="true"></span><span class="project-name">Wegovy</span></span>
+            <span class="project-cta" aria-hidden="true">Büyütün</span>
+          </button>
+
+          <button class="project" type="button" data-photo="assets/projects/photos/sensodyne.jpg" data-name="Sensodyne" data-reveal>
+            <img src="assets/projects/photos/sensodyne-s.jpg" srcset="assets/projects/photos/sensodyne-xs.jpg 600w, assets/projects/photos/sensodyne-s.jpg 900w" sizes="(max-width: 760px) 46vw, (max-width: 1180px) 31vw, 23vw" alt="Sensodyne kongre standı" width="900" height="675" loading="lazy" decoding="async">
+            <span class="project-meta"><span class="project-index" aria-hidden="true"></span><span class="project-name">Sensodyne</span></span>
+            <span class="project-cta" aria-hidden="true">Büyütün</span>
+          </button>
+
+          <button class="project" type="button" data-photo="assets/projects/photos/haleon.jpg" data-name="Haleon" data-reveal>
+            <img src="assets/projects/photos/haleon-s.jpg" srcset="assets/projects/photos/haleon-xs.jpg 600w, assets/projects/photos/haleon-s.jpg 900w" sizes="(max-width: 760px) 46vw, (max-width: 1180px) 31vw, 23vw" alt="Haleon kongre standı" width="900" height="675" loading="lazy" decoding="async">
+            <span class="project-meta"><span class="project-index" aria-hidden="true"></span><span class="project-name">Haleon</span></span>
+            <span class="project-cta" aria-hidden="true">Büyütün</span>
+          </button>
+
+          <button class="project" type="button" data-photo="assets/projects/photos/gsk.jpg" data-name="GSK" data-reveal>
+            <img src="assets/projects/photos/gsk-s.jpg" srcset="assets/projects/photos/gsk-xs.jpg 600w, assets/projects/photos/gsk-s.jpg 900w" sizes="(max-width: 760px) 46vw, (max-width: 1180px) 31vw, 23vw" alt="GSK kongre standı" width="900" height="675" loading="lazy" decoding="async">
+            <span class="project-meta"><span class="project-index" aria-hidden="true"></span><span class="project-name">GSK</span></span>
+            <span class="project-cta" aria-hidden="true">Büyütün</span>
+          </button>
+
+          <button class="project" type="button" data-photo="assets/projects/photos/takeda.jpg" data-name="Takeda" data-reveal>
+            <img src="assets/projects/photos/takeda-s.jpg" srcset="assets/projects/photos/takeda-xs.jpg 600w, assets/projects/photos/takeda-s.jpg 900w" sizes="(max-width: 760px) 46vw, (max-width: 1180px) 31vw, 23vw" alt="Takeda kongre standı" width="900" height="675" loading="lazy" decoding="async">
+            <span class="project-meta"><span class="project-index" aria-hidden="true"></span><span class="project-name">Takeda</span></span>
+            <span class="project-cta" aria-hidden="true">Büyütün</span>
+          </button>
+
+          <button class="project" type="button" data-photo="assets/projects/photos/tchibo.jpg" data-name="Tchibo" data-reveal>
+            <img src="assets/projects/photos/tchibo-s.jpg" srcset="assets/projects/photos/tchibo-xs.jpg 600w, assets/projects/photos/tchibo-s.jpg 900w" sizes="(max-width: 760px) 46vw, (max-width: 1180px) 31vw, 23vw" alt="Tchibo kahve standı" width="900" height="675" loading="lazy" decoding="async">
+            <span class="project-meta"><span class="project-index" aria-hidden="true"></span><span class="project-name">Tchibo</span></span>
+            <span class="project-cta" aria-hidden="true">Büyütün</span>
+          </button>
+
+          <button class="project" type="button" data-photo="assets/projects/photos/gloria-jeans.jpg" data-name="Gloria Jean's" data-reveal>
+            <img src="assets/projects/photos/gloria-jeans-s.jpg" srcset="assets/projects/photos/gloria-jeans-xs.jpg 600w, assets/projects/photos/gloria-jeans-s.jpg 900w" sizes="(max-width: 760px) 46vw, (max-width: 1180px) 31vw, 23vw" alt="Gloria Jean's kahve standı" width="900" height="675" loading="lazy" decoding="async">
+            <span class="project-meta"><span class="project-index" aria-hidden="true"></span><span class="project-name">Gloria Jean's</span></span>
+            <span class="project-cta" aria-hidden="true">Büyütün</span>
+          </button>
+
+          <button class="project" type="button" data-photo="assets/projects/photos/vergnano.jpg" data-name="Caffè Vergnano" data-reveal>
+            <img src="assets/projects/photos/vergnano-s.jpg" srcset="assets/projects/photos/vergnano-xs.jpg 600w, assets/projects/photos/vergnano-s.jpg 900w" sizes="(max-width: 760px) 46vw, (max-width: 1180px) 31vw, 23vw" alt="Caffè Vergnano kahve standı" width="900" height="675" loading="lazy" decoding="async">
+            <span class="project-meta"><span class="project-index" aria-hidden="true"></span><span class="project-name">Caffè Vergnano</span></span>
+            <span class="project-cta" aria-hidden="true">Büyütün</span>
+          </button>
+
+          <button class="project" type="button" data-photo="assets/projects/photos/fujifilm.jpg" data-name="Fujifilm" data-reveal>
+            <img src="assets/projects/photos/fujifilm-s.jpg" srcset="assets/projects/photos/fujifilm-xs.jpg 600w, assets/projects/photos/fujifilm-s.jpg 900w" sizes="(max-width: 760px) 46vw, (max-width: 1180px) 31vw, 23vw" alt="Fujifilm kongre standı" width="900" height="675" loading="lazy" decoding="async">
+            <span class="project-meta"><span class="project-index" aria-hidden="true"></span><span class="project-name">Fujifilm</span></span>
+            <span class="project-cta" aria-hidden="true">Büyütün</span>
+          </button>
+
+          <button class="project" type="button" data-photo="assets/projects/photos/sanofi.jpg" data-name="Sanofi" data-reveal>
+            <img src="assets/projects/photos/sanofi-s.jpg" srcset="assets/projects/photos/sanofi-xs.jpg 600w, assets/projects/photos/sanofi-s.jpg 900w" sizes="(max-width: 760px) 46vw, (max-width: 1180px) 31vw, 23vw" alt="Sanofi kongre standı" width="900" height="675" loading="lazy" decoding="async">
+            <span class="project-meta"><span class="project-index" aria-hidden="true"></span><span class="project-name">Sanofi</span></span>
+            <span class="project-cta" aria-hidden="true">Büyütün</span>
+          </button>
+
+          <button class="project" type="button" data-photo="assets/projects/photos/grifols.jpg" data-name="Grifols" data-reveal>
+            <img src="assets/projects/photos/grifols-s.jpg" srcset="assets/projects/photos/grifols-xs.jpg 600w, assets/projects/photos/grifols-s.jpg 900w" sizes="(max-width: 760px) 46vw, (max-width: 1180px) 31vw, 23vw" alt="Grifols kongre standı" width="900" height="675" loading="lazy" decoding="async">
+            <span class="project-meta"><span class="project-index" aria-hidden="true"></span><span class="project-name">Grifols</span></span>
+            <span class="project-cta" aria-hidden="true">Büyütün</span>
+          </button>
+
+          <button class="project" type="button" data-photo="assets/projects/photos/sakura.jpg" data-name="Takeda · Hemofili" data-reveal>
+            <img src="assets/projects/photos/sakura-s.jpg" srcset="assets/projects/photos/sakura-xs.jpg 600w, assets/projects/photos/sakura-s.jpg 900w" sizes="(max-width: 760px) 46vw, (max-width: 1180px) 31vw, 23vw" alt="Takeda hemofili kongre standı" width="900" height="675" loading="lazy" decoding="async">
+            <span class="project-meta"><span class="project-index" aria-hidden="true"></span><span class="project-name">Takeda · Hemofili</span></span>
+            <span class="project-cta" aria-hidden="true">Büyütün</span>
+          </button>
+
+          <button class="project" type="button" data-photo="assets/projects/photos/walters.jpg" data-name="Walter's Coffee" data-reveal>
+            <img src="assets/projects/photos/walters-s.jpg" srcset="assets/projects/photos/walters-xs.jpg 600w, assets/projects/photos/walters-s.jpg 900w" sizes="(max-width: 760px) 46vw, (max-width: 1180px) 31vw, 23vw" alt="Walter's Coffee kahve standı" width="900" height="675" loading="lazy" decoding="async">
+            <span class="project-meta"><span class="project-index" aria-hidden="true"></span><span class="project-name">Walter's Coffee</span></span>
+            <span class="project-cta" aria-hidden="true">Büyütün</span>
+          </button>
+
+          <button class="project" type="button" data-photo="assets/projects/photos/julius-meinl.jpg" data-name="Julius Meinl" data-reveal>
+            <img src="assets/projects/photos/julius-meinl-s.jpg" srcset="assets/projects/photos/julius-meinl-xs.jpg 600w, assets/projects/photos/julius-meinl-s.jpg 900w" sizes="(max-width: 760px) 46vw, (max-width: 1180px) 31vw, 23vw" alt="Julius Meinl kahve servis arabası" width="900" height="675" loading="lazy" decoding="async">
+            <span class="project-meta"><span class="project-index" aria-hidden="true"></span><span class="project-name">Julius Meinl</span></span>
+            <span class="project-cta" aria-hidden="true">Büyütün</span>
+          </button>
+
+          <button class="project" type="button" data-photo="assets/projects/photos/pasabahce.jpg" data-name="Paşabahçe" data-reveal>
+            <img src="assets/projects/photos/pasabahce-s.jpg" srcset="assets/projects/photos/pasabahce-xs.jpg 600w, assets/projects/photos/pasabahce-s.jpg 900w" sizes="(max-width: 760px) 46vw, (max-width: 1180px) 31vw, 23vw" alt="Paşabahçe festival standı" width="900" height="675" loading="lazy" decoding="async">
+            <span class="project-meta"><span class="project-index" aria-hidden="true"></span><span class="project-name">Paşabahçe</span></span>
+            <span class="project-cta" aria-hidden="true">Büyütün</span>
+          </button>
+
+          <button class="project" type="button" data-photo="assets/projects/photos/novo-nordisk.jpg" data-name="Novo Nordisk" data-reveal>
+            <img src="assets/projects/photos/novo-nordisk-s.jpg" srcset="assets/projects/photos/novo-nordisk-xs.jpg 600w, assets/projects/photos/novo-nordisk-s.jpg 900w" sizes="(max-width: 760px) 46vw, (max-width: 1180px) 31vw, 23vw" alt="Novo Nordisk kongre standı" width="900" height="675" loading="lazy" decoding="async">
+            <span class="project-meta"><span class="project-index" aria-hidden="true"></span><span class="project-name">Novo Nordisk</span></span>
+            <span class="project-cta" aria-hidden="true">Büyütün</span>
+          </button>
+
+          <button class="project" type="button" data-photo="assets/projects/photos/merck.jpg" data-name="Merck" data-reveal>
+            <img src="assets/projects/photos/merck-s.jpg" srcset="assets/projects/photos/merck-xs.jpg 600w, assets/projects/photos/merck-s.jpg 900w" sizes="(max-width: 760px) 46vw, (max-width: 1180px) 31vw, 23vw" alt="Merck kongre standı" width="900" height="675" loading="lazy" decoding="async">
+            <span class="project-meta"><span class="project-index" aria-hidden="true"></span><span class="project-name">Merck</span></span>
+            <span class="project-cta" aria-hidden="true">Büyütün</span>
+          </button>
+
+          <button class="project" type="button" data-photo="assets/projects/photos/roche.jpg" data-name="Roche" data-reveal>
+            <img src="assets/projects/photos/roche-s.jpg" srcset="assets/projects/photos/roche-xs.jpg 600w, assets/projects/photos/roche-s.jpg 900w" sizes="(max-width: 760px) 46vw, (max-width: 1180px) 31vw, 23vw" alt="Roche kongre standı" width="900" height="675" loading="lazy" decoding="async">
+            <span class="project-meta"><span class="project-index" aria-hidden="true"></span><span class="project-name">Roche</span></span>
+            <span class="project-cta" aria-hidden="true">Büyütün</span>
+          </button>
+
+          <button class="project" type="button" data-photo="assets/projects/photos/parodontax.jpg" data-name="Parodontax" data-reveal>
+            <img src="assets/projects/photos/parodontax-s.jpg" srcset="assets/projects/photos/parodontax-xs.jpg 600w, assets/projects/photos/parodontax-s.jpg 900w" sizes="(max-width: 760px) 46vw, (max-width: 1180px) 31vw, 23vw" alt="Parodontax kongre standı" width="900" height="675" loading="lazy" decoding="async">
+            <span class="project-meta"><span class="project-index" aria-hidden="true"></span><span class="project-name">Parodontax</span></span>
+            <span class="project-cta" aria-hidden="true">Büyütün</span>
+          </button>
+
+          <button class="project" type="button" data-photo="assets/projects/photos/otrivine.jpg" data-name="Otrivine" data-reveal>
+            <img src="assets/projects/photos/otrivine-s.jpg" srcset="assets/projects/photos/otrivine-xs.jpg 600w, assets/projects/photos/otrivine-s.jpg 900w" sizes="(max-width: 760px) 46vw, (max-width: 1180px) 31vw, 23vw" alt="Otrivine kongre standı" width="900" height="675" loading="lazy" decoding="async">
+            <span class="project-meta"><span class="project-index" aria-hidden="true"></span><span class="project-name">Otrivine</span></span>
+            <span class="project-cta" aria-hidden="true">Büyütün</span>
+          </button>
+        </div>
+      </div>
+    </section>
+    <!-- @end -->
+
+    <!-- @only kiralik -->
+    <!-- Rental stands: the three ready-made layouts (figures from the rental catalogue) shown with sample Nilus
+         prints, how renting works, and a note that other sizes can be rented too. js/rental puts a
+         turnable 3D model over each picture. -->
+    <section id="kiralik" class="section rental" aria-labelledby="rental-title">
+      <div class="wrap">
+        <div class="rental-head">
+          <div>
+            <p class="eyebrow" data-reveal><span class="neon-dot" aria-hidden="true"></span>Kiralık stand</p>
+            <h2 id="rental-title" class="section-title" data-reveal>Hazır stand, <em>markanıza özel</em> baskı.</h2>
+            <p class="section-lede" data-reveal>Hazır standlarımızı etkinliğinize göre kiralayabilirsiniz. Işıklı tekstil baskılar markanızın görselleriyle hazırlanır. Aşağıda üç model var; seçenekler bunlarla sınırlı değil.</p>
+          </div>
+          <a class="btn" href="#iletisim" data-reveal>Kiralık stand için teklif isteyin<span class="btn-arrow btn-arrow-side" aria-hidden="true">→</span></a>
+        </div>
+
+        <ol class="rental-options">
+          <li class="rental-option" data-reveal>
+            <div class="rental-view" data-layout="1" data-art="ink"><img src="assets/rental/example-1.jpg" alt="Baskı uygulanmış 3 × 2 metrelik kiralık stand örneği" width="1280" height="720" loading="lazy" decoding="async"></div>
+            <div class="rental-body">
+              <p class="rental-unit">1 birim</p>
+              <h3 class="rental-size">3 × 2 m</h3>
+              <dl class="rental-specs">
+                <div><dt>Alan</dt><dd>6 m²</dd></div>
+                <div><dt>Yükseklik</dt><dd>2,85 m</dd></div>
+                <div><dt>Işıklı tekstil baskı poster</dt><dd>1 adet · 300 × 280 cm</dd></div>
+                <div><dt>Işıklı tekstil baskı desk önü</dt><dd>1 adet · 80 × 70 cm</dd></div>
+              </dl>
+            </div>
+          </li>
+          <li class="rental-option" data-reveal>
+            <div class="rental-view" data-layout="2" data-art="cream"><img src="assets/rental/example-2.jpg" alt="Baskı uygulanmış 6 × 2 metrelik, tek posterli kiralık stand örneği" width="1280" height="720" loading="lazy" decoding="async"></div>
+            <div class="rental-body">
+              <p class="rental-unit">2 birim · tek poster</p>
+              <h3 class="rental-size">6 × 2 m</h3>
+              <dl class="rental-specs">
+                <div><dt>Alan</dt><dd>12 m²</dd></div>
+                <div><dt>Yükseklik</dt><dd>2,85 m</dd></div>
+                <div><dt>Işıklı tekstil baskı poster</dt><dd>1 adet · 600 × 280 cm</dd></div>
+                <div><dt>Işıklı tekstil baskı desk önü</dt><dd>1 adet · 80 × 70 cm</dd></div>
+              </dl>
+            </div>
+          </li>
+          <li class="rental-option" data-reveal>
+            <div class="rental-view" data-layout="3" data-art="duo"><img src="assets/rental/example-3.jpg" alt="Baskı uygulanmış 6 × 2 metrelik, iki posterli kiralık stand örneği" width="1280" height="720" loading="lazy" decoding="async"></div>
+            <div class="rental-body">
+              <p class="rental-unit">2 birim · iki poster</p>
+              <h3 class="rental-size">6 × 2 m</h3>
+              <dl class="rental-specs">
+                <div><dt>Alan</dt><dd>12 m²</dd></div>
+                <div><dt>Yükseklik</dt><dd>2,85 m</dd></div>
+                <div><dt>Işıklı tekstil baskı poster</dt><dd>2 adet · 300 × 280 cm</dd></div>
+                <div><dt>Işıklı tekstil baskı desk önü</dt><dd>2 adet · 80 × 70 cm</dd></div>
+              </dl>
+            </div>
+          </li>
+        </ol>
+        <p class="rental-note" data-reveal>Görsellerdeki baskılar örnektir; standınızda kendi görselleriniz yer alır.</p>
+
+        <h3 class="rental-subtitle" data-reveal>Nasıl çalışır</h3>
+        <ol class="rental-steps">
+          <li data-reveal>
+            <span class="rental-step-num" aria-hidden="true">01</span>
+            <h4>Yerleşimi seçin</h4>
+            <p>Alanınıza göre hazır yerleşimlerden birini seçersiniz. Farklı bir ölçü için bize yazarsınız.</p>
+          </li>
+          <li data-reveal>
+            <span class="rental-step-num" aria-hidden="true">02</span>
+            <h4>Görsellerinizi gönderin</h4>
+            <p>Poster ve desk önü için görsellerinizi baskı ölçülerine göre iletirsiniz.</p>
+          </li>
+          <li data-reveal>
+            <span class="rental-step-num" aria-hidden="true">03</span>
+            <h4>Baskı ve kurulum</h4>
+            <p>Işıklı tekstil baskıları hazırlar, standı etkinlik alanında kurarız.</p>
+          </li>
+          <li data-reveal>
+            <span class="rental-step-num" aria-hidden="true">04</span>
+            <h4>Söküm</h4>
+            <p>Etkinlik bitince standı söker ve geri alırız.</p>
+          </li>
+        </ol>
+
+        <div class="rental-more" data-reveal>
+          <h3 class="section-title rental-more-title">Seçenekler bu üç modelle <em>sınırlı değil.</em></h3>
+          <div class="rental-more-body">
+            <p>Farklı ölçüler ve yerleşimler için de kiralık stand çözümlerimiz var. Alanınız yukarıdaki ölçülere uymuyorsa, uygun seçeneği birlikte belirleyelim.</p>
+            <p>Diğer seçenekler hakkında bilgi almak için bize ulaşın.</p>
+            <a class="btn" href="#iletisim">Bilgi almak için bize ulaşın<span class="btn-arrow btn-arrow-side" aria-hidden="true">→</span></a>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- @end -->
+
+    <!-- @only yaklasim -->
+    <section id="yaklasim" class="section approach" aria-labelledby="approach-title">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow" data-reveal>Yaklaşım</p>
+          <h2 id="approach-title" class="section-title" data-reveal>Görünüm kadar, <em>kullanım ömrü</em> de önemli.</h2>
+          <p class="section-lede" data-reveal>Bir stand çoğu zaman yalnızca tek bir etkinlik için kullanılmaz. Aynı standın yıl boyunca farklı şehirlerde, farklı alan ölçülerinde ve değişen ihtiyaçlarla yeniden kurulması gerekebilir. Tasarımlarımızı buna göre yapıyoruz.</p>
+        </div>
+        <ol class="principles">
+          <li class="principle" data-reveal>
+            <span class="principle-num">i.</span>
+            <h3>Modülerlik</h3>
+            <p>Parçalar farklı alan ölçülerine uyacak biçimde tasarlanır; aynı stand yeniden düzenlenerek farklı yerleşimlerde kullanılır.</p>
+          </li>
+          <li class="principle" data-reveal>
+            <span class="principle-num">ii.</span>
+            <h3>Tekrar kullanılabilirlik</h3>
+            <p>Stand tek bir etkinlik için değil, yıl boyunca farklı şehirlerde tekrar kurulmak üzere tasarlanır.</p>
+          </li>
+          <li class="principle" data-reveal>
+            <span class="principle-num">iii.</span>
+            <h3>Taşıma ve depolama kolaylığı</h3>
+            <p>Her parça kolay taşınacak, paketlenecek ve depolanacak şekilde planlanır; lojistik tasarımın bir parçasıdır.</p>
+          </li>
+          <li class="principle" data-reveal>
+            <span class="principle-num">iv.</span>
+            <h3>Uzun süreli çözüm ortaklığı</h3>
+            <p>Her etkinlikte yeni bir tedarikçi aramak yerine, markanızı ve ihtiyaçlarınızı tanıyan bir ekiple çalışırsınız.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+    <!-- @end -->
+
+    <!-- @only hakkimizda -->
+    <section id="hakkimizda" class="section about" aria-labelledby="about-title">
+      <div class="wrap about-grid">
+        <p class="eyebrow about-eyebrow" data-reveal>Hakkımızda</p>
+        <div class="about-mark" data-reveal aria-hidden="true">
+          <span class="about-num">25<sup>+</sup></span>
+          <span class="about-num-caption">yıl · kongre ve fuar standları</span>
+        </div>
+        <div class="about-copy">
+          <h2 id="about-title" class="section-title" data-reveal>Stand tasarımında <em>25 yılı aşkın</em> deneyim.</h2>
+          <p class="about-lead" data-reveal>Nilus; kongre ve fuar standlarının tasarım, üretim ve uygulama süreçlerinde uzmanlaşmış bir tasarım ve uygulama firmasıdır.</p>
+          <div class="about-cols" data-reveal>
+            <p>25 yılı aşkın süredir ilaç ve sağlık sektörünün yanı sıra kahve sektöründeki markalarla da çalışıyoruz. Markaların kongre ve fuarlardaki ihtiyaçlarını yalnızca stand tasarımı olarak değil, baştan sona yönetilmesi gereken bir süreç olarak ele alıyoruz.</p>
+            <p>Proje briefinin alınması ve 3D tasarımın hazırlanmasıyla başlayan süreç; üretim, teknik hazırlık, nakliye ve etkinlik alanındaki kurulumla devam eder. Etkinlik sonrasında standın sökülmesi, depolanması, bakımı ve bir sonraki organizasyon için yeniden hazırlanması da tarafımızdan yürütülür.</p>
+          </div>
+        </div>
+      </div>
+      <!-- Client logos (assets/brands, original brand artwork) in square tiles. --w is each logo's balanced width,
+           as a share of the tile: 200 would fill it. Add a logo = add one <li>. -->
+      <div class="wrap brands">
+        <h3 class="brands-title" data-reveal>Birlikte çalıştığımız markalar</h3>
+        <ul class="brands-grid" data-reveal>
+          <li><img src="assets/brands/novo-nordisk.png" alt="Novo Nordisk" style="--w: 86" width="86" height="61" loading="lazy" decoding="async"></li>
+          <li><img src="assets/brands/gsk.png" alt="GSK" style="--w: 102" width="102" height="33" loading="lazy" decoding="async"></li>
+          <li><img src="assets/brands/haleon.svg" alt="Haleon" style="--w: 147" width="147" height="23" loading="lazy" decoding="async"></li>
+          <li><img src="assets/brands/takeda.svg" alt="Takeda" style="--w: 101" width="101" height="34" loading="lazy" decoding="async"></li>
+          <li><img src="assets/brands/sanofi.svg" alt="Sanofi" style="--w: 112" width="112" height="30" loading="lazy" decoding="async"></li>
+          <li><img src="assets/brands/roche.svg" alt="Roche" style="--w: 81" width="81" height="42" loading="lazy" decoding="async"></li>
+          <li><img src="assets/brands/pfizer.svg" alt="Pfizer" style="--w: 90" width="90" height="37" loading="lazy" decoding="async"></li>
+          <li><img src="assets/brands/astrazeneca.svg" alt="AstraZeneca" style="--w: 115" width="115" height="29" loading="lazy" decoding="async"></li>
+          <li><img src="assets/brands/merck.svg" alt="Merck" style="--w: 140" width="140" height="24" loading="lazy" decoding="async"></li>
+          <li><img src="assets/brands/msd.svg" alt="MSD" style="--w: 94" width="94" height="35" loading="lazy" decoding="async"></li>
+          <li><img src="assets/brands/abbott.svg" alt="Abbott" style="--w: 149" width="149" height="23" loading="lazy" decoding="async"></li>
+          <li><img src="assets/brands/lilly.svg" alt="Lilly" style="--w: 77" width="77" height="43" loading="lazy" decoding="async"></li>
+          <li><img src="assets/brands/boehringer.svg" alt="Boehringer Ingelheim" style="--w: 106" width="106" height="32" loading="lazy" decoding="async"></li>
+          <li><img src="assets/brands/bms.svg" alt="Bristol Myers Squibb" style="--w: 142" width="142" height="23" loading="lazy" decoding="async"></li>
+          <li><img src="assets/brands/gilead.svg" alt="Gilead" style="--w: 109" width="109" height="31" loading="lazy" decoding="async"></li>
+          <li><img src="assets/brands/astellas.svg" alt="Astellas" style="--w: 109" width="109" height="30" loading="lazy" decoding="async"></li>
+          <li><img src="assets/brands/grifols.svg" alt="Grifols" style="--w: 122" width="122" height="27" loading="lazy" decoding="async"></li>
+          <li><img src="assets/brands/ferring.svg" alt="Ferring" style="--w: 86" width="86" height="40" loading="lazy" decoding="async"></li>
+          <li><img src="assets/brands/fujifilm.svg" alt="Fujifilm" style="--w: 143" width="143" height="24" loading="lazy" decoding="async"></li>
+          <li><img src="assets/brands/recordati.svg" alt="Recordati" style="--w: 149" width="149" height="22" loading="lazy" decoding="async"></li>
+          <li><img src="assets/brands/zoetis.svg" alt="Zoetis" style="--w: 95" width="95" height="36" loading="lazy" decoding="async"></li>
+          <li><img src="assets/brands/merz-aesthetics.svg" alt="Merz Aesthetics" style="--w: 168" width="168" height="15" loading="lazy" decoding="async"></li>
+          <li><img src="assets/brands/mindray.png" alt="Mindray" style="--w: 99" width="99" height="34" loading="lazy" decoding="async"></li>
+          <li><img src="assets/brands/cordamed.png" alt="Cordamed" style="--w: 116" width="116" height="39" loading="lazy" decoding="async"></li>
+          <li><img src="assets/brands/bausch-lomb.svg" alt="Bausch + Lomb" style="--w: 145" width="145" height="23" loading="lazy" decoding="async"></li>
+          <li><img src="assets/brands/eczacibasi.png" alt="Eczacıbaşı" style="--w: 111" width="111" height="30" loading="lazy" decoding="async"></li>
+          <li><img src="assets/brands/loreal.svg" alt="L'Oréal" style="--w: 137" width="137" height="25" loading="lazy" decoding="async"></li>
+          <li><img src="assets/brands/la-roche-posay.png" alt="La Roche-Posay" style="--w: 114" width="114" height="29" loading="lazy" decoding="async"></li>
+          <li><img src="assets/brands/nespresso.svg" alt="Nespresso" style="--w: 137" width="137" height="25" loading="lazy" decoding="async"></li>
+          <li><img src="assets/brands/tchibo.svg" alt="Tchibo" style="--w: 54" width="54" height="54" loading="lazy" decoding="async"></li>
+          <li><img src="assets/brands/gloria-jeans.png" alt="Gloria Jean's" style="--w: 76" width="76" height="76" loading="lazy" decoding="async"></li>
+          <li><img src="assets/brands/julius-meinl.svg" alt="Julius Meinl" style="--w: 54" width="54" height="54" loading="lazy" decoding="async"></li>
+          <li><img src="assets/brands/pasabahce.png" alt="Paşabahçe" style="--w: 134" width="134" height="34" loading="lazy" decoding="async"></li>
+          <li><img src="assets/brands/arcelik.svg" alt="Arçelik" style="--w: 118" width="118" height="29" loading="lazy" decoding="async"></li>
+          <li><img src="assets/brands/tefal.svg" alt="Tefal" style="--w: 126" width="126" height="27" loading="lazy" decoding="async"></li>
+          <li><img src="assets/brands/rowenta.svg" alt="Rowenta" style="--w: 115" width="115" height="29" loading="lazy" decoding="async"></li>
+          <li><img src="assets/brands/krups.svg" alt="Krups" style="--w: 124" width="124" height="27" loading="lazy" decoding="async"></li>
+          <li><img src="assets/brands/3m.svg" alt="3M" style="--w: 80" width="80" height="42" loading="lazy" decoding="async"></li>
+          <li><img src="assets/brands/omv.svg" alt="OMV" style="--w: 110" width="110" height="31" loading="lazy" decoding="async"></li>
+          <li><img src="assets/brands/petrol-ofisi.svg" alt="Petrol Ofisi" style="--w: 135" width="135" height="25" loading="lazy" decoding="async"></li>
+        </ul>
+      </div>
+    </section>
+    <!-- @end -->
+
+    <!-- @only iletisim -->
+    <section id="iletisim" class="section contact" aria-labelledby="contact-title">
+      <div class="wrap contact-inner">
+        <div class="contact-copy">
+          <p class="eyebrow" data-reveal><span class="neon-dot" aria-hidden="true"></span>İletişim</p>
+          <h2 id="contact-title" class="contact-title" data-reveal>Bir sonraki etkinliğinizi <em>birlikte planlayalım.</em></h2>
+          <p class="contact-mail" data-reveal>
+            <span class="contact-mail-label">E-posta</span>
+            <a href="mailto:info@nilus.com.tr">info@nilus.com.tr</a>
+          </p>
+          <div class="contact-mail contact-address" data-reveal>
+            <span class="contact-mail-label">Adres</span>
+            <address>Barbaros Mah. Ihlamur Blv. No:&nbsp;3/15<br>Ataşehir&nbsp;/&nbsp;İstanbul</address>
+          </div>
+          <!-- The number is not in the page: js/contact.js writes it in when the button is pressed, so programs that
+               collect phone numbers from web pages do not find it. -->
+          <p class="contact-mail contact-phone" data-reveal>
+            <span class="contact-mail-label">Telefon</span>
+            <button type="button" class="btn btn-ghost btn-small phone-reveal" data-k="jddghcbech">Telefonu göster</button>
+          </p>
+        </div>
+
+        <!-- Quote requests and messages are posted to data-endpoint (api/mesajlar.php) and listed in the inbox, mesajlar/. -->
+        <!-- The choice at the top shows the parts marked with the matching data-kind (js/contact.js). -->
+        <form id="contact-form" class="contact-form" data-endpoint="api/mesajlar.php" novalidate data-reveal>
+          <fieldset class="form-kind">
+            <legend class="visually-hidden">Ne göndermek istiyorsunuz?</legend>
+            <label><input type="radio" name="kind" value="message" checked><span>Mesaj yazın</span></label>
+            <label><input type="radio" name="kind" value="brief"><span>Teklif isteyin</span></label>
+          </fieldset>
+          <div class="field-row">
+            <p class="field">
+              <label for="cf-name">Ad Soyad <span class="field-required" aria-hidden="true">*</span></label>
+              <input id="cf-name" name="name" type="text" autocomplete="name" maxlength="120" required>
+            </p>
+            <p class="field">
+              <label for="cf-company">Firma <span class="field-required" aria-hidden="true">*</span></label>
+              <input id="cf-company" name="company" type="text" autocomplete="organization" maxlength="160" required>
+            </p>
+          </div>
+          <p class="field">
+            <label for="cf-email">E-posta <span class="field-required" aria-hidden="true">*</span></label>
+            <input id="cf-email" name="email" type="email" autocomplete="email" maxlength="200" required>
+          </p>
+          <div class="brief-fields" data-kind="brief" hidden>
+            <div class="field-row">
+              <p class="field">
+                <label for="cf-city">Şehir</label>
+                <input id="cf-city" name="city" type="text" maxlength="80">
+              </p>
+              <p class="field">
+                <label for="cf-size">Stand ölçüsü</label>
+                <input id="cf-size" name="size" type="text" maxlength="80" placeholder="örn. 6 × 4 m">
+              </p>
+            </div>
+            <p class="field">
+              <label for="cf-date">Etkinlik tarihi</label>
+              <input id="cf-date" name="date" type="date" class="is-empty">
+            </p>
+          </div>
+          <p class="field">
+            <label for="cf-message"><span data-kind="message">Mesajınız <span class="field-required" aria-hidden="true">*</span></span><span data-kind="brief" hidden>Notlarınız</span></label>
+            <textarea id="cf-message" name="message" rows="5" maxlength="4000"></textarea>
+          </p>
+          <div class="field field-files">
+            <span class="field-label">Fotoğraf veya dosya</span>
+            <label class="file-pick"><input type="file" name="files" multiple><span aria-hidden="true">+</span>Dosya ekleyin</label>
+            <ul class="file-list" aria-label="Eklenen dosyalar"></ul>
+          </div>
+          <p class="field-trap" aria-hidden="true">
+            <label for="cf-website">Bu alanı boş bırakın</label>
+            <input id="cf-website" name="website" type="text" tabindex="-1" autocomplete="off">
+          </p>
+          <div class="form-actions">
+            <button class="btn" type="submit"><span data-kind="message">Mesajı gönderin</span><span data-kind="brief" hidden>Teklif isteyin</span><span class="btn-arrow" aria-hidden="true">→</span></button>
+            <p class="form-status" role="status" aria-live="polite"></p>
+          </div>
+        </form>
+      </div>
+    </section>
+    <!-- @end -->
+
+{{page-next}}
+    <footer class="footer">
+      <div class="wrap footer-inner">
+        <p class="wordmark wordmark-footer">
+          <svg class="logo" viewBox="0 0 543 147" role="img" aria-label="Nilus"><use href="#nilus-logo"/></svg>
+        </p>
+        <p class="footer-copy">© 2026 Nilus</p>
+      </div>
+    </footer>
+  </main>
+
+  <!-- Message box, bottom right on every screen — same endpoint as the contact form (js/contact.js) -->
+  <div class="helpbox" id="helpbox">
+    <section id="helpbox-panel" class="helpbox-panel" aria-labelledby="helpbox-title" hidden>
+      <div class="helpbox-head">
+        <h2 id="helpbox-title" class="helpbox-title">Bize yazın</h2>
+        <button type="button" class="helpbox-close" aria-label="Kapat"><span aria-hidden="true">×</span></button>
+      </div>
+      <p class="helpbox-lede">Sorunuzu ya da fikrinizi yazın; size e-postayla dönüş yapalım.</p>
+      <form class="helpbox-form" data-endpoint="api/mesajlar.php" novalidate>
+        <p class="field">
+          <label for="hb-name">Ad Soyad <span class="field-required" aria-hidden="true">*</span></label>
+          <input id="hb-name" name="name" type="text" autocomplete="name" maxlength="120" required>
+        </p>
+        <p class="field">
+          <label for="hb-email">E-posta <span class="field-required" aria-hidden="true">*</span></label>
+          <input id="hb-email" name="email" type="email" autocomplete="email" maxlength="200" required>
+        </p>
+        <p class="field">
+          <label for="hb-message">Mesajınız <span class="field-required" aria-hidden="true">*</span></label>
+          <textarea id="hb-message" name="message" rows="3" maxlength="4000" required></textarea>
+        </p>
+        <div class="field field-files">
+          <span class="field-label">Fotoğraf veya dosya</span>
+          <label class="file-pick"><input type="file" name="files" multiple><span aria-hidden="true">+</span>Dosya ekleyin</label>
+          <ul class="file-list" aria-label="Eklenen dosyalar"></ul>
+        </div>
+        <p class="field-trap" aria-hidden="true">
+          <label for="hb-website">Bu alanı boş bırakın</label>
+          <input id="hb-website" name="website" type="text" tabindex="-1" autocomplete="off">
+        </p>
+        <div class="form-actions">
+          <button class="btn btn-small" type="submit">Gönderin<span class="btn-arrow" aria-hidden="true">→</span></button>
+          <p class="form-status" role="status" aria-live="polite"></p>
+        </div>
+      </form>
+    </section>
+    <button type="button" class="helpbox-toggle" aria-expanded="false" aria-controls="helpbox-panel">
+      <span class="neon-dot" aria-hidden="true"></span>Bize yazın
+    </button>
+  </div>
+
+  <!-- @only projeler -->
+  <!-- Project photo viewer — driven by js/projects/index.js -->
+  <dialog id="viewer" class="viewer" aria-labelledby="viewer-title">
+    <div class="viewer-bar">
+      <div class="viewer-heading">
+        <p class="eyebrow"><span class="neon-dot" aria-hidden="true"></span><span id="viewer-count">01 / 20</span></p>
+        <h2 id="viewer-title" class="viewer-title">Proje</h2>
+      </div>
+      <div class="viewer-tools">
+        <button type="button" class="viewer-nav" data-step="-1" aria-label="Önceki stand"><span aria-hidden="true">←</span></button>
+        <button type="button" class="viewer-nav" data-step="1" aria-label="Sonraki stand"><span aria-hidden="true">→</span></button>
+        <button type="button" class="viewer-close" aria-label="Kapat"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+    <div class="viewer-stage">
+      <img id="viewer-photo" class="viewer-photo" alt="">
+    </div>
+  </dialog>
+  <!-- @end -->
+</body>
+</html>

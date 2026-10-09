@@ -10,4 +10,54 @@
     <xhtml:link rel="alternate" hreflang="tr" href="https://nilus.com.tr/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://nilus.com.tr/en.html"/>
   </url>
+  <url>
+    <loc>https://nilus.com.tr/projeler.html</loc>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://nilus.com.tr/projeler.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nilus.com.tr/en-projects.html"/>
+  </url>
+  <url>
+    <loc>https://nilus.com.tr/en-projects.html</loc>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://nilus.com.tr/projeler.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nilus.com.tr/en-projects.html"/>
+  </url>
+  <url>
+    <loc>https://nilus.com.tr/kiralik-stand.html</loc>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://nilus.com.tr/kiralik-stand.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nilus.com.tr/en-rental.html"/>
+  </url>
+  <url>
+    <loc>https://nilus.com.tr/en-rental.html</loc>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://nilus.com.tr/kiralik-stand.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nilus.com.tr/en-rental.html"/>
+  </url>
+  <url>
+    <loc>https://nilus.com.tr/yaklasim.html</loc>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://nilus.com.tr/yaklasim.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nilus.com.tr/en-approach.html"/>
+  </url>
+  <url>
+    <loc>https://nilus.com.tr/en-approach.html</loc>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://nilus.com.tr/yaklasim.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nilus.com.tr/en-approach.html"/>
+  </url>
+  <url>
+    <loc>https://nilus.com.tr/hakkimizda.html</loc>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://nilus.com.tr/hakkimizda.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nilus.com.tr/en-about.html"/>
+  </url>
+  <url>
+    <loc>https://nilus.com.tr/en-about.html</loc>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://nilus.com.tr/hakkimizda.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nilus.com.tr/en-about.html"/>
+  </url>
+  <url>
+    <loc>https://nilus.com.tr/iletisim.html</loc>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://nilus.com.tr/iletisim.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nilus.com.tr/en-contact.html"/>
+  </url>
+  <url>
+    <loc>https://nilus.com.tr/en-contact.html</loc>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://nilus.com.tr/iletisim.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nilus.com.tr/en-contact.html"/>
+  </url>
 </urlset>

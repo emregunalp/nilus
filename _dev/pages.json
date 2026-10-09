@@ -1,0 +1,57 @@
+{
+  "labels": { "next": "Sıradaki", "others": "Diğer sayfalar", "turkish": "Türkçe" },
+  "pages": [
+    {
+      "id": "surec", "name": "Süreç", "tr": "index.html", "en": "en.html",
+      "sections": ["hero", "process", "yonetim"],
+      "title": "Nilus — Kongre ve fuar standları, tasarımdan yeniden kullanıma",
+      "titleEn": "Nilus — Congress and exhibition stands, from design to reuse",
+      "description": "Nilus; kongre ve fuar standlarını tasarlar, üretir ve kurar. Söküm, depolama, bakım ve yeniden kullanım da aynı ekip tarafından yürütülür. 25 yılı aşkın deneyim.",
+      "descriptionEn": "Nilus designs, builds and installs congress and exhibition stands. Dismantling, storage, maintenance and reuse are handled by the same team. More than 25 years of experience.",
+      "ogTitle": "Nilus — Standın tüm süreci, tek ekipte",
+      "ogTitleEn": "Nilus — The whole life of a stand, with one team",
+      "ogDescription": "Tasarım → Üretim → Depolama → Nakliye → Kurulum → Söküm → Bakım → Yeniden Kullanım. Kongre ve fuar standları.",
+      "ogDescriptionEn": "Design → Production → Storage → Transport → Installation → Dismantling → Maintenance → Reuse. Congress and exhibition stands."
+    },
+    {
+      "id": "projeler", "name": "Projeler", "tr": "projeler.html", "en": "en-projects.html",
+      "sections": ["projeler"],
+      "title": "Projeler — Nilus | Kongre ve fuar standları",
+      "titleEn": "Projects — Nilus | Congress and exhibition stands",
+      "description": "Nilus'un farklı markalar için tasarlayıp kurduğu kongre ve fuar standlarından seçmeler.",
+      "descriptionEn": "A selection of the congress and exhibition stands Nilus has designed and built for different brands."
+    },
+    {
+      "id": "kiralik", "name": "Kiralık stand", "tr": "kiralik-stand.html", "en": "en-rental.html",
+      "sections": ["kiralik"],
+      "title": "Kiralık stand — Nilus | Markanıza özel baskılı hazır stand",
+      "titleEn": "Rental stands — Nilus | Ready-made stands printed for your brand",
+      "description": "Hazır stand, markanıza özel baskı: Nilus'un kiralık stand modelleri ve kiralamanın nasıl işlediği. Farklı ölçüler için bize ulaşın.",
+      "descriptionEn": "Ready-made stands, printed for your brand: Nilus's rental stand models and how renting works. Contact us for other sizes."
+    },
+    {
+      "id": "yaklasim", "name": "Yaklaşım", "tr": "yaklasim.html", "en": "en-approach.html",
+      "sections": ["yaklasim"],
+      "title": "Yaklaşım — Nilus | Görünüm kadar kullanım ömrü",
+      "titleEn": "Approach — Nilus | Built to be used again",
+      "description": "Nilus standları yalnızca tek bir etkinlik için değil; farklı şehirlerde, farklı alan ölçülerinde yeniden kurulacak biçimde tasarlar.",
+      "descriptionEn": "Nilus designs stands not for a single event but to be set up again in different cities and in different floor sizes."
+    },
+    {
+      "id": "hakkimizda", "name": "Hakkımızda", "tr": "hakkimizda.html", "en": "en-about.html",
+      "sections": ["hakkimizda"],
+      "title": "Hakkımızda — Nilus | Stand tasarımında 25 yılı aşkın deneyim",
+      "titleEn": "About — Nilus | More than 25 years in stand design",
+      "description": "Nilus; kongre ve fuar standlarının tasarım, üretim ve uygulama süreçlerinde uzmanlaşmış bir tasarım ve uygulama firmasıdır.",
+      "descriptionEn": "Nilus is a design and build company specialised in the design, production and installation of congress and exhibition stands."
+    },
+    {
+      "id": "iletisim", "name": "İletişim", "tr": "iletisim.html", "en": "en-contact.html",
+      "sections": ["iletisim"],
+      "title": "İletişim — Nilus | Mesaj yazın, teklif isteyin",
+      "titleEn": "Contact — Nilus | Write to us, request a quote",
+      "description": "Nilus ile iletişime geçin: bir sonraki etkinliğiniz için mesaj yazın ya da teklif isteyin.",
+      "descriptionEn": "Get in touch with Nilus: write a message or request a quote for your next event."
+    }
+  ]
+}

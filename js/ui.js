@@ -28,12 +28,12 @@ function safely(name, fn) {
 /* ---------- nav ---------- */
 function initNav({ progress, isShot }) {
   const update = () => {
-    const scrolled = isShot ? progress.get() > -0.999 : window.scrollY > NAV_SCROLLED_Y;
+    const scrolled = isShot && progress ? progress.get() > -0.999 : window.scrollY > NAV_SCROLLED_Y;
     root.classList.toggle('nav-scrolled', scrolled);
   };
   update();
   if (!isShot) window.addEventListener('scroll', update, { passive: true });
-  progress.onChange(update);
+  progress?.onChange(update);
 }
 
 function initMenu() {
@@ -151,7 +151,7 @@ function initAnchors({ progress, reducedMotion }) {
     if (!target) return;
     e.preventDefault();
     const p = Number(link.dataset.progress);
-    if (link.dataset.progress !== undefined && Number.isFinite(p)) progress.scrollToProgress(p);
+    if (progress && link.dataset.progress !== undefined && Number.isFinite(p)) progress.scrollToProgress(p);
     else target.scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth', block: 'start' });
     if (id !== 'hero') history.replaceState(null, '', `#${id}`);
   });
@@ -189,17 +189,16 @@ function initLifecycle() {
 
 export function initUI({ progress, isShot = false, reducedMotion = false } = {}) {
   root.classList.add('js-ui');
-  if (!progress || typeof progress.get !== 'function') {
-    console.error('[nilus] ui: progress missing — only static UI enabled');
-    safely('reveals', () => initReveals({ isShot: true, reducedMotion }));
-    return;
-  }
-  safely('nav', () => initNav({ progress, isShot }));
+  // Only the home page has the process story and its scroll progress; the other pages pass none (js/page.js).
+  const story = progress && typeof progress.get === 'function' ? progress : null;
+  safely('nav', () => initNav({ progress: story, isShot }));
   safely('menu', initMenu);
   safely('reveals', () => initReveals({ isShot, reducedMotion }));
-  safely('rail', () => initRail({ progress }));
-  safely('step-cards', () => initStepCards({ progress, isShot }));
-  safely('anchors', () => initAnchors({ progress, reducedMotion }));
+  if (story) {
+    safely('rail', () => initRail({ progress: story }));
+    safely('step-cards', () => initStepCards({ progress: story, isShot }));
+  }
+  safely('anchors', () => initAnchors({ progress: story, reducedMotion }));
   safely('lifecycle', initLifecycle);
 }
 
