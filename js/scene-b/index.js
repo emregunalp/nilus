@@ -6,7 +6,7 @@ import { buildWorld } from './world.js';
 import { createCameraRig } from './camera.js';
 import { createPipeline } from './post.js';
 import { cameraAt, P_MIN, P_MAX, smooth, segment } from './choreo.js';
-import { playTarget, createPlayhead } from './play.js?v=33';
+import { createPlayhead } from './play.js?v=34';
 import { ensureFonts } from './textures.js';
 import { PALETTE, setLineResolution, forgetLineMaterials } from './materials.js';
 
@@ -131,10 +131,10 @@ export async function mountScene({ canvas, getProgress, snap = false, quality = 
     const t = (now - start) / 1000;
     const dt = Math.min(0.1, Math.max(0, (now - last) / 1000));
     const P = clampP(getProgress());
-    // Screenshots show exactly P; with reduced motion each stage is its finished picture; otherwise the film plays.
-    if (snap) Pd = P;
-    else if (!animate) Pd = playTarget(P);
-    else Pd = playhead.step(P, dt);
+    // Screenshots show exactly P; otherwise the film plays. "Reduce motion" does not stop it: the film is the page's
+    // content, and with it frozen the process looked broken on the client's own computer (2026-10-09). That setting
+    // still switches off the idle sway and the load-time draw-in (animate).
+    Pd = snap ? P : playhead.step(P, dt);
     const heroW = 1 - smooth(segment(Pd, -0.35, 0.05));
     pointer.x += (pointer.tx - pointer.x) * Math.min(1, dt * 3);
     pointer.y += (pointer.ty - pointer.y) * Math.min(1, dt * 3);
@@ -164,7 +164,7 @@ export async function mountScene({ canvas, getProgress, snap = false, quality = 
     // No document.hidden gate: browsers already suspend rAF in hidden tabs, while embedded previews
     // (e.g. the desktop app's browser pane) report hidden=true yet keep firing rAF — gating froze the stand.
     const P = clampP(getProgress());
-    const settled = animate ? playhead.settled(P) : Math.abs((snap ? P : playTarget(P)) - Pd) < SETTLE_EPS;
+    const settled = snap ? Math.abs(P - Pd) < SETTLE_EPS : playhead.settled(P);
     const idle = settled && !dirty && (snap || Pd >= P_MAX);
     if (idle) { last = now; return; }
     if (quality === 'low' && settled && !dirty && now - last < AMBIENT_FRAME_MS) return;
