@@ -64,10 +64,13 @@ html.js-ui .step-card {
   --card-edge: top; /* read by scroll.js in shot mode */
   position: fixed; z-index: 2; left: var(--gutter); top: max(calc(var(--nav-h) + 24px), 22vh);
   margin: 0;
-  opacity: 0; transform: translateY(16px); pointer-events: none;
+  /* Waiting below the column (the stages still to come); .is-before parks the earlier stages above it. */
+  opacity: 0; transform: translateY(var(--card-travel)); pointer-events: none;
   /* The blur behind a card is dropped only after it has faded out: eight stacked blurs would be costly. */
-  transition: opacity .3s var(--ease), transform .5s var(--ease), -webkit-backdrop-filter 0s .3s, backdrop-filter 0s .3s;
+  transition: opacity .4s var(--ease), transform .65s var(--ease), -webkit-backdrop-filter 0s .4s, backdrop-filter 0s .4s;
+  --card-travel: 90px;
 }
+html.js-ui .step.is-before .step-card { transform: translateY(calc(-1 * var(--card-travel))); }
 html.js-ui .step:not(.is-active) .step-card { -webkit-backdrop-filter: none; backdrop-filter: none; }
 html.js-ui .step.is-active .step-card { opacity: 1; transform: none; pointer-events: auto; transition-delay: 0s; }
 .step-card {
@@ -160,7 +163,7 @@ html.js-ui .step.is-active .step-card { opacity: 1; transform: none; pointer-eve
 
   /* One swipe per stage, roughly. The card is pinned to the bottom of the screen, under the stand. */
   .step { min-height: 100vh; padding: 0 16px; }
-  html.js-ui .step-card { --card-edge: bottom; left: 16px; right: 16px; top: auto; bottom: 16px; }
+  html.js-ui .step-card { --card-edge: bottom; --card-travel: 64px; left: 16px; right: 16px; top: auto; bottom: 16px; }
   .step-next { left: auto; right: 0; top: auto; bottom: calc(100% + 10px); padding: 9px 13px 8px; font-size: .64rem; background: rgba(243, 237, 227, .95); }
   /* No backdrop blur on phones: blurring the moving 3D canvas behind a card this wide costs a frame's worth of GPU time. */
   .step-card {
@@ -184,6 +187,13 @@ html.js-ui .step.is-active .step-card { opacity: 1; transform: none; pointer-eve
   .step-lead { margin-top: 6px; font-size: 1rem; }
   .step-text { margin-top: 8px; font-size: .88rem; line-height: 1.5; }
   .step-card .chips { display: none; }
+}
+
+/* The cards change with the film, and the film plays whatever the computer's "reduce motion" setting says
+   (scene-b/index.js): the slide stays too, or the cards would just swap. */
+@media (prefers-reduced-motion: reduce) {
+  html.js-ui .step-card { transition: opacity .4s var(--ease), transform .65s var(--ease), -webkit-backdrop-filter 0s .4s, backdrop-filter 0s .4s !important; }
+  html.js-ui .step.is-active .step-card { transition-delay: 0s !important; }
 }
 
 /* Shot mode (?p= / ?y=): the content is translated instead of scrolled, which un-fixes the cards — scroll.js moves

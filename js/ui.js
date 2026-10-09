@@ -9,7 +9,7 @@ const RAIL_HIDE_AFTER = 8.5;
 const NAV_SCROLLED_Y = 8;
 // A rail button lands in the middle of its stage's scroll span; the stand then plays the stage to its end by itself.
 const RAIL_JUMP_OFFSET = 0.5;
-// The first card comes up as the hero leaves; a card passed in a fast scroll or a jump never gets to flash up.
+// The first card comes up as the hero leaves; a card passed in a fast scroll or a jump never gets to slide in.
 const CARD_FROM = -0.02;
 const CARD_SWAP_MS = 130;
 const REVEAL_MARGIN = '0px 0px -8% 0px';
@@ -120,27 +120,34 @@ function initRail({ progress }) {
 }
 
 /* ---------- process cards: one at a time, fixed in place ---------- */
-// The scroll only chooses the stage. Its card stays put in the text column for the whole stage and is swapped for
-// the next one at the boundary, so a card is never caught half-way on or off the screen (client, 2026-10-09).
+// The scroll only chooses the stage. Its card stays in the text column for the whole stage and changes at the
+// boundary, so a card is never caught half-way on or off the screen. The change looks like scrolling: the old card
+// leaves upwards and the next one comes up from below — the other way round when going back (client, 2026-10-09).
 function initStepCards({ progress, isShot }) {
   const steps = $$('#process .step');
   if (!steps.length) return;
   let wanted = null;
   let timer = 0;
-  const show = (index) => steps.forEach((step, i) => {
-    step.classList.toggle('is-active', i === index);
+  const activate = (index) => steps.forEach((step, i) => {
+    const on = i === index;
+    step.classList.toggle('is-active', on);
+    if (on) step.classList.remove('is-before');
     // The hidden cards' "next stage" links stay out of the tab order.
     const next = step.querySelector('.step-next');
-    if (next) next.tabIndex = i === index ? 0 : -1;
+    if (next) next.tabIndex = on ? 0 : -1;
   });
   const render = (p) => {
     const index = p >= CARD_FROM && p < STAGE_COUNT ? clamp(Math.floor(p), 0, STAGE_COUNT - 1) : -1;
     if (index === wanted) return;
     wanted = index;
     clearTimeout(timer);
-    if (isShot) { show(index); return; }
-    show(-1); // the old card leaves at once; the new one follows when the scroll has stayed on its stage
-    if (index >= 0) timer = setTimeout(() => show(wanted), CARD_SWAP_MS);
+    // Cards of earlier stages wait above the column, later ones below it (is-before). The card about to come in keeps
+    // the side it is on, so it enters from there.
+    const past = p >= STAGE_COUNT;
+    steps.forEach((step, i) => { if (i !== index) step.classList.toggle('is-before', index < 0 ? past : i < index); });
+    if (isShot) { activate(index); return; }
+    activate(-1); // the old card leaves at once; the new one follows when the scroll has stayed on its stage
+    if (index >= 0) timer = setTimeout(() => activate(wanted), CARD_SWAP_MS);
   };
   render(progress.get());
   progress.onChange(render);
