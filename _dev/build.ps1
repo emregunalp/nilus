@@ -67,8 +67,8 @@ function NextHtml($page, $lang) {
     "    <section class=`"section page-next`" aria-label=`"$($conf.labels.others)`">",
     "      <div class=`"wrap page-next-inner`">",
     "        <a class=`"page-next-main`" href=`"$(PageHref $next $lang)`" data-reveal>",
-    "          <span class=`"page-next-label`">$($conf.labels.next)</span>",
-    "          <span class=`"page-next-name`"><span>$($next.name)</span><span class=`"page-next-arrow`" aria-hidden=`"true`">&rarr;</span></span>",
+    "          <span class=`"page-next-text`"><span class=`"page-next-label`">$($conf.labels.next)</span><span class=`"page-next-name`">$($next.name)</span></span>",
+    "          <span class=`"page-next-arrow`" aria-hidden=`"true`">&rarr;</span>",
     "        </a>",
     "        <ul class=`"page-next-others`" data-reveal>"
   )
