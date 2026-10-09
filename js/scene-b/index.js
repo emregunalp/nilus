@@ -6,17 +6,11 @@ import { buildWorld } from './world.js';
 import { createCameraRig } from './camera.js';
 import { createPipeline } from './post.js';
 import { cameraAt, P_MIN, P_MAX, smooth, segment } from './choreo.js';
-import { playTarget } from './play.js';
+import { playTarget, createPlayhead } from './play.js?v=33';
 import { ensureFonts } from './textures.js';
 import { PALETTE, setLineResolution, forgetLineMaterials } from './materials.js';
 
 const ASSET_TIMEOUT_MS = 2400;
-const DAMP_RATE = 5.5;
-// A stage plays by itself at this pace (progress units per second: about four seconds for a whole stage), easing
-// out over the last stretch before its finished picture.
-const PLAY_RATE = 0.24;
-const PLAY_EASE = 2.4;
-const PLAY_MIN = 0.03;
 const IDLE_SWAY_DEG = 10;
 const IDLE_SWAY_SPEED = 0.16;
 const PARALLAX_DEG = 1.8;
@@ -115,7 +109,8 @@ export async function mountScene({ canvas, getProgress, snap = false, quality = 
   const animate = !snap && !reducedMotion;
   let start = performance.now();
   const pointer = { x: 0, y: 0, tx: 0, ty: 0 };
-  let Pd = clampP(getProgress());
+  const playhead = createPlayhead(clampP(getProgress())); // where the film is (play.js)
+  let Pd = playhead.at;
   let last = start;
   let dirty = true;
   let disposed = false;
@@ -132,23 +127,14 @@ export async function mountScene({ canvas, getProgress, snap = false, quality = 
     dirty = true;
   }
 
-  // Where the film should be for a scroll progress: exactly there in screenshots, otherwise at the end of the stage.
-  const goalFor = (P) => (snap ? P : playTarget(P));
-
   function renderFrame(now) {
     const t = (now - start) / 1000;
     const dt = Math.min(0.1, Math.max(0, (now - last) / 1000));
     const P = clampP(getProgress());
-    const goal = goalFor(P);
-    if (!animate) Pd = goal; // screenshots and reduced motion: each stage's finished picture, no playback
-    else if (Pd > goal) Pd += (goal - Pd) * (1 - Math.exp(-dt * DAMP_RATE)); // scrolled back: rewind quickly
-    else {
-      // Never behind the scroll (a fast scroll or a jump is caught up quickly); beyond it, the stage plays on.
-      const catchUp = Pd < P ? (P - Pd) * (1 - Math.exp(-dt * DAMP_RATE)) : 0;
-      const play = dt * Math.min(PLAY_RATE, Math.max(PLAY_MIN, (goal - Pd) * PLAY_EASE));
-      Pd = Math.min(goal, Pd + Math.max(catchUp, play));
-    }
-    if (Math.abs(goal - Pd) < SETTLE_EPS) Pd = goal;
+    // Screenshots show exactly P; with reduced motion each stage is its finished picture; otherwise the film plays.
+    if (snap) Pd = P;
+    else if (!animate) Pd = playTarget(P);
+    else Pd = playhead.step(P, dt);
     const heroW = 1 - smooth(segment(Pd, -0.35, 0.05));
     pointer.x += (pointer.tx - pointer.x) * Math.min(1, dt * 3);
     pointer.y += (pointer.ty - pointer.y) * Math.min(1, dt * 3);
@@ -177,7 +163,8 @@ export async function mountScene({ canvas, getProgress, snap = false, quality = 
     if (!snap) raf = requestAnimationFrame(tick);
     // No document.hidden gate: browsers already suspend rAF in hidden tabs, while embedded previews
     // (e.g. the desktop app's browser pane) report hidden=true yet keep firing rAF — gating froze the stand.
-    const settled = Math.abs(goalFor(clampP(getProgress())) - Pd) < SETTLE_EPS;
+    const P = clampP(getProgress());
+    const settled = animate ? playhead.settled(P) : Math.abs((snap ? P : playTarget(P)) - Pd) < SETTLE_EPS;
     const idle = settled && !dirty && (snap || Pd >= P_MAX);
     if (idle) { last = now; return; }
     if (quality === 'low' && settled && !dirty && now - last < AMBIENT_FRAME_MS) return;
