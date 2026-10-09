@@ -12,6 +12,8 @@
   [">Hakkımızda<", ">About<"],
   [">İletişim<", ">Contact<"],
   [">Sıradaki<", ">Next<"],
+  [">Sonraki aşama<", ">Next stage<"],
+  [">Devam edin<", ">Continue<"],
   ["aria-label=\"Diğer sayfalar\"", "aria-label=\"Other pages\""],
   ["Süreç ilerlemesi", "Process progress"],
   [">Tasarım<", ">Design<"],

@@ -127,7 +127,12 @@ function initStepCards({ progress, isShot }) {
   if (!steps.length) return;
   let wanted = null;
   let timer = 0;
-  const show = (index) => steps.forEach((step, i) => step.classList.toggle('is-active', i === index));
+  const show = (index) => steps.forEach((step, i) => {
+    step.classList.toggle('is-active', i === index);
+    // The hidden cards' "next stage" links stay out of the tab order.
+    const next = step.querySelector('.step-next');
+    if (next) next.tabIndex = i === index ? 0 : -1;
+  });
   const render = (p) => {
     const index = p >= CARD_FROM && p < STAGE_COUNT ? clamp(Math.floor(p), 0, STAGE_COUNT - 1) : -1;
     if (index === wanted) return;

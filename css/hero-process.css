@@ -111,6 +111,23 @@ html.js-ui .step.is-active .step-card { opacity: 1; transform: none; pointer-eve
   background: rgba(247, 244, 238, .6);
 }
 
+/* On to the next stage: sits just under the card (above its top-right corner on phones, where the card is pinned to
+   the bottom of the screen). The rail on the right does the same job; both can be used (client, 2026-10-09). */
+.step-next {
+  position: absolute; left: 0; top: calc(100% + 18px);
+  display: inline-flex; align-items: center; gap: .75em; white-space: nowrap;
+  padding: 11px 16px 10px; border: 1px solid rgba(27, 25, 22, .3); border-radius: 999px;
+  background: rgba(243, 237, 227, .9);
+  font: 500 .7rem/1 var(--font-mono); letter-spacing: .1em; text-transform: uppercase;
+  color: var(--ink); text-decoration: none;
+  transition: background-color .3s var(--ease), color .3s var(--ease), border-color .3s var(--ease);
+}
+.step-next-label { color: var(--ink-2); transition: color .3s var(--ease); }
+.step-next-arrow { transition: transform .3s var(--ease); }
+.step-next:hover, .step-next:focus-visible { background: var(--ink); color: var(--cream); border-color: var(--ink); }
+.step-next:hover .step-next-label, .step-next:focus-visible .step-next-label { color: rgba(243, 237, 227, .7); }
+.step-next:hover .step-next-arrow { transform: translateX(3px); }
+
 .process-outro {
   min-height: 180vh;
   display: flex; flex-direction: column; justify-content: center; gap: 28px;
@@ -144,6 +161,7 @@ html.js-ui .step.is-active .step-card { opacity: 1; transform: none; pointer-eve
   /* One swipe per stage, roughly. The card is pinned to the bottom of the screen, under the stand. */
   .step { min-height: 100vh; padding: 0 16px; }
   html.js-ui .step-card { --card-edge: bottom; left: 16px; right: 16px; top: auto; bottom: 16px; }
+  .step-next { left: auto; right: 0; top: auto; bottom: calc(100% + 10px); padding: 9px 13px 8px; font-size: .64rem; background: rgba(243, 237, 227, .95); }
   /* No backdrop blur on phones: blurring the moving 3D canvas behind a card this wide costs a frame's worth of GPU time. */
   .step-card {
     margin: 24px 0; width: auto; padding: 24px 22px 24px;

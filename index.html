@@ -52,12 +52,12 @@
   <!-- Turkish letters (latin-ext) -->
   <link rel="preload" href="assets/fonts/fraunces-normal-latin-ext.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/inter-tight-normal-latin-ext.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="css/fonts.css?v=34">
-  <link rel="stylesheet" href="css/base.css?v=34">
-  <link rel="stylesheet" href="css/chrome.css?v=34">
-  <link rel="stylesheet" href="css/hero-process.css?v=34">
-  <link rel="stylesheet" href="css/sections.css?v=34">
-  <link rel="stylesheet" href="css/projects.css?v=34">
+  <link rel="stylesheet" href="css/fonts.css?v=35">
+  <link rel="stylesheet" href="css/base.css?v=35">
+  <link rel="stylesheet" href="css/chrome.css?v=35">
+  <link rel="stylesheet" href="css/hero-process.css?v=35">
+  <link rel="stylesheet" href="css/sections.css?v=35">
+  <link rel="stylesheet" href="css/projects.css?v=35">
   <script>
     // Reveal-on-scroll hides [data-reveal] only when JS runs; if ui.js never boots, show everything.
     document.documentElement.classList.add('js');
@@ -68,7 +68,7 @@
     "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/" } }</script>
   <!-- The 3D scene is a chain of modules that would otherwise be discovered one level at a time; fetch them together. -->
   <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.min.js">
-  <link rel="modulepreload" href="js/scene-b/index.js?v=34">
+  <link rel="modulepreload" href="js/scene-b/index.js?v=35">
   <link rel="modulepreload" href="js/scene-b/world.js">
   <link rel="modulepreload" href="js/scene-b/stand.js">
   <link rel="modulepreload" href="js/scene-b/geo.js">
@@ -76,7 +76,7 @@
   <link rel="modulepreload" href="js/scene-b/materials.js">
   <link rel="modulepreload" href="js/scene-b/textures.js">
   <link rel="modulepreload" href="js/scene-b/choreo.js">
-  <link rel="modulepreload" href="js/scene-b/play.js?v=34">
+  <link rel="modulepreload" href="js/scene-b/play.js?v=35">
   <link rel="modulepreload" href="js/scene-b/layout.js">
   <link rel="modulepreload" href="js/scene-b/route.js">
   <link rel="modulepreload" href="js/scene-b/camera.js">
@@ -101,8 +101,8 @@
   <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/shaders/CopyShader.js">
   <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/shaders/LuminosityHighPassShader.js">
   <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/shaders/OutputShader.js">
-  <script type="module" src="js/main.js?v=34"></script>
-  <script type="module" src="js/contact.js?v=34"></script>
+  <script type="module" src="js/main.js?v=35"></script>
+  <script type="module" src="js/contact.js?v=35"></script>
 </head>
 <body>
   <a class="skip-link" href="#content">İçeriğe geç</a>
@@ -188,6 +188,7 @@
     </section>
 
     <section id="process" class="process" aria-labelledby="process-title">
+      <!-- Each card ends with a link on to the next stage (data-progress: the middle of that stage; js/ui.js). -->
       <h2 id="process-title" class="visually-hidden">Bir standın süreci: sekiz aşama</h2>
 
       <article class="step" data-stage="0" aria-labelledby="step-0">
@@ -197,6 +198,7 @@
           <p class="step-lead">Süreç, briefle başlar.</p>
           <p class="step-text">Proje briefini alıyor, markanızın etkinlikteki ihtiyacını birlikte netleştiriyoruz. Tasarımı görünümle birlikte modülerliğe, lojistiğe ve tekrar kuruluma göre planlıyoruz.</p>
           <ul class="chips"><li>Brief analizi</li><li>3D tasarım</li><li>Teknik çizim</li></ul>
+          <a class="step-next" href="#process" data-progress="1.5"><span class="step-next-label">Sonraki aşama</span><span>Üretim</span><span class="step-next-arrow" aria-hidden="true">→</span></a>
         </div>
       </article>
 
@@ -207,6 +209,7 @@
           <p class="step-lead">Onaylanan tasarım üretime alınır.</p>
           <p class="step-text">Tasarım atölyemizde üretilir; teknik hazırlıklar bu aşamada tamamlanır. Parçalar sahaya çıkmadan önce ön montajla bir araya getirilir; aydınlatma ve teknik ekipman gibi detaylar test edilir.</p>
           <ul class="chips"><li>Atölye üretimi</li><li>Teknik hazırlık</li><li>Ön montaj ve ışık testi</li></ul>
+          <a class="step-next" href="#process" data-progress="2.5"><span class="step-next-label">Sonraki aşama</span><span>Depolama</span><span class="step-next-arrow" aria-hidden="true">→</span></a>
         </div>
       </article>
 
@@ -217,6 +220,7 @@
           <p class="step-lead">Parçalar paketlenir, depoya alınır.</p>
           <p class="step-text">Stand parçalarına ayrılır, paketlenir ve etiketlenir. Bir sonraki etkinliğe kadar depomuzda, envanter kaydıyla saklanır.</p>
           <ul class="chips"><li>Paketleme</li><li>Etiketleme</li><li>Envanter takibi</li></ul>
+          <a class="step-next" href="#process" data-progress="3.5"><span class="step-next-label">Sonraki aşama</span><span>Nakliye</span><span class="step-next-arrow" aria-hidden="true">→</span></a>
         </div>
       </article>
 
@@ -227,6 +231,7 @@
           <p class="step-lead">Planlı sevkiyat, zamanında teslim.</p>
           <p class="step-text">Paketlenen stand, etkinliğin yapılacağı şehre planlı bir sevkiyatla gönderilir. Taşıma kolaylığı tasarım aşamasında düşünüldüğü için lojistiği kolaylıkla yapılır.</p>
           <ul class="chips"><li>Planlı sevkiyat</li><li>Şehirler arası lojistik</li><li>Zamanında teslim</li></ul>
+          <a class="step-next" href="#process" data-progress="4.5"><span class="step-next-label">Sonraki aşama</span><span>Kurulum</span><span class="step-next-arrow" aria-hidden="true">→</span></a>
         </div>
       </article>
 
@@ -237,6 +242,7 @@
           <p class="step-lead">Stand, etkinlik alanında kurulur.</p>
           <p class="step-text">Saha ekibimiz standı alanda kurar; teknik ekipman ve aydınlatma devreye alınır. Stand, açılıştan önce kontrol edilerek teslim edilir.</p>
           <ul class="chips"><li>Saha koordinasyonu</li><li>Montaj</li><li>Işık ve ekran devreye alma</li></ul>
+          <a class="step-next" href="#process" data-progress="5.5"><span class="step-next-label">Sonraki aşama</span><span>Söküm</span><span class="step-next-arrow" aria-hidden="true">→</span></a>
         </div>
       </article>
 
@@ -247,6 +253,7 @@
           <p class="step-lead">Etkinlik sonrası kontrollü söküm.</p>
           <p class="step-text">Etkinlik bittiğinde stand kontrollü biçimde sökülür. Parçalar sayılır, paketlenir ve depoya geri gönderilir.</p>
           <ul class="chips"><li>Kontrollü söküm</li><li>Parça sayımı</li><li>Paketleme</li></ul>
+          <a class="step-next" href="#process" data-progress="6.5"><span class="step-next-label">Sonraki aşama</span><span>Bakım</span><span class="step-next-arrow" aria-hidden="true">→</span></a>
         </div>
       </article>
 
@@ -257,6 +264,7 @@
           <p class="step-lead">Her parça kontrol edilir.</p>
           <p class="step-text">Depoya dönen parçalar tek tek kontrol edilir; gereken onarım ve yenileme yapılır. Stand, bir sonraki organizasyon için hazır hale getirilir.</p>
           <ul class="chips"><li>Parça kontrolü</li><li>Onarım ve yenileme</li><li>Kalite onayı</li></ul>
+          <a class="step-next" href="#process" data-progress="7.5"><span class="step-next-label">Sonraki aşama</span><span>Yeniden Kullanım</span><span class="step-next-arrow" aria-hidden="true">→</span></a>
         </div>
       </article>
 
@@ -267,6 +275,7 @@
           <p class="step-lead">Aynı stand, farklı etkinlikler.</p>
           <p class="step-text">Bir stand çoğu zaman tek bir etkinlikle sınırlı kalmaz. Yıl boyunca farklı şehirlerde, farklı alan ölçülerinde ve değişen ihtiyaçlara göre yeniden kurulur.</p>
           <ul class="chips"><li>Farklı şehir</li><li>Farklı ölçü</li><li>Aynı marka dili</li></ul>
+          <a class="step-next" href="#process" data-progress="8.25"><span>Devam edin</span><span class="step-next-arrow" aria-hidden="true">↓</span></a>
         </div>
       </article>
 

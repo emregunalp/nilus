@@ -52,12 +52,12 @@
   <!-- Turkish letters (latin-ext) -->
   <!-- (not preloaded on the English page) -->
   <!-- (not preloaded on the English page) -->
-  <link rel="stylesheet" href="css/fonts.css?v=34">
-  <link rel="stylesheet" href="css/base.css?v=34">
-  <link rel="stylesheet" href="css/chrome.css?v=34">
-  <link rel="stylesheet" href="css/hero-process.css?v=34">
-  <link rel="stylesheet" href="css/sections.css?v=34">
-  <link rel="stylesheet" href="css/projects.css?v=34">
+  <link rel="stylesheet" href="css/fonts.css?v=35">
+  <link rel="stylesheet" href="css/base.css?v=35">
+  <link rel="stylesheet" href="css/chrome.css?v=35">
+  <link rel="stylesheet" href="css/hero-process.css?v=35">
+  <link rel="stylesheet" href="css/sections.css?v=35">
+  <link rel="stylesheet" href="css/projects.css?v=35">
   <script>
     // Reveal-on-scroll hides [data-reveal] only when JS runs; if ui.js never boots, show everything.
     document.documentElement.classList.add('js');
@@ -68,7 +68,7 @@
     "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/" } }</script>
   <!-- The 3D scene is a chain of modules that would otherwise be discovered one level at a time; fetch them together. -->
   <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.min.js">
-  <link rel="modulepreload" href="js/scene-b/index.js?v=34">
+  <link rel="modulepreload" href="js/scene-b/index.js?v=35">
   <link rel="modulepreload" href="js/scene-b/world.js">
   <link rel="modulepreload" href="js/scene-b/stand.js">
   <link rel="modulepreload" href="js/scene-b/geo.js">
@@ -76,7 +76,7 @@
   <link rel="modulepreload" href="js/scene-b/materials.js">
   <link rel="modulepreload" href="js/scene-b/textures.js">
   <link rel="modulepreload" href="js/scene-b/choreo.js">
-  <link rel="modulepreload" href="js/scene-b/play.js?v=34">
+  <link rel="modulepreload" href="js/scene-b/play.js?v=35">
   <link rel="modulepreload" href="js/scene-b/layout.js">
   <link rel="modulepreload" href="js/scene-b/route.js">
   <link rel="modulepreload" href="js/scene-b/camera.js">
@@ -101,8 +101,8 @@
   <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/shaders/CopyShader.js">
   <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/shaders/LuminosityHighPassShader.js">
   <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/shaders/OutputShader.js">
-  <script type="module" src="js/main.js?v=34"></script>
-  <script type="module" src="js/contact.js?v=34"></script>
+  <script type="module" src="js/main.js?v=35"></script>
+  <script type="module" src="js/contact.js?v=35"></script>
 </head>
 <body>
   <a class="skip-link" href="#content">Skip to content</a>
@@ -188,6 +188,7 @@
     </section>
 
     <section id="process" class="process" aria-labelledby="process-title">
+      <!-- Each card ends with a link on to the next stage (data-progress: the middle of that stage; js/ui.js). -->
       <h2 id="process-title" class="visually-hidden">The life of a stand: eight stages</h2>
 
       <article class="step" data-stage="0" aria-labelledby="step-0">
@@ -197,6 +198,7 @@
           <p class="step-lead">It starts with the brief.</p>
           <p class="step-text">We take the project brief and work out, together with you, what your brand needs at the event. Alongside its look, the design is planned for modularity, logistics and repeated installation.</p>
           <ul class="chips"><li>Brief analysis</li><li>3D design</li><li>Technical drawings</li></ul>
+          <a class="step-next" href="#process" data-progress="1.5"><span class="step-next-label">Next stage</span><span>Production</span><span class="step-next-arrow" aria-hidden="true">→</span></a>
         </div>
       </article>
 
@@ -207,6 +209,7 @@
           <p class="step-lead">The approved design goes into production.</p>
           <p class="step-text">The stand is built in our workshop, and technical preparation is completed at this stage. Before anything leaves for the venue, the parts are pre-assembled and details such as the lighting and technical equipment are tested.</p>
           <ul class="chips"><li>Workshop production</li><li>Technical preparation</li><li>Pre-assembly and lighting test</li></ul>
+          <a class="step-next" href="#process" data-progress="2.5"><span class="step-next-label">Next stage</span><span>Storage</span><span class="step-next-arrow" aria-hidden="true">→</span></a>
         </div>
       </article>
 
@@ -217,6 +220,7 @@
           <p class="step-lead">Parts are packed and stored.</p>
           <p class="step-text">The stand is taken apart, packed and labelled. It is kept in our warehouse, with an inventory record, until the next event.</p>
           <ul class="chips"><li>Packing</li><li>Labelling</li><li>Inventory tracking</li></ul>
+          <a class="step-next" href="#process" data-progress="3.5"><span class="step-next-label">Next stage</span><span>Transport</span><span class="step-next-arrow" aria-hidden="true">→</span></a>
         </div>
       </article>
 
@@ -227,6 +231,7 @@
           <p class="step-lead">Planned shipping, on-time delivery.</p>
           <p class="step-text">The packed stand is shipped on schedule to the city hosting the event. Because ease of transport is considered at the design stage, its logistics are handled with ease.</p>
           <ul class="chips"><li>Planned shipping</li><li>Intercity logistics</li><li>On-time delivery</li></ul>
+          <a class="step-next" href="#process" data-progress="4.5"><span class="step-next-label">Next stage</span><span>Installation</span><span class="step-next-arrow" aria-hidden="true">→</span></a>
         </div>
       </article>
 
@@ -237,6 +242,7 @@
           <p class="step-lead">The stand is installed at the venue.</p>
           <p class="step-text">Our site team installs the stand at the venue; the technical equipment and lighting are commissioned. The stand is checked and handed over before the opening.</p>
           <ul class="chips"><li>On-site coordination</li><li>Assembly</li><li>Lighting and screen commissioning</li></ul>
+          <a class="step-next" href="#process" data-progress="5.5"><span class="step-next-label">Next stage</span><span>Dismantling</span><span class="step-next-arrow" aria-hidden="true">→</span></a>
         </div>
       </article>
 
@@ -247,6 +253,7 @@
           <p class="step-lead">Controlled dismantling after the event.</p>
           <p class="step-text">When the event ends, the stand is dismantled in a controlled way. The parts are counted, packed and sent back to the warehouse.</p>
           <ul class="chips"><li>Controlled dismantling</li><li>Parts count</li><li>Packing</li></ul>
+          <a class="step-next" href="#process" data-progress="6.5"><span class="step-next-label">Next stage</span><span>Maintenance</span><span class="step-next-arrow" aria-hidden="true">→</span></a>
         </div>
       </article>
 
@@ -257,6 +264,7 @@
           <p class="step-lead">Every part is checked.</p>
           <p class="step-text">Each part returning to the warehouse is checked one by one, and any repair or refurbishment is carried out. The stand is made ready for the next event.</p>
           <ul class="chips"><li>Parts inspection</li><li>Repair and refurbishment</li><li>Quality approval</li></ul>
+          <a class="step-next" href="#process" data-progress="7.5"><span class="step-next-label">Next stage</span><span>Reuse</span><span class="step-next-arrow" aria-hidden="true">→</span></a>
         </div>
       </article>
 
@@ -267,6 +275,7 @@
           <p class="step-lead">The same stand, different events.</p>
           <p class="step-text">A stand is rarely limited to a single event. It is installed again throughout the year, in different cities, in different floor sizes and for changing needs.</p>
           <ul class="chips"><li>Different city</li><li>Different size</li><li>Same brand language</li></ul>
+          <a class="step-next" href="#process" data-progress="8.25"><span>Continue</span><span class="step-next-arrow" aria-hidden="true">↓</span></a>
         </div>
       </article>
 
