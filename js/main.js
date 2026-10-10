@@ -1,10 +1,10 @@
 // Bootstrap — wires scroll progress (scroll.js), page UI (ui.js) and the WebGL stand scene (scene-*/index.js).
 // Contract: ../CONTRACT.md. This file owns no visuals; if the scene cannot mount, the CSS poster fallback takes over.
 
-import { createProgress } from './scroll.js?v=37';
-import { initUI } from './ui.js?v=37';
+import { createProgress } from './scroll.js?v=38';
+import { initUI } from './ui.js?v=38';
 
-const SCENES = { a: './scene-a/index.js', b: './scene-b/index.js?v=37' };
+const SCENES = { a: './scene-a/index.js', b: './scene-b/index.js?v=38' };
 const DEFAULT_SCENE = 'b';
 
 const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));

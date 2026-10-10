@@ -6,7 +6,7 @@ import { buildWorld } from './world.js';
 import { createCameraRig } from './camera.js';
 import { createPipeline } from './post.js';
 import { cameraAt, P_MIN, P_MAX, smooth, segment } from './choreo.js';
-import { createPlayhead } from './play.js?v=37';
+import { createPlayhead } from './play.js?v=38';
 import { ensureFonts } from './textures.js';
 import { PALETTE, setLineResolution, forgetLineMaterials } from './materials.js';
 
