@@ -9,6 +9,8 @@ const FRAME = Object.freeze({
   landscape: { cx: 0.64, cy: 0.5, fitX: 0.56, fitY: 0.86 },
   portrait: { cx: 0.5, cy: 0.3, fitX: 0.92, fitY: 0.56 },
 });
+// Portrait, while the lifecycle ring is up: its labels stand outside the subject radius and ran off both edges.
+const PORTRAIT_RING_FIT_X = 0.68;
 // During the process the page has a text card on the left (to ≈43% width) and the stage rail on the right
 // (from ≈87%), so the subject is fitted into that band instead of the roomier hero framing.
 const PROCESS_LANDSCAPE = Object.freeze({ cx: 0.655, cy: 0.5, fitX: 0.44, fitY: 0.8 });
@@ -27,10 +29,13 @@ export function createCameraRig() {
   const camera = new THREE.PerspectiveCamera(30, 1, 0.1, 220);
   const target = new THREE.Vector3();
 
-  /** key: cameraAt(P); view: { w, h }; sway: { az, el } extra degrees (idle / cursor); heroW: 1 hero → 0 process. */
-  function apply(key, view, sway = { az: 0, el: 0 }, heroW = 1) {
+  /** key: cameraAt(P); view: { w, h }; sway: { az, el } extra degrees (idle / cursor); heroW: 1 hero → 0 process;
+   *  ringW: 0 → 1 as the lifecycle ring comes up. */
+  function apply(key, view, sway = { az: 0, el: 0 }, heroW = 1, ringW = 0) {
     const aspect = view.w / Math.max(1, view.h);
-    const mode = aspect >= LANDSCAPE_MIN ? blendFrame(FRAME.landscape, PROCESS_LANDSCAPE, heroW) : FRAME.portrait;
+    const mode = aspect >= LANDSCAPE_MIN
+      ? blendFrame(FRAME.landscape, PROCESS_LANDSCAPE, heroW)
+      : { ...FRAME.portrait, fitX: mix(FRAME.portrait.fitX, PORTRAIT_RING_FIT_X, ringW) };
     const vt = Math.tan(THREE.MathUtils.degToRad(key.fov) / 2);
     const ht = vt * aspect;
     const dist = Math.max(key.radius / (ht * mode.fitX), key.radius / (vt * mode.fitY));

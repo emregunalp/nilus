@@ -207,7 +207,9 @@ function initLifecycle() {
 }
 
 export function initUI({ progress, isShot = false, reducedMotion = false } = {}) {
-  root.classList.add('js-ui');
+  // 'js' too: the page drops it when the scripts take too long to arrive (slow connection), and the fixed process
+  // cards hang on it.
+  root.classList.add('js', 'js-ui');
   // Only the home page has the process story and its scroll progress; the other pages pass none (js/page.js).
   const story = progress && typeof progress.get === 'function' ? progress : null;
   safely('nav', () => initNav({ progress: story, isShot }));

@@ -54,13 +54,15 @@
 /* The scroll only chooses the stage: each stage owns 80vh of it, and the stand plays the stage to its end by itself
    (scene-b: playTarget). The stage's card is fixed in the text column for the whole stage and is swapped for the
    next one at the boundary (ui.js: initStepCards), so it is never caught half-way on or off the screen.
-   Without JS the cards are plain blocks, one under the other. */
+   Without JS the cards are plain blocks, one under the other. The fixed layout hangs on html.js, which the page sets
+   in <head> before anything is drawn - not on the UI script having started - so the page never loads in one layout
+   and jumps to the other. */
 .step {
   position: relative;
   min-height: 80vh;
   padding: 0 var(--gutter);
 }
-html.js-ui .step-card {
+html.js .step-card {
   --card-edge: top; /* read by scroll.js in shot mode */
   position: fixed; z-index: 2; left: var(--gutter); top: max(calc(var(--nav-h) + 24px), 22vh);
   margin: 0;
@@ -70,9 +72,9 @@ html.js-ui .step-card {
   transition: opacity .4s var(--ease), transform .65s var(--ease), -webkit-backdrop-filter 0s .4s, backdrop-filter 0s .4s;
   --card-travel: 90px;
 }
-html.js-ui .step.is-before .step-card { transform: translateY(calc(-1 * var(--card-travel))); }
-html.js-ui .step:not(.is-active) .step-card { -webkit-backdrop-filter: none; backdrop-filter: none; }
-html.js-ui .step.is-active .step-card { opacity: 1; transform: none; pointer-events: auto; transition-delay: 0s; }
+html.js .step.is-before .step-card { transform: translateY(calc(-1 * var(--card-travel))); }
+html.js .step:not(.is-active) .step-card { -webkit-backdrop-filter: none; backdrop-filter: none; }
+html.js .step.is-active .step-card { opacity: 1; transform: none; pointer-events: auto; transition-delay: 0s; }
 .step-card {
   margin: 12vh 0;
   width: var(--col-text);
@@ -163,7 +165,7 @@ html.js-ui .step.is-active .step-card { opacity: 1; transform: none; pointer-eve
 
   /* One swipe per stage, roughly. The card is pinned to the bottom of the screen, under the stand. */
   .step { min-height: 100vh; padding: 0 16px; }
-  html.js-ui .step-card { --card-edge: bottom; --card-travel: 64px; left: 16px; right: 16px; top: auto; bottom: 16px; }
+  html.js .step-card { --card-edge: bottom; --card-travel: 64px; left: 16px; right: 16px; top: auto; bottom: 16px; }
   .step-next { left: auto; right: 0; top: auto; bottom: calc(100% + 10px); padding: 9px 13px 8px; font-size: .64rem; background: rgba(243, 237, 227, .95); }
   /* No backdrop blur on phones: blurring the moving 3D canvas behind a card this wide costs a frame's worth of GPU time. */
   .step-card {
@@ -192,8 +194,8 @@ html.js-ui .step.is-active .step-card { opacity: 1; transform: none; pointer-eve
 /* The cards change with the film, and the film plays whatever the computer's "reduce motion" setting says
    (scene-b/index.js): the slide stays too, or the cards would just swap. */
 @media (prefers-reduced-motion: reduce) {
-  html.js-ui .step-card { transition: opacity .4s var(--ease), transform .65s var(--ease), -webkit-backdrop-filter 0s .4s, backdrop-filter 0s .4s !important; }
-  html.js-ui .step.is-active .step-card { transition-delay: 0s !important; }
+  html.js .step-card { transition: opacity .4s var(--ease), transform .65s var(--ease), -webkit-backdrop-filter 0s .4s, backdrop-filter 0s .4s !important; }
+  html.js .step.is-active .step-card { transition-delay: 0s !important; }
 }
 
 /* Shot mode (?p= / ?y=): the content is translated instead of scrolled, which un-fixes the cards — scroll.js moves

@@ -6,7 +6,7 @@ import { buildWorld } from './world.js';
 import { createCameraRig } from './camera.js';
 import { createPipeline } from './post.js';
 import { cameraAt, P_MIN, P_MAX, smooth, segment } from './choreo.js';
-import { createPlayhead } from './play.js?v=38';
+import { createPlayhead } from './play.js?v=40';
 import { ensureFonts } from './textures.js';
 import { PALETTE, setLineResolution, forgetLineMaterials } from './materials.js';
 
@@ -15,13 +15,18 @@ const IDLE_SWAY_DEG = 10;
 const IDLE_SWAY_SPEED = 0.16;
 const PARALLAX_DEG = 1.8;
 const MAX_DPR_HIGH = 1.75;
-// Low quality (phones, ≤4-core machines) drops bloom, not sharpness: at 1× the hero line drawing looked soft on
-// 2–3× phone screens (measured 2026-09-26, 375×812 @2x). 1.5× keeps lines crisp at ~2.25× the 1× fill cost.
-const MAX_DPR_LOW = 1.5;
+// Low quality (phones, tablets, 4-core machines) drops bloom, not sharpness. The canvas is drawn at the screen's own
+// density up to 2x, within a pixel budget so that a tablet's large screen stays affordable: a phone (375x812) gets
+// 2x, a tablet (1280x800) 1.5x. At 1.5x the film looked blurred on phones (client, 2026-10-11).
+const MAX_DPR_LOW = 2;
+const LOW_PIXEL_BUDGET = 2.4e6;
 // Low quality, page not being scrolled: only the slow ambient motion is left, so every other frame is enough.
 const AMBIENT_FRAME_MS = 30;
-// If the device cannot keep up while the visitor scrolls, the canvas resolution steps down (never below 1×).
-const SLOW_FRAME_MS = 27;
+// If the device cannot keep up, the canvas resolution steps down - by at most DPR_GIVE in all, so it never ends up
+// blurred - and only for frames slower than about 28 a second: a phone in power-saving mode runs at a steady 30,
+// which lowering the resolution would not change.
+const SLOW_FRAME_MS = 36;
+const DPR_GIVE = 0.5;
 const SLOW_SAMPLES = 40;
 const DPR_STEP = 0.25;
 const WARM_UP_TIMEOUT_MS = 8000;
@@ -86,9 +91,12 @@ export async function mountScene({ canvas, getProgress, snap = false, quality = 
   const t0 = performance.now();
   const mark = (label) => { if (debug) console.log(`[scene-b] ${label} +${Math.round(performance.now() - t0)}ms`); };
   const renderer = createRenderer(canvas, quality);
-  let dpr = Math.min(window.devicePixelRatio || 1, quality === 'low' ? MAX_DPR_LOW : MAX_DPR_HIGH);
-  renderer.setPixelRatio(dpr);
   let view = canvasSize(canvas);
+  const affordable = Math.max(1, Math.sqrt(LOW_PIXEL_BUDGET / (view.w * view.h)));
+  const dprTop = Math.min(window.devicePixelRatio || 1, quality === 'low' ? Math.min(MAX_DPR_LOW, affordable) : MAX_DPR_HIGH);
+  const dprFloor = Math.max(1, dprTop - DPR_GIVE);
+  let dpr = dprTop;
+  renderer.setPixelRatio(dpr);
   renderer.setSize(view.w, view.h, false);
 
   let world;
@@ -144,7 +152,8 @@ export async function mountScene({ canvas, getProgress, snap = false, quality = 
     const key = cameraAt(Pd);
     // introClock drives the load-time draw-in of the hero drawing (time-based, never in snap mode).
     world.update(Pd, { clock: t, introClock: introFreeze ?? (animate ? t : null), animate });
-    const dist = rig.apply(key, view, sway, heroW);
+    // On a phone the lifecycle ring and its labels are wider than the stand: the camera steps back for them.
+    const dist = rig.apply(key, view, sway, heroW, smooth(segment(Pd, 7.3, 7.7)));
     world.setFogForDistance(dist);
     if (debug) renderer.info.reset();
     pipeline.render();
@@ -173,8 +182,8 @@ export async function mountScene({ canvas, getProgress, snap = false, quality = 
     dirty = false;
     if (!settled && !snap && interval < 120) {
       frameMs += (interval - frameMs) / Math.min(++samples, 20);
-      if (samples >= SLOW_SAMPLES && frameMs > SLOW_FRAME_MS && dpr > 1) {
-        dpr = Math.max(1, dpr - DPR_STEP);
+      if (samples >= SLOW_SAMPLES && frameMs > SLOW_FRAME_MS && dpr > dprFloor) {
+        dpr = Math.max(dprFloor, dpr - DPR_STEP);
         renderer.setPixelRatio(dpr);
         resize();
         samples = 0;
