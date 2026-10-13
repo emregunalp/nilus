@@ -6,7 +6,7 @@ import { buildWorld } from './world.js';
 import { createCameraRig } from './camera.js';
 import { createPipeline } from './post.js';
 import { cameraAt, P_MIN, P_MAX, smooth, segment } from './choreo.js';
-import { createPlayhead } from './play.js?v=40';
+import { createPlayhead } from './play.js?v=41';
 import { ensureFonts } from './textures.js';
 import { PALETTE, setLineResolution, forgetLineMaterials } from './materials.js';
 
@@ -22,14 +22,17 @@ const MAX_DPR_LOW = 2;
 const LOW_PIXEL_BUDGET = 2.4e6;
 // Low quality, page not being scrolled: only the slow ambient motion is left, so every other frame is enough.
 const AMBIENT_FRAME_MS = 30;
-// If the device cannot keep up, the canvas resolution steps down - by at most DPR_GIVE in all, so it never ends up
-// blurred - and only for frames slower than about 28 a second: a phone in power-saving mode runs at a steady 30,
-// which lowering the resolution would not change.
-const SLOW_FRAME_MS = 36;
-const DPR_GIVE = 0.5;
-const SLOW_SAMPLES = 40;
+// If the device cannot keep up (slower than about 42 frames a second over half a second of playing), the canvas
+// resolution steps down. On phones and tablets never below LOW_DPR_FLOOR: below that the film looked blurred
+// (client, 2026-10-11), and 1.5x was the resolution phones had all along before.
+const SLOW_FRAME_MS = 24;
+const LOW_DPR_FLOOR = 1.5;
+const SLOW_SAMPLES = 30;
 const DPR_STEP = 0.25;
 const WARM_UP_TIMEOUT_MS = 8000;
+// The upload of everything the later stages need waits until the first frame is on screen, so it does not hold the
+// opening back; it runs while the canvas is still fading in.
+const UPLOAD_DELAY_MS = 120;
 const SETTLE_EPS = 1e-4;
 
 const clampP = (p) => Math.min(P_MAX, Math.max(P_MIN, Number.isFinite(p) ? p : P_MIN));
@@ -74,6 +77,31 @@ async function warmUp(renderer, scene, camera, target = null) {
   await withTimeout(compiled.catch(() => null), WARM_UP_TIMEOUT_MS);
 }
 
+/**
+ * One throwaway frame with everything shown and nothing culled: it sends every mesh and texture to the graphics card.
+ * Otherwise each prop is uploaded in the frame it first appears, and the film stutters at every stage's first move
+ * (client, 2026-10-13). The caller draws a real frame straight after, so this one is never seen.
+ */
+function uploadEverything(renderer, scene, camera, target = null) {
+  const hidden = [];
+  const culled = [];
+  scene.traverse((o) => {
+    if (!o.visible) { hidden.push(o); o.visible = true; }
+    if (o.frustumCulled) { culled.push(o); o.frustumCulled = false; }
+  });
+  const before = renderer.getRenderTarget();
+  try {
+    renderer.setRenderTarget(target);
+    renderer.render(scene, camera);
+  } catch {
+    /* only a head start */
+  } finally {
+    renderer.setRenderTarget(before);
+    for (const o of hidden) o.visible = false;
+    for (const o of culled) o.frustumCulled = true;
+  }
+}
+
 function canvasSize(canvas) {
   return {
     w: Math.max(1, Math.round(canvas.clientWidth || window.innerWidth)),
@@ -94,7 +122,7 @@ export async function mountScene({ canvas, getProgress, snap = false, quality = 
   let view = canvasSize(canvas);
   const affordable = Math.max(1, Math.sqrt(LOW_PIXEL_BUDGET / (view.w * view.h)));
   const dprTop = Math.min(window.devicePixelRatio || 1, quality === 'low' ? Math.min(MAX_DPR_LOW, affordable) : MAX_DPR_HIGH);
-  const dprFloor = Math.max(1, dprTop - DPR_GIVE);
+  const dprFloor = quality === 'low' ? Math.min(dprTop, LOW_DPR_FLOOR) : 1;
   let dpr = dprTop;
   renderer.setPixelRatio(dpr);
   renderer.setSize(view.w, view.h, false);
@@ -220,6 +248,15 @@ export async function mountScene({ canvas, getProgress, snap = false, quality = 
   mark('first frame');
   dirty = false;
   if (!snap) schedule();
+  if (!snap) {
+    setTimeout(() => {
+      if (disposed) return;
+      uploadEverything(renderer, world.scene, rig.camera, pipeline.target);
+      start = last = performance.now(); // the draw-in begins after the upload: none of it is lost behind it
+      renderFrame(start);
+      mark('everything uploaded');
+    }, UPLOAD_DELAY_MS);
+  }
 
   return {
     dispose() {
