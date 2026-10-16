@@ -8,17 +8,17 @@
 import * as THREE from 'three';
 import { LineSegments2 } from 'three/addons/lines/LineSegments2.js';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
-import { PARTS, NATIVE_SIZE } from './layout.js';
-import { PALETTE, surface, setSurfaceState, lineMaterial, brushedMetal } from './materials.js';
+import { PARTS, NATIVE_SIZE } from './layout.js?v=43';
+import { PALETTE, surface, setSurfaceState, lineMaterial, brushedMetal } from './materials.js?v=43';
 import {
   counterGeometry, columnGeometries, chairGeometries, tableGeometries, coffeeGeometries, edgeLines,
-} from './geo.js';
-import { logoGeometry } from './logo.js';
-import { t } from '../i18n.js';
+} from './geo.js?v=43';
+import { logoGeometry } from './logo.js?v=43';
+import { t } from '../i18n.js?v=43';
 import {
   oakTextures, brushedTexture, weaveTexture, headerTexture, screenTexture, lightboxTexture, counterBandTextures,
   spillTexture, softDiscTexture,
-} from './textures.js';
+} from './textures.js?v=43';
 
 const UNIT_BOX = new THREE.BoxGeometry(1, 1, 1);
 const PLANE = new THREE.PlaneGeometry(1, 1);

@@ -1,7 +1,7 @@
 // Page UI: nav state, mobile menu, reveal-on-scroll, process rail, in-page links, lifecycle ring.
 // Every piece tolerates missing DOM — a lost element must never take the page down.
 
-import { STAGE_NAMES } from './i18n.js';
+import { STAGE_NAMES } from './i18n.js?v=43';
 
 const STAGE_COUNT = STAGE_NAMES.length;
 const RAIL_SHOW_FROM = -0.15;
@@ -12,9 +12,15 @@ const RAIL_JUMP_OFFSET = 0.5;
 // The first card comes up as the hero leaves; a card passed in a fast scroll or a jump never gets to slide in.
 const CARD_FROM = -0.02;
 const CARD_SWAP_MS = 130;
-// The page snaps stage by stage only between these (hero-process.css: html.snap-steps); outside it scrolls freely.
+// Between these the process moves stage by stage: touch screens snap (hero-process.css: html.snap-steps), a mouse wheel
+// is counted (initWheelPaging). Outside it the page scrolls freely.
 const SNAP_FROM = -0.6;
 const SNAP_UNTIL = 7.95;
+// A mouse wheel inside the process: three notches, one stage (client, 2026-10-16). A touchpad counts by distance.
+const WHEEL_NOTCH_PX = 100;
+const WHEEL_STAGE_NOTCHES = 3;
+const WHEEL_FORGET_MS = 1200; // notches further apart than this start the count again
+const WHEEL_SETTLE_MS = 260; // after a move the page glides; wheel input meanwhile does not count
 const REVEAL_MARGIN = '0px 0px -8% 0px';
 const REVEAL_STAGGER_S = 0.08;
 
@@ -27,6 +33,17 @@ const announceStage = (p) => {
   const index = Math.floor(p);
   if (index >= 0 && index < STAGE_COUNT) window.dispatchEvent(new CustomEvent('nilus:stage', { detail: { index } }));
 };
+// A jump made with a button (rail, "Sonraki aşama", a mouse wheel's three notches): the film is told which stage was
+// chosen, and the page glides there with the stage-by-stage snapping switched off — with it on, a phone stopped the
+// glide at the first stage on the way and the film ended on that stage instead (client, 2026-10-16).
+const SNAP_HOLD_MS = 2500;
+let snapHeldUntil = 0;
+function travel(progress, p) {
+  snapHeldUntil = performance.now() + SNAP_HOLD_MS;
+  root.classList.remove('snap-steps');
+  announceStage(p);
+  progress.scrollToProgress(p);
+}
 const pad2 = (n) => String(n).padStart(2, '0');
 
 function safely(name, fn) {
@@ -121,8 +138,7 @@ function initRail({ progress }) {
     btn.addEventListener('click', () => {
       const i = Number(btn.dataset.i);
       if (!Number.isFinite(i)) return;
-      announceStage(i);
-      progress.scrollToProgress(i + RAIL_JUMP_OFFSET);
+      travel(progress, i + RAIL_JUMP_OFFSET);
     });
   });
   render(progress.get());
@@ -136,6 +152,7 @@ function initRail({ progress }) {
 function initStepCards({ progress, isShot }) {
   const steps = $$('#process .step');
   if (!steps.length) return;
+  const touch = matchMedia('(pointer: coarse)').matches; // one swipe, one stage; a mouse wheel: initWheelPaging
   let wanted = null;
   let timer = 0;
   const activate = (index) => steps.forEach((step, i) => {
@@ -148,7 +165,7 @@ function initStepCards({ progress, isShot }) {
   });
   const render = (p) => {
     const index = p >= CARD_FROM && p < STAGE_COUNT ? clamp(Math.floor(p), 0, STAGE_COUNT - 1) : -1;
-    root.classList.toggle('snap-steps', !isShot && p > SNAP_FROM && p < SNAP_UNTIL);
+    root.classList.toggle('snap-steps', !isShot && touch && p > SNAP_FROM && p < SNAP_UNTIL && performance.now() > snapHeldUntil);
     if (index === wanted) return;
     wanted = index;
     clearTimeout(timer);
@@ -164,6 +181,40 @@ function initStepCards({ progress, isShot }) {
   progress.onChange(render);
 }
 
+/* ---------- process: a mouse wheel moves one stage per three notches ---------- */
+// Touch screens snap stage by stage (one swipe, one stage). With a mouse a free wheel ran past stages, so inside the
+// process the wheel is counted instead and the page is moved to the next stage's middle. Between the hero and the
+// first stage, and from the last stage on to the outro, one notch is enough: those are the way in and out.
+function initWheelPaging({ progress, reducedMotion }) {
+  let acc = 0;
+  let lastAt = 0;
+  let movedAt = -1e9;
+  const exit = () => $('.process-outro')?.scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth', block: 'start' });
+  window.addEventListener('wheel', (e) => {
+    if (e.ctrlKey || e.defaultPrevented) return; // pinch-zoom on a touchpad arrives as a ctrl+wheel
+    const p = progress.get();
+    if (!(p > SNAP_FROM && p < SNAP_UNTIL)) { acc = 0; return; }
+    e.preventDefault();
+    const now = performance.now();
+    const px = e.deltaY * (e.deltaMode === 1 ? 40 : e.deltaMode === 2 ? window.innerHeight : 1);
+    // A touchpad keeps sending small deltas while its gesture coasts: they belong to the move just made.
+    if (now - movedAt < WHEEL_SETTLE_MS) { if (Math.abs(px) < 40) movedAt = now; lastAt = now; return; }
+    if (now - lastAt > WHEEL_FORGET_MS || Math.sign(px) !== Math.sign(acc)) acc = 0;
+    lastAt = now;
+    acc += px;
+    const dir = Math.sign(acc);
+    const stage = Math.floor(p);
+    const edge = p < 0 || (dir > 0 && stage >= STAGE_COUNT - 1);
+    const needed = edge ? WHEEL_NOTCH_PX / 2 : WHEEL_NOTCH_PX * (WHEEL_STAGE_NOTCHES - 0.5);
+    if (Math.abs(acc) < needed) return;
+    acc = 0;
+    movedAt = now;
+    if (dir > 0 && stage >= STAGE_COUNT - 1) { exit(); return; }
+    const target = p < 0 ? (dir > 0 ? 0.5 : -1) : dir > 0 ? stage + 1.5 : stage - 0.5;
+    travel(progress, target);
+  }, { passive: false });
+}
+
 /* ---------- in-page links ---------- */
 function initAnchors({ progress, reducedMotion }) {
   document.addEventListener('click', (e) => {
@@ -174,7 +225,7 @@ function initAnchors({ progress, reducedMotion }) {
     if (!target) return;
     e.preventDefault();
     const p = Number(link.dataset.progress);
-    if (progress && link.dataset.progress !== undefined && Number.isFinite(p)) { announceStage(p); progress.scrollToProgress(p); }
+    if (progress && link.dataset.progress !== undefined && Number.isFinite(p)) travel(progress, p);
     else target.scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth', block: 'start' });
     if (id !== 'hero') history.replaceState(null, '', `#${id}`);
   });
@@ -222,6 +273,7 @@ export function initUI({ progress, isShot = false, reducedMotion = false } = {})
   if (story) {
     safely('rail', () => initRail({ progress: story }));
     safely('step-cards', () => initStepCards({ progress: story, isShot }));
+    if (!isShot && matchMedia('(pointer: fine)').matches) safely('wheel', () => initWheelPaging({ progress: story, reducedMotion }));
   }
   safely('anchors', () => initAnchors({ progress: story, reducedMotion }));
   safely('lifecycle', initLifecycle);

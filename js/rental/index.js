@@ -9,7 +9,7 @@ if (hosts.length && !isShot && typeof IntersectionObserver === 'function') {
     if (!entries.some((entry) => entry.isIntersecting)) return;
     watcher.disconnect();
     try {
-      const { mountRentalViews } = await import('./viewer.js');
+      const { mountRentalViews } = await import('./viewer.js?v=43');
       await mountRentalViews(hosts, { reducedMotion: matchMedia('(prefers-reduced-motion: reduce)').matches });
     } catch (err) {
       console.warn('[nilus] kiralık stand 3D görünümü açılamadı → çizimler kalıyor', err?.message || err);

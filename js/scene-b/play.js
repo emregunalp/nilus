@@ -10,7 +10,7 @@
 //   4. Nothing may speed up with a jerk: going on to the next stage runs at the stage's own pace, and scrolling
 //      down does not push the film.
 
-import { stageOf } from './choreo.js';
+import { stageOf } from './choreo.js?v=43';
 
 /**
  * Where each stage's own story is complete: its finished picture, just before the next stage makes its first move

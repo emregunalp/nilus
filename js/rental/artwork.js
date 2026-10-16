@@ -2,8 +2,8 @@
 // fronts and the name sign. Everything carries Nilus's own brand (site colours, the logo's own outlines) so that
 // no client's material is used; a renter's stand carries their artwork instead.
 
-import { drawLogo, WORDMARK_ASPECT } from '../scene-b/logo.js';
-import { t } from '../i18n.js';
+import { drawLogo, WORDMARK_ASPECT } from '../scene-b/logo.js?v=43';
+import { t } from '../i18n.js?v=43';
 
 const PX = 320; // canvas pixels per metre of print
 const POSTER_H = 2.66; // printed height inside the frame, metres

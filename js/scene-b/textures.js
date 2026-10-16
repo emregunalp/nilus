@@ -4,8 +4,8 @@
 // from Google Fonts ourselves — never blocking mount for more than FONT_TIMEOUT_MS.
 
 import * as THREE from 'three';
-import { drawLogo, WORDMARK_ASPECT } from './logo.js';
-import { t } from '../i18n.js';
+import { drawLogo, WORDMARK_ASPECT } from './logo.js?v=43';
+import { t } from '../i18n.js?v=43';
 
 export const FONT_DISPLAY = '"Fraunces", "Iowan Old Style", Georgia, serif';
 export const FONT_MONO = '"JetBrains Mono", ui-monospace, Menlo, monospace';

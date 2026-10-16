@@ -7,9 +7,9 @@
 import * as THREE from 'three';
 import { LineSegments2 } from 'three/addons/lines/LineSegments2.js';
 import { LineSegmentsGeometry } from 'three/addons/lines/LineSegmentsGeometry.js';
-import { PALETTE, lineMaterial } from './materials.js';
-import { labelTexture, bubbleTexture, titleBlockTexture, FONT_MONO } from './textures.js';
-import { PLATFORM_H, COL, COL_H, HDR_H } from './layout.js';
+import { PALETTE, lineMaterial } from './materials.js?v=43';
+import { labelTexture, bubbleTexture, titleBlockTexture, FONT_MONO } from './textures.js?v=43';
+import { PLATFORM_H, COL, COL_H, HDR_H } from './layout.js?v=43';
 
 const GRID_HALF = 11;
 const GRID_STEP = 0.5;

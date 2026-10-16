@@ -2,13 +2,13 @@
 // mountScene resolves only after the first frame is on the canvas; rejects when WebGL is unavailable.
 
 import * as THREE from 'three';
-import { buildWorld } from './world.js';
-import { createCameraRig } from './camera.js';
-import { createPipeline } from './post.js';
-import { cameraAt, P_MIN, P_MAX, smooth, segment } from './choreo.js';
-import { createPlayhead } from './play.js?v=42';
-import { ensureFonts } from './textures.js';
-import { PALETTE, setLineResolution, forgetLineMaterials } from './materials.js';
+import { buildWorld } from './world.js?v=43';
+import { createCameraRig } from './camera.js?v=43';
+import { createPipeline } from './post.js?v=43';
+import { cameraAt, P_MIN, P_MAX, smooth, segment } from './choreo.js?v=43';
+import { createPlayhead } from './play.js?v=43';
+import { ensureFonts } from './textures.js?v=43';
+import { PALETTE, setLineResolution, forgetLineMaterials } from './materials.js?v=43';
 
 const ASSET_TIMEOUT_MS = 2400;
 const IDLE_SWAY_DEG = 10;
@@ -22,11 +22,12 @@ const MAX_DPR_LOW = 2;
 const LOW_PIXEL_BUDGET = 2.4e6;
 // Low quality, page not being scrolled: only the slow ambient motion is left, so every other frame is enough.
 const AMBIENT_FRAME_MS = 30;
-// If the device cannot keep up (slower than about 42 frames a second over half a second of playing), the canvas
-// resolution steps down. On phones and tablets never below LOW_DPR_FLOOR: below that the film looked blurred
-// (client, 2026-10-11), and 1.5x was the resolution phones had all along before.
-const SLOW_FRAME_MS = 24;
-const LOW_DPR_FLOOR = 1.5;
+// If the device cannot keep up (slower than about 37 frames a second over half a second of playing), the costs come
+// down in this order: multisampling (post.js reduce), then the canvas resolution — never below DPR_FLOOR. Below that
+// the film looked blurred: on phones (2026-10-11) and on the client's computer, where it had gone down to 1x
+// (2026-10-16).
+const SLOW_FRAME_MS = 27;
+const DPR_FLOOR = 1.5;
 const SLOW_SAMPLES = 30;
 const DPR_STEP = 0.25;
 const WARM_UP_TIMEOUT_MS = 8000;
@@ -124,7 +125,7 @@ export async function mountScene({ canvas, getProgress, snap = false, quality = 
   let view = canvasSize(canvas);
   const affordable = Math.max(1, Math.sqrt(LOW_PIXEL_BUDGET / (view.w * view.h)));
   const dprTop = Math.min(window.devicePixelRatio || 1, quality === 'low' ? Math.min(MAX_DPR_LOW, affordable) : MAX_DPR_HIGH);
-  const dprFloor = quality === 'low' ? Math.min(dprTop, LOW_DPR_FLOOR) : 1;
+  const dprFloor = Math.min(dprTop, DPR_FLOOR);
   let dpr = dprTop;
   renderer.setPixelRatio(dpr);
   renderer.setSize(view.w, view.h, false);
@@ -212,12 +213,17 @@ export async function mountScene({ canvas, getProgress, snap = false, quality = 
     dirty = false;
     if (!settled && !snap && interval < 120) {
       frameMs += (interval - frameMs) / Math.min(++samples, 20);
-      if (samples >= SLOW_SAMPLES && frameMs > SLOW_FRAME_MS && dpr > dprFloor) {
-        dpr = Math.max(dprFloor, dpr - DPR_STEP);
-        renderer.setPixelRatio(dpr);
-        resize();
-        samples = 0;
-        mark(`slow frames (${frameMs.toFixed(1)} ms) → canvas at ${dpr}×`);
+      if (samples >= SLOW_SAMPLES && frameMs > SLOW_FRAME_MS) {
+        if (pipeline.reduce()) {
+          samples = 0;
+          mark(`slow frames (${frameMs.toFixed(1)} ms) → no multisampling`);
+        } else if (dpr > dprFloor) {
+          dpr = Math.max(dprFloor, dpr - DPR_STEP);
+          renderer.setPixelRatio(dpr);
+          resize();
+          samples = 0;
+          mark(`slow frames (${frameMs.toFixed(1)} ms) → canvas at ${dpr}×`);
+        }
       }
     } else if (settled) samples = 0;
   }

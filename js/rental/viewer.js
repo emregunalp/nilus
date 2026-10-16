@@ -4,10 +4,10 @@
 
 import * as THREE from 'three';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
-import * as kit from '../projects/3d/kit.js';
-import { buildRentalStand } from './stands.js';
-import { artworkReady, rentalArtwork } from './artwork.js';
-import { t } from '../i18n.js';
+import * as kit from '../projects/3d/kit.js?v=43';
+import { buildRentalStand } from './stands.js?v=43';
+import { artworkReady, rentalArtwork } from './artwork.js?v=43';
+import { t } from '../i18n.js?v=43';
 
 const FOV = 30;
 const ELEVATION = THREE.MathUtils.degToRad(13);

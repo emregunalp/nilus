@@ -5,7 +5,7 @@
 // shows the parts of the form marked with the matching data-kind. It also asks for the company, which is required
 // there; the message box has no such field.
 
-import { t } from './i18n.js';
+import { t } from './i18n.js?v=43';
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const FALLBACK_EMAIL = 'info@nilus.com.tr';

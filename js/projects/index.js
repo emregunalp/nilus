@@ -2,7 +2,7 @@
 // through the photos of the same grid.
 // (The 360° model viewer built earlier is parked in ./3d/ and not loaded.)
 
-import { t } from '../i18n.js';
+import { t } from '../i18n.js?v=43';
 
 const dialog = document.getElementById('viewer');
 const cards = [...document.querySelectorAll('.project[data-photo]')];

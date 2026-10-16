@@ -6,8 +6,8 @@
 import {
   PARTS, PART_COUNT, CRATE_COUNT, CRATE, HALL_SLOTS, PACK_SLOTS, RACK_SLOTS, TRUCK_SLOTS,
   ROUTE_IN, ROUTE, ROUTE_OUT,
-} from './layout.js';
-import { buildPath, SAMPLES_PER_SEG } from './route.js';
+} from './layout.js?v=43';
+import { buildPath, SAMPLES_PER_SEG } from './route.js?v=43';
 
 export const P_MIN = -1;
 export const P_MAX = 9;

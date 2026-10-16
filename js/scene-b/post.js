@@ -33,6 +33,7 @@ export function createPipeline(renderer, scene, camera, quality) {
     return {
       target: null, // frames go straight to the canvas
       render: () => renderer.render(scene, camera),
+      reduce: () => false,
       setSize: () => {},
       dispose: () => {},
     };
@@ -48,6 +49,13 @@ export function createPipeline(renderer, scene, camera, quality) {
   return {
     target, // what the scene itself is drawn into (index.js compiles its shaders for this destination)
     render: () => composer.render(),
+    // When the device cannot keep up, multisampling goes first: at these pixel densities the edges hardly change, and
+    // it is the costliest part of the frame (two half-float targets, four samples each). Returns whether it did.
+    reduce() {
+      if (!composer.renderTarget1.samples) return false;
+      for (const t of [composer.renderTarget1, composer.renderTarget2]) { t.samples = 0; t.dispose(); }
+      return true;
+    },
     setSize(w, h, dpr) {
       composer.setPixelRatio(dpr);
       composer.setSize(w, h);

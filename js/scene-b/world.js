@@ -5,13 +5,13 @@ import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import {
   PARTS, CRATE_COUNT, partPose, partLook, cratePose, truckPose, propsState, scanState,
   neonPower, neonBalance, NEON_CHANNELS, introDraw, introLevel,
-} from './choreo.js';
-import { PLATFORM_H } from './layout.js';
-import { PALETTE, createNeonRegistry } from './materials.js';
-import { buildStand, applyPart } from './stand.js';
-import { buildBlueprint } from './props-blueprint.js';
-import { buildLogistics } from './props-logistics.js';
-import { buildFx } from './fx.js';
+} from './choreo.js?v=43';
+import { PLATFORM_H } from './layout.js?v=43';
+import { PALETTE, createNeonRegistry } from './materials.js?v=43';
+import { buildStand, applyPart } from './stand.js?v=43';
+import { buildBlueprint } from './props-blueprint.js?v=43';
+import { buildLogistics } from './props-logistics.js?v=43';
+import { buildFx } from './fx.js?v=43';
 
 const NO_SHADOW = new Set(['neonFloor', 'header', 'truss', 'logo']);
 const SHADOW_BASE = 0.38;

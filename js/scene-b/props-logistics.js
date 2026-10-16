@@ -7,11 +7,11 @@ import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
 import { LineSegments2 } from 'three/addons/lines/LineSegments2.js';
 import { LineSegmentsGeometry } from 'three/addons/lines/LineSegmentsGeometry.js';
-import { PALETTE, lineMaterial, softHighlights } from './materials.js';
-import { labelTexture, logoTexture, FONT_MONO } from './textures.js';
-import { t } from '../i18n.js';
-import { CRATE, CRATE_COUNT, RACK, TRUCK, CITIES } from './layout.js';
-import { PATHS } from './choreo.js';
+import { PALETTE, lineMaterial, softHighlights } from './materials.js?v=43';
+import { labelTexture, logoTexture, FONT_MONO } from './textures.js?v=43';
+import { t } from '../i18n.js?v=43';
+import { CRATE, CRATE_COUNT, RACK, TRUCK, CITIES } from './layout.js?v=43';
+import { PATHS } from './choreo.js?v=43';
 
 const [CW, CH, CD] = CRATE;
 const WALL = 0.045;

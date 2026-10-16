@@ -4,10 +4,10 @@
 import * as THREE from 'three';
 import { LineSegments2 } from 'three/addons/lines/LineSegments2.js';
 import { LineSegmentsGeometry } from 'three/addons/lines/LineSegmentsGeometry.js';
-import { PALETTE, lineMaterial } from './materials.js';
-import { checkTexture, shadowTexture, softDiscTexture, labelTexture, FONT_MONO } from './textures.js';
-import { hash } from './choreo.js';
-import { STAGE_NAMES, LOCALE } from '../i18n.js';
+import { PALETTE, lineMaterial } from './materials.js?v=43';
+import { checkTexture, shadowTexture, softDiscTexture, labelTexture, FONT_MONO } from './textures.js?v=43';
+import { hash } from './choreo.js?v=43';
+import { STAGE_NAMES, LOCALE } from '../i18n.js?v=43';
 
 const RING_R = 5.0;
 const RING_SEGS = 180;
