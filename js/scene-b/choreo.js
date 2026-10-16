@@ -65,11 +65,11 @@ export const T = Object.freeze({
   load: [2.97, 3.2],
   drive: [3.22, 3.72],
   unload: [3.72, 3.94],
-  lidOpen1: [3.9, 3.98],
+  lidOpen1: [3.96, 4.04], // only in Kurulum: Nakliye ends with the crates delivered and still closed (client, 2026-10-16)
   truckOut: [3.96, 4.12],
-  install: [3.96, 4.28],
-  crateOut1: [4.25, 4.34],
-  ignite: [4.3, 4.5], // first time the neon is ever lit (Kurulum climax)
+  install: [4.0, 4.3],
+  crateOut1: [4.27, 4.36],
+  ignite: [4.32, 4.52], // first time the neon is ever lit (Kurulum climax)
   douse: [5.02, 5.26],
   crateIn2: [5.06, 5.16],
   dismantle: [5.12, 5.8],

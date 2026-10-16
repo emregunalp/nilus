@@ -12,6 +12,9 @@ const RAIL_JUMP_OFFSET = 0.5;
 // The first card comes up as the hero leaves; a card passed in a fast scroll or a jump never gets to slide in.
 const CARD_FROM = -0.02;
 const CARD_SWAP_MS = 130;
+// The page snaps stage by stage only between these (hero-process.css: html.snap-steps); outside it scrolls freely.
+const SNAP_FROM = -0.6;
+const SNAP_UNTIL = 7.95;
 const REVEAL_MARGIN = '0px 0px -8% 0px';
 const REVEAL_STAGGER_S = 0.08;
 
@@ -145,6 +148,7 @@ function initStepCards({ progress, isShot }) {
   });
   const render = (p) => {
     const index = p >= CARD_FROM && p < STAGE_COUNT ? clamp(Math.floor(p), 0, STAGE_COUNT - 1) : -1;
+    root.classList.toggle('snap-steps', !isShot && p > SNAP_FROM && p < SNAP_UNTIL);
     if (index === wanted) return;
     wanted = index;
     clearTimeout(timer);

@@ -62,18 +62,23 @@ function NavHtml($page, $lang) {
 # The end of every page: on to the next page, and buttons for the others.
 function NextHtml($page, $lang) {
   $i = [Array]::IndexOf($pages, $page)
-  $next = $pages[($i + 1) % $pages.Count]
+  # The last page (contact) has no "next": the client did not want it to lead back to the start (2026-10-16).
+  $next = if ($i -lt $pages.Count - 1) { $pages[$i + 1] } else { $null }
   $lines = @(
     "    <section class=`"section page-next`" aria-label=`"$($conf.labels.others)`">",
-    "      <div class=`"wrap page-next-inner`">",
-    "        <a class=`"page-next-main`" href=`"$(PageHref $next $lang)`" data-reveal>",
-    "          <span class=`"page-next-text`"><span class=`"page-next-label`">$($conf.labels.next)</span><span class=`"page-next-name`">$($next.name)</span></span>",
-    "          <span class=`"page-next-arrow`" aria-hidden=`"true`">&rarr;</span>",
-    "        </a>",
-    "        <ul class=`"page-next-others`" data-reveal>"
+    "      <div class=`"wrap page-next-inner`">"
   )
+  if ($next) {
+    $lines += @(
+      "        <a class=`"page-next-main`" href=`"$(PageHref $next $lang)`" data-reveal>",
+      "          <span class=`"page-next-text`"><span class=`"page-next-label`">$($conf.labels.next)</span><span class=`"page-next-name`">$($next.name)</span></span>",
+      "          <span class=`"page-next-arrow`" aria-hidden=`"true`">&rarr;</span>",
+      "        </a>"
+    )
+  }
+  $lines += "        <ul class=`"page-next-others`" data-reveal>"
   foreach ($p in $pages) {
-    if ($p.id -eq $page.id -or $p.id -eq $next.id) { continue }
+    if ($p.id -eq $page.id -or ($next -and $p.id -eq $next.id)) { continue }
     $lines += "          <li><a class=`"btn btn-ghost btn-small`" href=`"$(PageHref $p $lang)`">$($p.name)</a></li>"
   }
   $lines += "        </ul>", "      </div>", "    </section>"

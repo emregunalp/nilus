@@ -6,7 +6,7 @@ import { buildWorld } from './world.js';
 import { createCameraRig } from './camera.js';
 import { createPipeline } from './post.js';
 import { cameraAt, P_MIN, P_MAX, smooth, segment } from './choreo.js';
-import { createPlayhead } from './play.js?v=41';
+import { createPlayhead } from './play.js?v=42';
 import { ensureFonts } from './textures.js';
 import { PALETTE, setLineResolution, forgetLineMaterials } from './materials.js';
 
@@ -33,6 +33,8 @@ const WARM_UP_TIMEOUT_MS = 8000;
 // The upload of everything the later stages need waits until the first frame is on screen, so it does not hold the
 // opening back; it runs while the canvas is still fading in.
 const UPLOAD_DELAY_MS = 120;
+// How long the picture takes to dip out when the film cuts to a chosen stage (it comes back in 1.5x that).
+const CUT_FADE_MS = 170;
 const SETTLE_EPS = 1e-4;
 
 const clampP = (p) => Math.min(P_MAX, Math.max(P_MIN, Number.isFinite(p) ? p : P_MIN));
@@ -228,8 +230,27 @@ export async function mountScene({ canvas, getProgress, snap = false, quality = 
   const onResize = () => { resize(); schedule(); };
   const onVisible = () => { if (!document.hidden) { last = performance.now(); dirty = true; schedule(); } };
   const onLost = (e) => e.preventDefault();
-  // A stage chosen with a button (js/ui.js) is played from its start instead of being scrubbed to.
-  const onStage = (e) => { playhead.jump(Number(e.detail?.index)); schedule(); };
+  // A stage chosen with a button (js/ui.js) is played from its start. The next stage is played on into; any other is
+  // cut to: the picture dips out, the film moves to the chosen stage's first move, and it comes back as that begins.
+  let cutTimer = 0;
+  const dip = (from, to, ms) => {
+    try { canvas.animate([{ opacity: from }, { opacity: to }], { duration: ms, easing: 'ease-in-out', fill: 'forwards' }); } catch { /* cosmetic */ }
+  };
+  const onStage = (e) => {
+    const index = Number(e.detail?.index);
+    const how = playhead.jump(index);
+    schedule();
+    if (how !== 'cut') return;
+    dip(1, 0, CUT_FADE_MS);
+    clearTimeout(cutTimer);
+    cutTimer = setTimeout(() => {
+      if (disposed) return;
+      playhead.cut(index);
+      dirty = true;
+      schedule();
+      dip(0, 1, CUT_FADE_MS * 1.5);
+    }, CUT_FADE_MS);
+  };
   window.addEventListener('nilus:stage', onStage);
   if (animate) window.addEventListener('pointermove', onPointer, { passive: true });
   canvas.addEventListener('webglcontextlost', onLost);
@@ -268,6 +289,7 @@ export async function mountScene({ canvas, getProgress, snap = false, quality = 
       window.removeEventListener('pointermove', onPointer);
       canvas.removeEventListener('webglcontextlost', onLost);
       window.removeEventListener('nilus:stage', onStage);
+      clearTimeout(cutTimer);
       world.dispose();
       pipeline.dispose();
       forgetLineMaterials();

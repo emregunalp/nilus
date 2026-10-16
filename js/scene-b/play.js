@@ -3,8 +3,8 @@
 // The client's rules, in the order they arrived (2026-10-09 / 10):
 //   1. While a stage's card is being read the film plays that stage to its finished picture by itself, and stops
 //      there — it never runs on into the next stage.
-//   2. A stage chosen with a button (the rail, "Sonraki aşama") is played from its first move, at a pace that can
-//      be followed; the stages jumped over go by quickly.
+//   2. A stage chosen with a button (the rail, "Sonraki aşama") is played from its first move. The next stage is
+//      played on into; any other is cut to, without the stages in between.
 //   3. Whenever the page is being scrolled the film moves with it: scrolling back up rewinds it instead of leaving
 //      a still picture.
 //   4. Nothing may speed up with a jerk: going on to the next stage runs at the stage's own pace, and scrolling
@@ -99,7 +99,24 @@ export function createPlayhead(start) {
   return {
     get at() { return at; },
     settled: (P) => calm && Math.abs(P - lastP) < 1e-5,
-    jump(index) { if (isStage(index)) jump = { index, age: 0, started: false }; },
+    /**
+     * A stage chosen with a button. 'play': it is the next stage and the film is already at the end of the one
+     * before, so the film plays on into it. 'cut': the film waits for cut(index) — the caller dips the picture out
+     * first — and then starts the chosen stage at its first move, without showing the stages in between (client,
+     * 2026-10-16: "Söküm'e basınca hızlı hızlı gelmesine gerek yok, direkt başına gelsin").
+     */
+    jump(index) {
+      if (!isStage(index)) return null;
+      const next = index - at > 0 && index - at <= PLAY.near + 0.05;
+      jump = { index, age: 0, started: false, waiting: !next, arrived: false };
+      return next ? 'play' : 'cut';
+    },
+    cut(index) {
+      if (!jump || jump.index !== index) return;
+      at = index;
+      vel = 0;
+      Object.assign(jump, { started: true, waiting: false, age: 0 });
+    },
     step(P, dt) {
       const before = at;
       const { index } = stageOf(P);
@@ -110,14 +127,16 @@ export function createPlayhead(start) {
       if (jump) {
         jump.age += dt;
         const here = index === jump.index;
-        if ((jump.started && !here) || (!here && jump.age > PLAY.jumpWait)) jump = null; // scrolled away / never arrived
-        else if (jump.started && idle > PLAY.settle) jump = null; // arrived and at rest: the stage plays on below
+        if (here) jump.arrived = true;
+        if ((jump.arrived && !here) || (!jump.arrived && jump.age > PLAY.jumpWait)) jump = null; // scrolled away / never arrived
+        else if (jump.started && jump.arrived && idle > PLAY.settle) jump = null; // arrived and at rest: it plays on below
       }
 
       if (jump) {
         // A chosen stage: to its start, then it plays. The scroll is not followed meanwhile (the page is gliding there).
         const s = jump.index;
-        if (!jump.started) {
+        if (jump.waiting) vel = 0; // the picture is dipping out: hold still until cut()
+        else if (!jump.started) {
           if (at < s) { drive(seekSpeed(s - at), null, dt); if (at >= s) jump.started = true; }
           else { drive(-backSpeed(at - s), s, dt); if (at === s) jump.started = true; }
         } else drive(playSpeed(STAGE_HOLD[s] - at), STAGE_HOLD[s], dt);

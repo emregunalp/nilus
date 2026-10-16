@@ -131,6 +131,17 @@ html.js .step.is-active .step-card { opacity: 1; transform: none; pointer-events
 .step-next:hover .step-next-label, .step-next:focus-visible .step-next-label { color: rgba(243, 237, 227, .7); }
 .step-next:hover .step-next-arrow { transform: translateX(3px); }
 
+/* One swipe, one stage (client, 2026-10-16: on an iPad one swipe went past two). While the process is on screen
+   (html.snap-steps, js/ui.js) the page snaps to the middle of a stage's scroll span — the marker in every step, which
+   sits where the stage's progress is i + 0.5 (scroll.js: ACTIVE_LINE 0.12) — and a swipe cannot pass a stage. The
+   hero's top and the outro's top are the way in and out. */
+html.snap-steps { scroll-snap-type: y mandatory; }
+.step-snap {
+  position: absolute; left: 0; top: calc(50% - 12vh); width: 1px; height: 1px; pointer-events: none;
+  scroll-snap-align: start; scroll-snap-stop: always;
+}
+html.snap-steps .hero, html.snap-steps .process-outro { scroll-snap-align: start; }
+
 .process-outro {
   min-height: 180vh;
   display: flex; flex-direction: column; justify-content: center; gap: 28px;
