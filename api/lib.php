@@ -1,6 +1,6 @@
 <?php
 // Shared code of the site's message system (PHP side, for the cPanel hosting).
-//   api/mesajlar.php   POST  a message or a quote request from the contact form / the "Bize yazın" box
+//   api/mesajlar.php   POST  a message or a quote request from the contact form / the "Bize ulaşın" box
 //   api/dosyalar.php   POST  one attachment (raw body, X-File-Name header) → { id }
 //   mesajlar/          the inbox; that folder must be password-protected (cPanel → Directory Privacy)
 // Messages and attachments are kept OUTSIDE the website folder (next to public_html), so they are never
